@@ -1,0 +1,928 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>4.5 Importing JavaScript object using C interface · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch4-06-int64-issue.html" />
+    
+    
+    <link rel="prev" href="ch4-04-obj-life-cycle.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="ch4-01-msg-loop-detach.html">
+            
+                <a href="ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="ch4-02-align.html">
+            
+                <a href="ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="ch4-03-export-obj.html">
+            
+                <a href="ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="ch4-04-obj-life-cycle.html">
+            
+                <a href="ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.5" data-path="ch4-05-import-js-obj.html">
+            
+                <a href="ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="ch4-06-int64-issue.html">
+            
+                <a href="ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="ch4-07-forget-about-fs.html">
+            
+                <a href="ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >4.5 Importing JavaScript object using C interface</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="45-importing-javascript-object-using-c-interface">4.5 Importing JavaScript object using C interface</h1>
+<p>Sections 4.3 and 4.4 describe how to export C++ objects to JavaScript. This section describes the inverses of it: importing JavaScript objects into C.</p>
+<h2 id="451-creating-a-javascript-objectid-table">4.5.1 Creating a JavaScript-object/ID table</h2>
+<p>As introduced in Section 2.3, C code cannot access objects in JavaScript directly. To do this, we need to provide a way for C code to recognize different JavaScript objects. The easiest way is to use the object/ID table. The core idea of this method is:</p>
+<ul>
+<li>assign a non-repeating integer ID to each JavaScript object that will be imported into C, and store the object/ID relationship in a table;</li>
+<li>Pass the object&apos;s ID into C, which uses the ID to refer to the actual JavaScript object;</li>
+<li>When the C code manipulates an object through the injected function, the injected function looks up the actual JavaScript object by ID in the object/ID table and manipulates it.</li>
+</ul>
+<blockquote>
+<p><strong>tips</strong> In fact, this method uses the same idea as the C++ object export method described in Section 4.3. The only difference is that the address of the C++ object is used in Section 4.3 to refer to the C++ object itself.</p>
+</blockquote>
+<p>The following JavaScript code is a simple example of using an object/ID table:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> obj_table = {};
+<span class="hljs-keyword">var</span> obj_counter = <span class="hljs-number">0</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyObj_Create</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.name = <span class="hljs-string">&quot;MyObj&quot;</span>;
+    <span class="hljs-keyword">this</span>.obj_id = obj_counter++;
+    obj_table[<span class="hljs-keyword">this</span>.obj_id] = <span class="hljs-keyword">this</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyObj_Func</span>(<span class="hljs-params">obj_id</span>) </span>{
+    <span class="hljs-keyword">if</span> (!obj_table[obj_id]) <span class="hljs-keyword">return</span>;
+    <span class="hljs-comment">//do sth. with obj_table[obj_id]</span>
+}
+</code></pre>
+<p><code>obj_table</code> is the object/ID table; when the constructor function <code>MyObj_Create()</code> creates a new object, it will be assigned an ID for the object and the corresponding relationship will be saved in <code>obj_table</code>. The function <code>MyObj_Func()</code> looks up the corresponding object by <code>obj_id</code> and then uses it.</p>
+<h2 id="452-lifecycle-control-of-imported-javascript-objects">4.5.2 Lifecycle control of imported JavaScript objects</h2>
+<p>After the JavaScript object is imported into the C environment, it still needs lifecycle control. The <code>AddRef()</code>/<code>Release()</code> method in Section 4.4 can still be used here.</p>
+<p>For example, we define a set of JavaScript methods as follows:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//imp_obj.html</span>
+    <span class="hljs-keyword">var</span> button_table = {};
+    <span class="hljs-keyword">var</span> button_counter = <span class="hljs-number">0</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">js_ButtonCreate</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> btn = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&quot;button&quot;</span>);
+        btn.ref_count = <span class="hljs-number">1</span>;
+        btn.button_id = button_counter++;
+        button_table[btn.button_id] = btn;
+
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;container&quot;</span>).appendChild(btn);
+        <span class="hljs-keyword">return</span> btn.button_id;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">js_ButtonAddRef</span>(<span class="hljs-params">button_id</span>) </span>{
+        <span class="hljs-keyword">if</span> (!button_table[button_id]) <span class="hljs-keyword">return</span>;
+
+        button_table[button_id].ref_count++;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">js_ButtonRelease</span>(<span class="hljs-params">button_id</span>) </span>{
+        <span class="hljs-keyword">if</span> (!button_table[button_id]) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+
+        <span class="hljs-keyword">var</span> btn = button_table[button_id];
+        btn.ref_count--;
+        <span class="hljs-keyword">var</span> rc = btn.ref_count;
+        <span class="hljs-keyword">if</span> (rc == <span class="hljs-number">0</span>) {
+            <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;container&quot;</span>).removeChild(btn);
+            <span class="hljs-keyword">delete</span> button_table[button_id];
+        }
+        <span class="hljs-keyword">return</span> rc;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">js_ButtonSetInnerHtml</span>(<span class="hljs-params">button_id, name</span>) </span>{
+        <span class="hljs-keyword">if</span> (!button_table[button_id]) <span class="hljs-keyword">return</span>;
+        button_table[button_id].innerHTML = name;    
+    }
+</code></pre>
+<p><code>js_ButtonCreate()</code> creates a button in the DOM, <code>js_ButtonAddRef()</code>/<code>js_ButtonRelease()</code> increases and decreases the reference count of the button, and <code>js_ButtonSetInnerHtml()</code> sets the internal html content of the specified button. Referring to Section 4.5.1, these four functions work around the button/ID table <code>button_table</code>.</p>
+<p>Then use the methods described in Section 2.2 to inject these methods into C. The import library code is as follows:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//pkg.js</span>
+mergeInto(LibraryManager.library, {
+    ButtonCreate: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> js_ButtonCreate();
+    },
+
+    ButtonAddRef: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button_id</span>) </span>{
+        js_ButtonAddRef(button_id);
+    },
+
+    ButtonRelease: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button_id</span>) </span>{
+        <span class="hljs-keyword">return</span> js_ButtonRelease(button_id);
+    },
+
+    ButtonSetInnerHtml: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">button_id, str</span>) </span>{
+        js_ButtonSetInnerHtml(button_id, Pointer_stringify(str));
+    }
+})
+</code></pre>
+<p>The C API and exported functions are as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//imp_obj.cpp</span>
+<span class="hljs-keyword">struct</span> JS_BUTTON;
+EM_PORT_API(<span class="hljs-keyword">struct</span> JS_BUTTON*) ButtonCreate();
+EM_PORT_API(<span class="hljs-keyword">void</span>) ButtonAddRef(<span class="hljs-keyword">struct</span> JS_BUTTON* btn);
+EM_PORT_API(<span class="hljs-keyword">int</span>) ButtonRelease(<span class="hljs-keyword">struct</span> JS_BUTTON* btn);
+EM_PORT_API(<span class="hljs-keyword">void</span>) ButtonSetInnerHtml(<span class="hljs-keyword">struct</span> JS_BUTTON* btn, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* str);
+
+<span class="hljs-comment">//-----------------------------------</span>
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">struct</span> JS_BUTTON*&gt; g_buttons;
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) PushButton() {
+    JS_BUTTON* btn = ButtonCreate();
+    <span class="hljs-keyword">char</span> name[<span class="hljs-number">256</span>];
+    <span class="hljs-built_in">sprintf</span>(name, <span class="hljs-string">&quot;TestButton:%d&quot;</span>, (<span class="hljs-keyword">int</span>)btn);
+    ButtonSetInnerHtml(btn, name);
+    g_buttons.push_back(btn);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) PopButton() {
+    <span class="hljs-keyword">if</span> (g_buttons.size() &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;
+    JS_BUTTON* btn = g_buttons.back();
+    ButtonRelease(btn);
+    g_buttons.pop_back();
+}
+</code></pre>
+<p>Compile with the following command:</p>
+<pre><code>emcc imp_obj.cpp --js-library pkg.js -o imp_obj.js
+</code></pre><p>Then we create two buttons in the page and call <code>PushButton()</code>/<code>PopButton()</code> in their <code>onclick</code> event:</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span> = <span class="hljs-attr">Push</span>()&gt;</span>Push<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span> = <span class="hljs-attr">Pop</span>()&gt;</span>Pop<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+    ......
+
+    function Push(){
+        Module._PushButton();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Pop</span><span class="hljs-params">()</span></span>{
+        Module._PopButton();
+    }
+</span></code></pre>
+<p>After browsing the page, click on <code>Push</code>/<code>Pop</code> and you can see that multiple buttons have been created/deleted in the DOM:</p>
+<p><img src="images/05-obj-imp-log.png" alt=""></p>
+<p>The calling sequence is as shown below:</p>
+<p><img src="images/05-call-seq.png" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch4-04-obj-life-cycle.html" class="navigation navigation-prev " aria-label="Previous page: 4.4 Lifecycle control for C++ object">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch4-06-int64-issue.html" class="navigation navigation-next " aria-label="Next page: 4.6 Be careful with int64">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.5 Importing JavaScript object using C interface","level":"1.5.5","depth":2,"next":{"title":"4.6 Be careful with int64","level":"1.5.6","depth":2,"path":"ch4-techniques/ch4-06-int64-issue.md","ref":"ch4-techniques/ch4-06-int64-issue.md","articles":[]},"previous":{"title":"4.4 Lifecycle control for C++ object","level":"1.5.4","depth":2,"path":"ch4-techniques/ch4-04-obj-life-cycle.md","ref":"ch4-techniques/ch4-04-obj-life-cycle.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch4-techniques/ch4-05-import-js-obj.md","mtime":"2019-01-21T12:43:13.282Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

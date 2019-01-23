@@ -1,0 +1,838 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>1.1 安装Emscripten · C/C++面向WebAssembly编程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch1-02-helloworld.html" />
+    
+    
+    <link rel="prev" href="readme.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    第1章 Emscripten快速入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.2.1" data-path="ch1-01-install.html">
+            
+                <a href="ch1-01-install.html">
+            
+                    
+                    1.1 安装Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="ch1-02-helloworld.html">
+            
+                <a href="ch1-02-helloworld.html">
+            
+                    
+                    1.2 你好，世界！
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="ch1-03-glue-code.html">
+            
+                <a href="ch1-03-glue-code.html">
+            
+                    
+                    1.3 胶水代码初探
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="ch1-04-compile.html">
+            
+                <a href="ch1-04-compile.html">
+            
+                    
+                    1.4 编译目标及编译流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    第2章 C与JavaScript互操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 JavaScript调用C函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 JavaScript函数注入C
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 单向透明的内存模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 JavaScript与C交换数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 EM_ASM系列宏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 emscripten_run_script系列函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 补充说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    第3章 Emscripten运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 main函数与生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 消息循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Module定制及其他
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    第4章 WebAssembly友好的一般性方法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 消息循环分离
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 内存对齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 使用C接口导出C++对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 C++对象生命周期控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 使用C接口注入JavaScript对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 小心int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 忘掉文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    第5章 网络IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    第6章 多线程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 JavaScript中的并发模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 在Worker中使用Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    第7章 GUI及交互
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 鼠标事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 键盘事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Life游戏
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >1.1 安装Emscripten</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="11-&#x5B89;&#x88C5;emscripten">1.1 &#x5B89;&#x88C5;Emscripten</h1>
+<p>Emscripten&#x5305;&#x542B;&#x4E86;&#x5C06;C/C++&#x4EE3;&#x7801;&#x7F16;&#x8BD1;&#x4E3A;WebAssembly&#x6240;&#x9700;&#x7684;&#x5B8C;&#x6574;&#x5DE5;&#x5177;&#x96C6;&#xFF08;LLVM&#x3001;Node.js&#x3001;Python&#x3001;Java&#x7B49;&#xFF09;&#xFF0C;&#x5B83;&#x4E0D;&#x4F9D;&#x8D56;&#x4E8E;&#x4EFB;&#x4F55;&#x5176;&#x4ED6;&#x7684;&#x7F16;&#x8BD1;&#x5668;&#x73AF;&#x5883;&#x3002;</p>
+<h2 id="111-&#x4F7F;&#x7528;emsdk&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#x5B89;&#x88C5;emscripten">1.1.1 &#x4F7F;&#x7528;emsdk&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#x5B89;&#x88C5;Emscripten</h2>
+<p>emsdk&#x662F;&#x4E00;&#x7EC4;&#x57FA;&#x4E8E;Python 2&#x7684;&#x811A;&#x672C;&#xFF0C;&#x56E0;&#x6B64;&#x9996;&#x5148;&#x9700;&#x8981;&#x5B89;&#x88C5;Python 2.7.12&#x6216;&#x66F4;&#x65B0;&#x7248;&#x3002;Python&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;<a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a></p>
+<h3 id="&#x4E0B;&#x8F7D;emsdk"><code>&#x4E0B;&#x8F7D;emsdk</code></h3>
+<p>Python&#x51C6;&#x5907;&#x5C31;&#x7EEA;&#x540E;&#xFF0C;&#x4E0B;&#x8F7D;emsdk&#x5DE5;&#x5177;&#x5305;&#xFF0C;&#x719F;&#x6089;git&#x7684;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x884C;&#x5728;&#x672C;&#x5730;&#x514B;&#x9686;emsdk&#x5E93;&#xFF1A;</p>
+<pre><code>git clone https://github.com/juj/emsdk.git
+</code></pre><p>&#x4E0D;&#x719F;&#x6089;git&#x7684;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;<a href="https://github.com/juj/emsdk" target="_blank">https://github.com/juj/emsdk</a>&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x9875;&#x9762;&#x53F3;&#x4E0A;&#x65B9;&#x7684;&#x201C;Clone or download&#x201D;&#x4E0B;&#x8F7D;emsdk&#x5E93;&#x5E76;&#x89E3;&#x538B;&#x5230;&#x672C;&#x5730;&#x3002;&#x5982;&#x56FE;&#xFF1A;</p>
+<p><img src="images/download_emsdk.png" alt=""></p>
+<h3 id="&#x5B89;&#x88C5;&#x5E76;&#x6FC0;&#x6D3B;emscripten"><code>&#x5B89;&#x88C5;&#x5E76;&#x6FC0;&#x6D3B;Emscripten</code></h3>
+<p>&#x5BF9;MacOS&#x6216;Linux&#x7528;&#x6237;&#xFF0C;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x5207;&#x6362;&#x81F3;emsdk&#x6240;&#x5728;&#x76EE;&#x5F55;&#xFF0C;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>./emsdk update
+./emsdk install latest
+</code></pre><p>emsdk&#x5C06;&#x8054;&#x7F51;&#x4E0B;&#x8F7D;&#x5E76;&#x5B89;&#x88C5;Emscripten&#x6700;&#x65B0;&#x7248;&#x7684;&#x5404;&#x4E2A;&#x7EC4;&#x4EF6;&#x3002;&#x5B89;&#x88C5;&#x5B8C;&#x6BD5;&#x540E;&#xFF0C;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x914D;&#x7F6E;&#x5E76;&#x6FC0;&#x6D3B;&#x5DF2;&#x5B89;&#x88C5;&#x7684;Emscripten&#xFF1A;</p>
+<pre><code>./emsdk activate latest
+</code></pre><p>&#x5728;&#x65B0;&#x5EFA;&#x7684;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#xFF0C;&#x5207;&#x6362;&#x81F3;emsdk&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>source ./emsdk_env.sh
+</code></pre><p>&#x5C06;&#x4E3A;&#x5F53;&#x524D;&#x63A7;&#x5236;&#x53F0;&#x914D;&#x7F6E;Emscripten&#x5404;&#x4E2A;&#x7EC4;&#x4EF6;&#x7684;PATH&#x7B49;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x3002;</p>
+<p>&#x5728;Windows&#x73AF;&#x5883;&#x4E0B;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x6CD5;&#x57FA;&#x672C;&#x4E00;&#x81F4;&#xFF0C;&#x533A;&#x522B;&#x662F;&#x4F7F;&#x7528;<code>emsdk.bat</code>&#x4EE3;&#x66FF;<code>emsdk</code>&#xFF0C;&#x4F7F;&#x7528;<code>emsdk_env.bat</code>&#x4EE3;&#x66FF;<code>source ./emsdk_env.sh</code>&#x3002;&#x5B89;&#x88C5;&#x53CA;&#x6FC0;&#x6D3B;&#x6267;&#x884C;&#xFF1A;</p>
+<pre><code>emsdk.bat update
+emsdk.bat install latest
+emsdk.bat activate latest
+</code></pre><p>&#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x6267;&#x884C;&#xFF1A;</p>
+<pre><code>emsdk_env.bat
+</code></pre><blockquote>
+<p><strong>tips</strong> &#x5B89;&#x88C5;&#x53CA;&#x6FC0;&#x6D3B;&#x53EA;&#x9700;&#x8981;&#x6267;&#x884C;&#x4E00;&#x6B21;&#xFF1B;&#x4EE5;&#x540E;&#x5728;&#x65B0;&#x5EFA;&#x7684;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x8BBE;&#x7F6E;&#x4E00;&#x6B21;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x540E;&#xFF0C;&#x5373;&#x53EF;&#x4F7F;&#x7528;Emscripten&#x6838;&#x5FC3;&#x547D;&#x4EE4;emcc&#x3002;&#x5728;Windows&#x73AF;&#x5883;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x628A;Emscripten&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x6CE8;&#x518C;&#x4E3A;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x53EF;&#x4EE5;&#x4EE5;&#x7BA1;&#x7406;&#x5458;&#x8EAB;&#x4EFD;&#x8FD0;&#x884C;<code>emsdk.bat activate latest --global</code>&#xFF0C;&#x8BE5;&#x547D;&#x4EE4;&#x5C06;&#x66F4;&#x6539;&#x7CFB;&#x7EDF;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#xFF0C;&#x4F7F;&#x5F97;&#x4EE5;&#x540E;&#x65E0;&#x9700;&#x518D;&#x8FD0;&#x884C;<code>emsdk_env.bat</code>&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x6709;&#x6F5C;&#x5728;&#x7684;&#x526F;&#x4F5C;&#x7528;&#xFF1A;&#x5B83;&#x5C06;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x6307;&#x5411;&#x4E86;Emscripten&#x5185;&#x7F6E;&#x7684;Node.js&#x3001;Python&#x3001;Java&#xFF0C;&#x82E5;&#x7CFB;&#x7EDF;&#x4E2D;&#x5B89;&#x88C5;&#x4E86;&#x8FD9;&#x4E9B;&#x7EC4;&#x4EF6;&#x7684;&#x5176;&#x4ED6;&#x7248;&#x672C;&#xFF0C;&#x53EF;&#x80FD;&#x5F15;&#x53D1;&#x51B2;&#x7A81;&#x3002;</p>
+</blockquote>
+<h2 id="112-docker&#x73AF;&#x5883;&#x5B89;&#x88C5;emscripten">1.1.2 Docker&#x73AF;&#x5883;&#x5B89;&#x88C5;Emscripten</h2>
+<p>&#x5982;&#x679C;&#x8BFB;&#x8005;&#x719F;&#x6089;Docker&#x5DE5;&#x5177;&#xFF0C;&#x90A3;&#x4E48;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;Docker&#x73AF;&#x5883;&#x5B89;&#x88C5;Emscripten&#x3002;Docker&#x73AF;&#x5883;&#x7684;Emscripten&#x662F;&#x5B8C;&#x5168;&#x9694;&#x79BB;&#x7684;&#xFF0C;&#x5BF9;&#x5BBF;&#x4E3B;&#x673A;&#x73AF;&#x5883;&#x4E0D;&#x4F1A;&#x9020;&#x6210;&#x4EFB;&#x4F55;&#x7684;&#x5F71;&#x54CD;&#x3002;Docker&#x4ED3;&#x5E93;&#x7684;<code>apiaryio/emcc</code>&#x955C;&#x50CF;&#x63D0;&#x4F9B;&#x4E86;&#x5B8C;&#x6574;&#x7684;Emscripten&#x6253;&#x5305;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x901A;&#x8FC7;&#x672C;&#x5730;&#x7684;emcc&#x7F16;&#x8BD1;hello.c&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>$ emcc hello.c
+</code></pre><p>&#x91C7;&#x7528;Docker&#x73AF;&#x5883;&#x540E;&#xFF0C;&#x5BF9;&#x5E94;&#x4EE5;&#x4E0B;&#x7684;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code>$ docker run --rm -it -v `pwd`:/src apiaryio/emcc emcc
+</code></pre><p>&#x5176;&#x4E2D;&#x53C2;&#x6570;<code>--rm</code>&#x8868;&#x793A;&#x8FD0;&#x884C;&#x7ED3;&#x675F;&#x540E;&#x5220;&#x9664;&#x5BB9;&#x5668;&#x8D44;&#x6E90;&#xFF0C;&#x53C2;&#x6570;<code>-it</code>&#x8868;&#x793A;&#x5B9A;&#x5411;&#x5BB9;&#x5668;&#x7684;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x5230;&#x547D;&#x4EE4;&#x884C;&#x73AF;&#x5883;&#xFF0C;&#x53C2;&#x6570;<code>-v &apos;pwd&apos;:/src</code>&#x8868;&#x793A;&#x5C06;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x6620;&#x5C04;&#x5230;&#x5BB9;&#x5668;&#x7684;/src&#x76EE;&#x5F55;&#x3002;&#x4E4B;&#x540E;&#x7684;<code>apiaryio/emcc</code>&#x4E3A;&#x5BB9;&#x5668;&#x5BF9;&#x5E94;&#x955C;&#x50CF;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x91CC;&#x9762;&#x5305;&#x542B;&#x4E86;Emscripten&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x3002;&#x6700;&#x540E;&#x7684;emcc&#x53C2;&#x6570;&#x8868;&#x793A;&#x5BB9;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x548C;&#x672C;&#x5730;&#x7684;emcc&#x547D;&#x4EE4;&#x662F;&#x4E00;&#x81F4;&#x7684;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x547D;&#x4EE4;&#x9ED8;&#x8BA4;&#x83B7;&#x53D6;&#x7684;&#x662F;latest&#x7248;&#x672C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6700;&#x65B0;&#x7684;Emscripten&#x7248;&#x672C;&#x3002;&#x5BF9;&#x4E8E;&#x6B63;&#x5F0F;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#xFF0C;&#x6211;&#x4EEC;&#x63A8;&#x8350;&#x5B89;&#x88C5;&#x786E;&#x5B9A;&#x7248;&#x672C;&#x7684;Emscripten&#x3002;&#x5BB9;&#x5668;&#x955C;&#x50CF;&#x7684;&#x5168;&#x90E8;&#x7248;&#x672C;&#x53EF;&#x4EE5;&#x4ECE;&#x8FD9;&#x91CC;&#x67E5;&#x770B;&#xFF1A;<a href="https://hub.docker.com/r/apiaryio/emcc/tags/" target="_blank">https://hub.docker.com/r/apiaryio/emcc/tags/</a>&#x3002;&#x5982;&#x679C;&#x5C06;<code>apiaryio/emcc</code>&#x66FF;&#x6362;&#x4E3A;<code>apiaryio/emcc:1.38.11</code>&#xFF0C;&#x5219;&#x8868;&#x793A;&#x91C7;&#x7528;&#x7684;&#x662F;v1.38.11&#x7248;&#x672C;&#x7684;&#x955C;&#x50CF;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x56FD;&#x5185;&#x7528;&#x6237;&#xFF0C;&#x53EF;&#x4EE5;&#x91C7;&#x7528;Docker&#x5B98;&#x65B9;&#x63D0;&#x4F9B;&#x7684;&#x56FD;&#x5185;&#x4ED3;&#x5E93;&#x955C;&#x50CF;&#x52A0;&#x901F;&#x4E0B;&#x8F7D;&#x3002;&#x4ED3;&#x5E93;&#x955C;&#x50CF;&#x4EE3;&#x7406;&#x914D;&#x7F6E;&#x7684;&#x7EC6;&#x8282;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#xFF1A;<a href="https://www.docker-cn.com/registry-mirror" target="_blank">https://www.docker-cn.com/registry-mirror</a> &#x3002;</p>
+<h2 id="113-&#x6821;&#x9A8C;&#x5B89;&#x88C5;">1.1.3 &#x6821;&#x9A8C;&#x5B89;&#x88C5;</h2>
+<p>emcc&#x662F;Emscripten&#x7684;&#x6838;&#x5FC3;&#x547D;&#x4EE4;&#xFF0C;&#x6B63;&#x786E;&#x5B89;&#x88C5;&#x6FC0;&#x6D3B;&#x5E76;&#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x540E;&#xFF0C;&#x6267;&#x884C;<code>emcc -v</code>&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x7248;&#x672C;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>&gt;emcc -v
+emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 1.38.11
+clang version 6.0.1  (emscripten 1.38.11 : 1.38.11)
+Target: x86_64-pc-windows-msvc
+Thread model: posix
+InstalledDir: E:\Tool\emsdk\clang\e1.38.11_64bit
+INFO:root:(Emscripten: Running sanity checks)
+</code></pre><p>&#x5173;&#x4E8E;Emscripten&#x5B89;&#x88C5;&#x7684;&#x66F4;&#x591A;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#xFF1A;<a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html" target="_blank">http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html</a></p>
+<p>&#x7531;&#x4E8E;Emscripten 1.37.3&#x624D;&#x5F00;&#x59CB;&#x6B63;&#x5F0F;&#x652F;&#x6301;WebAssembly&#xFF0C;&#x56E0;&#x6B64;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x8FC7;Emscripten&#x65E7;&#x7248;&#x672C;&#x7684;&#x7528;&#x6237;&#x6700;&#x597D;&#x5347;&#x7EA7;&#x81F3;&#x6700;&#x65B0;&#x7248;&#x3002;&#x672C;&#x4E66;&#x5185;&#x5BB9;&#x5747;&#x4EE5;Emscripten 1.38.11&#x4E3A;&#x51C6;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="readme.html" class="navigation navigation-prev " aria-label="Previous page: 第1章 Emscripten快速入门">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch1-02-helloworld.html" class="navigation navigation-next " aria-label="Next page: 1.2 你好，世界！">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"1.1 安装Emscripten","level":"1.2.1","depth":2,"next":{"title":"1.2 你好，世界！","level":"1.2.2","depth":2,"path":"ch1-quick-guide/ch1-02-helloworld.md","ref":"ch1-quick-guide/ch1-02-helloworld.md","articles":[]},"previous":{"title":"第1章 Emscripten快速入门","level":"1.2","depth":1,"path":"ch1-quick-guide/readme.md","ref":"ch1-quick-guide/readme.md","articles":[{"title":"1.1 安装Emscripten","level":"1.2.1","depth":2,"path":"ch1-quick-guide/ch1-01-install.md","ref":"ch1-quick-guide/ch1-01-install.md","articles":[]},{"title":"1.2 你好，世界！","level":"1.2.2","depth":2,"path":"ch1-quick-guide/ch1-02-helloworld.md","ref":"ch1-quick-guide/ch1-02-helloworld.md","articles":[]},{"title":"1.3 胶水代码初探","level":"1.2.3","depth":2,"path":"ch1-quick-guide/ch1-03-glue-code.md","ref":"ch1-quick-guide/ch1-03-glue-code.md","articles":[]},{"title":"1.4 编译目标及编译流程","level":"1.2.4","depth":2,"path":"ch1-quick-guide/ch1-04-compile.md","ref":"ch1-quick-guide/ch1-04-compile.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"C/C++面向WebAssembly编程","language":"zh-hans","gitbook":"3.x","description":"C/C++面向WebAssembly编程——Emscripten工程实践"},"file":{"path":"ch1-quick-guide/ch1-01-install.md","mtime":"2019-01-16T03:17:28.138Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"zh"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,1008 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.4 Exchange data between C and JavaScript · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch2-05-em-asm.html" />
+    
+    
+    <link rel="prev" href="ch2-03-mem-model.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="ch2-01-js-call-c.html">
+            
+                <a href="ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="ch2-02-implement-c-api-in-js.html">
+            
+                <a href="ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="ch2-03-mem-model.html">
+            
+                <a href="ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.4" data-path="ch2-04-data-exchange.html">
+            
+                <a href="ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="ch2-05-em-asm.html">
+            
+                <a href="ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="ch2-06-run-script.html">
+            
+                <a href="ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="ch2-07-ccall-cwrap.html">
+            
+                <a href="ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="ch2-08-ext.html">
+            
+                <a href="ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >2.4 Exchange data between C and JavaScript</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="24-exchange-data-between-c-and-javascript">2.4 Exchange data between C and JavaScript</h1>
+<p>We introduced the memory model and the basic usage of <code>Module.HEAP</code> in 2.3. This section will delve into how to exchange data between JavaScript and C.</p>
+<h2 id="241-parameters-and-return-values">2.4.1 Parameters and return values</h2>
+<p>In the previous chapters, we deliberately ignored a fundamental question: How do parameters and return values are passed when JavaScript and C/C++ call each other?</p>
+<p>The answer is: <strong>Everything is <code>Number</code></strong>.</p>
+<blockquote>
+<p><strong>tips</strong> The only numeric type in JavaScript is <code>Number</code>, which is a IEEE-754 64-bit floating point number.</p>
+</blockquote>
+<p>From a linguistic point of view, JavaScript and C/C++ have completely different data structure. <code>Number</code> is the only intersection of the two, so essentially JavaScript and C/C++ are passing <code>Number</code> to each other when calling a function.</p>
+<blockquote>
+<p><strong>info</strong> <code>Number</code> can accurately represent 32-bit integers and below, 32-bit floating-point numbers, 64-bit floating-point numbers, which covers most of the basic data types of C languages - except 64-bit integers, which means you can&apos;t use a 64-bit integer as a parameter or return value when interoperating between JavaScript and C, this will be discussed in detail in Section 4.2.</p>
+</blockquote>
+<p>There are two ways to pass <code>Number</code> from JavaScript to C/C++:</p>
+<ol>
+<li>JavaScript calls a exported C function with parameters, and <code>Number</code> is passed via parameters;</li>
+<li>C calls a function implemented by JavaScript (see 2.2), and <code>Number</code> is passed via the return value of the injected function.</li>
+</ol>
+<p>Since C/C++ is a strongly typed language, implicit type conversion occurs when recieving <code>Number</code> from JavaScript. For example, the C code as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//type_conv.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) print_int(<span class="hljs-keyword">int</span> a) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;C{print_int() a:%d}\n&quot;</span>, a);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) print_float(<span class="hljs-keyword">float</span> a) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;C{print_float() a:%f}\n&quot;</span>, a);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) print_double(<span class="hljs-keyword">double</span> a) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;C{print_double() a:%lf}\n&quot;</span>, a);
+}
+</code></pre>
+<p>The JavaScript code as follows:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//type_conv.html</span>
+      Module._print_int(<span class="hljs-number">3.4</span>);
+      Module._print_int(<span class="hljs-number">4.6</span>);
+      Module._print_int(<span class="hljs-number">-3.4</span>);
+      Module._print_int(<span class="hljs-number">-4.6</span>);
+      Module._print_float(<span class="hljs-number">2000000.03125</span>);
+      Module._print_double(<span class="hljs-number">2000000.03125</span>);
+</code></pre>
+<p>The console will output:</p>
+<p><img src="images/04-type-conv.png" alt=""></p>
+<p>It can be seen that when <code>Number</code> is passed, if the target type is <code>int</code>, the result will be <code>round to 0</code>, if the target type is <code>float</code>, the type conversion may lose precision.</p>
+<p>There are also two ways to pass <code>Number</code> from C/C++ to JavaScript:</p>
+<ol>
+<li>JavaScript calls a exported C function with return value,  and <code>Number</code> is passed via the return value;</li>
+<li>C calls a function implemented by JavaScript (see 2.2), and <code>Number</code> is passed via the parameters of the injected function.</li>
+</ol>
+<h2 id="242-exchange-data-via-memory">2.4.2 Exchange data via memory</h2>
+<p>Obviously, it is not feasible to exchange large chunks of data between JavaScript and C/C++ using parameters and return values. In this case, we can use memory instead.</p>
+<p>In the following example, JavaScript calls the C function to generate a Fibonacci sequence in memory and then print it.</p>
+<p>C code:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//fibonacci.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;malloc.h&gt;</span></span>
+
+EM_PORT_API(<span class="hljs-keyword">int</span>*) fibonacci(<span class="hljs-keyword">int</span> count) {
+    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+
+    <span class="hljs-keyword">int</span>* re = (<span class="hljs-keyword">int</span>*)<span class="hljs-built_in">malloc</span>(count * <span class="hljs-number">4</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-literal">NULL</span> == re) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Not enough memory.\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+    }
+
+    re[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> i0 = <span class="hljs-number">0</span>, i1 = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++){
+        re[i] = i0 + i1;
+        i0 = i1;
+        i1 = re[i];
+    }
+
+    <span class="hljs-keyword">return</span> re;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) free_buf(<span class="hljs-keyword">void</span>* buf) {
+    <span class="hljs-built_in">free</span>(buf);
+}
+</code></pre>
+<p>JavaScript code:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//fibonacci.html</span>
+      <span class="hljs-keyword">var</span> ptr = Module._fibonacci(<span class="hljs-number">10</span>);
+      <span class="hljs-keyword">if</span> (ptr == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;
+      <span class="hljs-keyword">var</span> str = <span class="hljs-string">&apos;&apos;</span>;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++){
+        str += Module.HEAP32[(ptr &gt;&gt; <span class="hljs-number">2</span>) + i];
+        str += <span class="hljs-string">&apos; &apos;</span>;
+      }
+      <span class="hljs-built_in">console</span>.log(str);
+      Module._free_buf(ptr);
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<p><img src="images/04-fib.png" alt=""></p>
+<blockquote>
+<p><strong>tips</strong> In the example above, the C function <code>fibonacci()</code> allocates space on the heap. After calling in JavaScript, you need to call <code>free_buf()</code> to release it to avoid memory leaks.&#x3002;</p>
+</blockquote>
+<p>Note that the names of objects such as <code>Module.HEAP32</code> are &quot;heap&quot;, but in fact they refer to the entire memory space of the C/C++ environment, so the data located on the C/C++ stack can also access via <code>Module.HEAP32</code>/<code>Module.HEAP16</code>/etc. For example:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//fib_stack.cc</span>
+EM_PORT_API (<span class="hljs-keyword">void</span>) js_print_fib(<span class="hljs-keyword">int</span>* ptr, <span class="hljs-keyword">int</span> count);
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) fibonacci20() {
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> count = <span class="hljs-number">20</span>;
+    <span class="hljs-keyword">int</span> re[count];
+
+    re[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> i0 = <span class="hljs-number">0</span>, i1 = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++){
+        re[i] = i0 + i1;
+        i0 = i1;
+        i1 = re[i];
+    }
+
+    js_print_fib(re, count);
+}
+</code></pre>
+<p>The C function <code>fibonacci20()</code> generates the first 20 items of the Fibonacci sequence on the stack, and then calls the injected function <code>js_print_fib()</code> in JavaScript side to print it out. Code of the injected function is as follows:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//fib_stack_pkg.js</span>
+mergeInto(LibraryManager.library, {
+    js_print_fib: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ptr, count</span>) </span>{
+        <span class="hljs-keyword">var</span> str = <span class="hljs-string">&apos;js_print_fib: &apos;</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; count; i++){
+          str += Module.HEAP32[(ptr &gt;&gt; <span class="hljs-number">2</span>) + i];
+          str += <span class="hljs-string">&apos; &apos;</span>;
+        }
+        <span class="hljs-built_in">console</span>.log(str);
+    }
+})
+</code></pre>
+<p>Compile with the following command:</p>
+<pre><code>emcc fib_stack.cc --js-library fib_stack_pkg.js -o fib_stack.js
+</code></pre><p>Call <code>fibonacci20()</code> in the web page:</p>
+<pre><code class="lang-js">//fib_stack.html
+    &lt;script&gt;
+    Module = {};
+    Module.onRuntimeInitialized = function() {
+      Module._fibonacci20();
+    }
+    &lt;/script&gt;
+    &lt;script src=&quot;fib_stack.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>The console will output:</p>
+<p><img src="images/04-fib-stack.png" alt=""></p>
+<h2 id="243-allocating-cc-memory-in-javascript">2.4.3 Allocating C/C++ memory in JavaScript</h2>
+<p>The examples given in 2.4.2 are all allocated memory in C/C++, then read in JavaScript. Sometimes JavaScript needs to send large chunks of data into C/C++, and C/C++ cannot predict the size of the data block. In that case, you can allocate C/C++ memory in JavaScript and load the data, then pass in the data pointer and call C function for processing.</p>
+<p>For example, the C function <code>sum()</code> calculate the sum of the input array:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//sum.cc</span>
+EM_PORT_API(<span class="hljs-keyword">int</span>) sum(<span class="hljs-keyword">int</span>* ptr, <span class="hljs-keyword">int</span> count) {
+    <span class="hljs-keyword">int</span> total = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++){
+        total += ptr[i];
+    }
+    <span class="hljs-keyword">return</span> total;
+}
+</code></pre>
+<p>We allocate memory in JavaScript side and stores it in the first 50 items of the natural sequence, then calls the C function <code>sum()</code>:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//js_alloc_mem.html</span>
+      <span class="hljs-keyword">var</span> count = <span class="hljs-number">50</span>;
+      <span class="hljs-keyword">var</span> ptr = Module._malloc(<span class="hljs-number">4</span> * count);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; count; i++){
+        Module.HEAP32[ptr / <span class="hljs-number">4</span> + i] = i + <span class="hljs-number">1</span>;
+      }
+      <span class="hljs-built_in">console</span>.log(Module._sum(ptr, count));
+      Module._free(ptr);
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<p><img src="images/04-js-alloc-mem.png" alt=""></p>
+<blockquote>
+<p><strong>tips</strong> C/C++ doesn&apos;t have gc. After using the memory allocated by the <code>malloc()</code> function in JavaScript, don&apos;t forget to use <code>free()</code> to release it.</p>
+</blockquote>
+<h2 id="244-strings">2.4.4 Strings</h2>
+<p>String are very common data type, but the string representation in C/C++ is completely incompatible with JavaScript. Fortunately, Emscripten provides us with a set of helper functions for the conversion. Here are two of the most common ones.</p>
+<h3 id="pointerstringify"><code>Pointer_stringify()</code></h3>
+<p>This method converts C/C++ strings into JavaScript strings. For example:</p>
+<p>The C function <code>get_string()</code> returns the address of a string:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//strings.cc</span>
+EM_PORT_API(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*) get_string() {
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> str[] = <span class="hljs-string">&quot;Hello, wolrd! &#x4F60;&#x597D;&#xFF0C;&#x4E16;&#x754C;&#xFF01;&quot;</span>
+    <span class="hljs-keyword">return</span> str;
+}
+</code></pre>
+<p>Get the string address in JavaScript and use <code>Pointer_stringify()</code> to convert it to a JavaScript string:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//strings.html</span>
+      <span class="hljs-keyword">var</span> ptr = Module._get_string();
+      <span class="hljs-keyword">var</span> str = Pointer_stringify(ptr);
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span>(str));
+      <span class="hljs-built_in">console</span>.log(str);
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<pre><code>string
+Hello, wolrd! &#x4F60;&#x597D;&#xFF0C;&#x4E16;&#x754C;&#xFF01;
+</code></pre><h3 id="allocateutf8"><code>allocateUTF8()</code></h3>
+<p>This method will allocate enough space in C/C++ memory and copy the string into it with UTF8. For example, use <code>allocateUTF8()</code> in JavaScript to pass a string to C/C++ memory, then call the C function <code>print_string()</code> to print it:</p>
+<p>JavaScript code:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//strings.html</span>
+      ptr = allocateUTF8(<span class="hljs-string">&quot;&#x4F60;&#x597D;&#xFF0C;Emscripten&#xFF01;&quot;</span>);
+      Module._print_string(ptr);
+      _free(ptr);
+</code></pre>
+<p>C code:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//strings.cc</span>
+EM_PORT_API(<span class="hljs-keyword">void</span>) print_string(<span class="hljs-keyword">char</span>* str) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, str);
+}
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<pre><code>&#x4F60;&#x597D;&#xFF0C;Emscripten&#xFF01;
+</code></pre><p>In addition, Emscripten also provides a series of helper functions such as <code>AsciiToString()</code>/<code>stringToAscii()</code>/<code>UTF8ArrayToString()</code>/<code>stringToUTF8Array()</code> for string conversion. Please refer to the glue code for details.</p>
+<h2 id="245-summary">2.4.5 Summary</h2>
+<p>Basically, there are two ways to exchange data between JavaScript and C/C++:</p>
+<ol>
+<li>Exchange data via parameters and return values;</li>
+<li>Exchange data via C/C++ memory.</li>
+</ol>
+<p>When transferring data using dynamically allocated memory addresses, don&apos;t forget to freeing up memory that is no longer in use to avoid leaks.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch2-03-mem-model.html" class="navigation navigation-prev " aria-label="Previous page: 2.3 Memory model">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch2-05-em-asm.html" class="navigation navigation-next " aria-label="Next page: 2.5 Using EM_ASM">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.4 Exchange data between C and JavaScript","level":"1.3.4","depth":2,"next":{"title":"2.5 Using EM_ASM","level":"1.3.5","depth":2,"path":"ch2-c-js/ch2-05-em-asm.md","ref":"ch2-c-js/ch2-05-em-asm.md","articles":[]},"previous":{"title":"2.3 Memory model","level":"1.3.3","depth":2,"path":"ch2-c-js/ch2-03-mem-model.md","ref":"ch2-c-js/ch2-03-mem-model.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch2-c-js/ch2-04-data-exchange.md","mtime":"2019-01-16T03:17:28.075Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

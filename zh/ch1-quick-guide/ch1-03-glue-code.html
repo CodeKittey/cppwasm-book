@@ -1,0 +1,919 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>1.3 胶水代码初探 · C/C++面向WebAssembly编程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch1-04-compile.html" />
+    
+    
+    <link rel="prev" href="ch1-02-helloworld.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    第1章 Emscripten快速入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="ch1-01-install.html">
+            
+                <a href="ch1-01-install.html">
+            
+                    
+                    1.1 安装Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="ch1-02-helloworld.html">
+            
+                <a href="ch1-02-helloworld.html">
+            
+                    
+                    1.2 你好，世界！
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.3" data-path="ch1-03-glue-code.html">
+            
+                <a href="ch1-03-glue-code.html">
+            
+                    
+                    1.3 胶水代码初探
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="ch1-04-compile.html">
+            
+                <a href="ch1-04-compile.html">
+            
+                    
+                    1.4 编译目标及编译流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    第2章 C与JavaScript互操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 JavaScript调用C函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 JavaScript函数注入C
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 单向透明的内存模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 JavaScript与C交换数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 EM_ASM系列宏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 emscripten_run_script系列函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 补充说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    第3章 Emscripten运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 main函数与生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 消息循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Module定制及其他
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    第4章 WebAssembly友好的一般性方法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 消息循环分离
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 内存对齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 使用C接口导出C++对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 C++对象生命周期控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 使用C接口注入JavaScript对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 小心int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 忘掉文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    第5章 网络IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    第6章 多线程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 JavaScript中的并发模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 在Worker中使用Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    第7章 GUI及交互
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 鼠标事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 键盘事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Life游戏
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >1.3 胶水代码初探</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="13-&#x80F6;&#x6C34;&#x4EE3;&#x7801;&#x521D;&#x63A2;">1.3 &#x80F6;&#x6C34;&#x4EE3;&#x7801;&#x521D;&#x63A2;</h1>
+<p>&#x6253;&#x5F00;&#x4E0A;&#x4E00;&#x8282;&#xFF08;1.2&#xFF09;&#x4E2D;&#x7531;Emscripten&#x751F;&#x6210;&#x7684;JavaScript&#x80F6;&#x6C34;&#x4EE3;&#x7801;<code>hello.js</code>&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#xFF0C;&#x5927;&#x591A;&#x6570;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x90FD;&#x56F4;&#x7ED5;&#x5168;&#x5C40;&#x5BF9;&#x8C61;<code>Module</code>&#x5C55;&#x5F00;&#xFF0C;&#x800C;&#x8BE5;&#x5BF9;&#x8C61;&#x6B63;&#x662F;Emscripten&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x6838;&#x5FC3;&#x6240;&#x5728;&#x3002;</p>
+<blockquote>
+<p><strong>tips</strong> &#x8DF3;&#x8FC7;1.3.1&#x4EE5;&#x53CA;1.3.2&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x540E;&#x7EED;&#x7AE0;&#x8282;&#x7684;&#x9605;&#x8BFB;&#x3002;&#x4F46;&#x5982;&#x679C;&#x60A8;&#x5BF9;Emscripten&#x6A21;&#x5757;&#x8F7D;&#x5165;&#x7B49;&#x7EC6;&#x8282;&#x611F;&#x5174;&#x8DA3;&#xFF0C;&#x672C;&#x8282;&#x5185;&#x5BB9;&#x5C06;&#x6709;&#x52A9;&#x4E8E;&#x7406;&#x89E3;&#x80F6;&#x6C34;&#x4EE3;&#x7801;&#x7684;&#x7ED3;&#x6784;&#x3002;&#x968F;&#x7740;Emscripten&#x7684;&#x7248;&#x672C;&#x5347;&#x7EA7;&#xFF0C;&#x5176;&#x751F;&#x6210;&#x7684;&#x80F6;&#x6C34;&#x4EE3;&#x7801;&#x6709;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x672C;&#x8282;&#x5C55;&#x793A;&#x7684;&#x4EE3;&#x7801;&#x5747;&#x57FA;&#x4E8E;Emscripten 1.38.11&#x3002;</p>
+</blockquote>
+<h2 id="131-webassembly&#x6C47;&#x7F16;&#x6A21;&#x5757;&#x8F7D;&#x5165;">1.3.1 WebAssembly&#x6C47;&#x7F16;&#x6A21;&#x5757;&#x8F7D;&#x5165;</h2>
+<p>WebAssembly&#x6C47;&#x7F16;&#x6A21;&#x5757;&#xFF08;&#x65E2;<code>.wasm</code>&#x6587;&#x4EF6;&#xFF09;&#x7684;&#x8F7D;&#x5165;&#x662F;&#x5728;<code>doNativeWasm</code>&#x51FD;&#x6570;&#x4E2D;&#x5B8C;&#x6210;&#x7684;&#x3002;&#x5176;&#x6838;&#x5FC3;&#x90E8;&#x5206;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instantiateArrayBuffer</span>(<span class="hljs-params">receiver</span>) </span>{
+      getBinaryPromise().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">binary</span>) </span>{
+        <span class="hljs-keyword">return</span> WebAssembly.instantiate(binary, info);
+      }).then(receiver).catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">reason</span>) </span>{
+        err(<span class="hljs-string">&apos;failed to asynchronously prepare wasm: &apos;</span> + reason);
+        abort(reason);
+      });
+    }
+    <span class="hljs-comment">// Prefer streaming instantiation if available.</span>
+    <span class="hljs-keyword">if</span> (!Module[<span class="hljs-string">&apos;wasmBinary&apos;</span>] &amp;&amp;
+        <span class="hljs-keyword">typeof</span> WebAssembly.instantiateStreaming === <span class="hljs-string">&apos;function&apos;</span> &amp;&amp;
+        !isDataURI(wasmBinaryFile) &amp;&amp;
+        <span class="hljs-keyword">typeof</span> fetch === <span class="hljs-string">&apos;function&apos;</span>) {
+      WebAssembly.instantiateStreaming(fetch(wasmBinaryFile, { credentials: <span class="hljs-string">&apos;same-origin&apos;</span> }), info)
+        .then(receiveInstantiatedSource)
+        .catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">reason</span>) </span>{
+          <span class="hljs-comment">// We expect the most common failure cause to be a bad MIME type for the binary,</span>
+          <span class="hljs-comment">// in which case falling back to ArrayBuffer instantiation should work.</span>
+          err(<span class="hljs-string">&apos;wasm streaming compile failed: &apos;</span> + reason);
+          err(<span class="hljs-string">&apos;falling back to ArrayBuffer instantiation&apos;</span>);
+          instantiateArrayBuffer(receiveInstantiatedSource);
+        });
+    } <span class="hljs-keyword">else</span> {
+      instantiateArrayBuffer(receiveInstantiatedSource);
+    }
+</code></pre>
+<p>&#x8FD9;&#x4E00;&#x5806;&#x8BA9;&#x4EBA;&#x773C;&#x82B1;&#x7F2D;&#x4E71;&#x7684;&#x4EE3;&#x7801;&#x5176;&#x5B9E;&#x53EA;&#x5E72;&#x4E86;&#x8FD9;&#x51E0;&#x4EF6;&#x4E8B;&#xFF1A;</p>
+<ol>
+<li>&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;<code>WebAssembly.instantiateStreaming()</code>&#x65B9;&#x6CD5;&#x521B;&#x5EFA;wasm&#x6A21;&#x5757;&#x7684;&#x5B9E;&#x4F8B;&#xFF1B;</li>
+<li>&#x5982;&#x679C;&#x6D41;&#x5F0F;&#x521B;&#x5EFA;&#x5931;&#x8D25;&#xFF0C;&#x5219;&#x6539;&#x7528;<code>WebAssembly.instantiate()</code>&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#xFF1B;</li>
+<li>&#x6210;&#x529F;&#x5B9E;&#x4F8B;&#x5316;&#x540E;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4EA4;&#x7531;<code>receiveInstantiatedSource()</code>&#x65B9;&#x6CD5;&#x5904;&#x7406;&#x3002;</li>
+</ol>
+<p><code>receiveInstantiatedSource()</code>&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">receiveInstance</span>(<span class="hljs-params">instance, module</span>) </span>{
+      exports = instance.exports;
+      <span class="hljs-keyword">if</span> (exports.memory) mergeMemory(exports.memory);
+      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+      Module[<span class="hljs-string">&quot;usingWasm&quot;</span>] = <span class="hljs-literal">true</span>;
+      removeRunDependency(<span class="hljs-string">&apos;wasm-instantiate&apos;</span>);
+    }
+
+    ......
+
+    function receiveInstantiatedSource(output) {
+      <span class="hljs-comment">// &apos;output&apos; is a WebAssemblyInstantiatedSource object which has both the module and instance.</span>
+      <span class="hljs-comment">// receiveInstance() will swap in the exports (to Module.asm) so they can be called</span>
+      assert(Module === trueModule, <span class="hljs-string">&apos;the Module object should not be replaced during async compilation - perhaps the order of HTML elements is wrong?&apos;</span>);
+      trueModule = <span class="hljs-literal">null</span>;
+      receiveInstance(output[<span class="hljs-string">&apos;instance&apos;</span>], output[<span class="hljs-string">&apos;module&apos;</span>]);
+    }
+</code></pre>
+<p><code>receiveInstantiatedSource()</code>&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x4E86;<code>receiveInstance()</code>&#x65B9;&#x6CD5;&#xFF0C;&#x540E;&#x8005;&#x7684;&#x8FD9;&#x6761;&#x6307;&#x4EE4;&#xFF1A;</p>
+<pre><code class="lang-js">      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+</code></pre>
+<p>&#x5C06;wasm&#x6A21;&#x5757;&#x5B9E;&#x4F8B;&#x7684;&#x5BFC;&#x51FA;&#x5BF9;&#x8C61;&#x4F20;&#x7ED9;&#x4E86;<code>Module</code>&#x7684;&#x5B50;&#x5BF9;&#x8C61;<code>asm</code>&#x3002;&#x5018;&#x82E5;&#x6211;&#x4EEC;&#x5728;&#x4E0A;&#x8FF0;&#x51FD;&#x6570;&#x4E2D;&#x624B;&#x52A8;&#x6DFB;&#x52A0;&#x6253;&#x5370;&#x5B9E;&#x4F8B;&#x5BFC;&#x51FA;&#x5BF9;&#x8C61;&#x7684;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">receiveInstance</span>(<span class="hljs-params">instance, module</span>) </span>{
+      ... ...
+      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+      <span class="hljs-built_in">console</span>.log(Module[<span class="hljs-string">&apos;asm&apos;</span>]);  <span class="hljs-comment">//print instance.exports</span>
+      ... ...
+</code></pre>
+<p>&#x6D4F;&#x89C8;&#x5668;&#x63A7;&#x5236;&#x53F0;&#x5C06;&#x8F93;&#x51FA;&#xFF1A;</p>
+<p><img src="images/export_log.png" alt=""></p>
+<p>&#x7531;&#x6B64;&#x53EF;&#x89C1;&#xFF0C;&#x4E0A;&#x8FF0;&#x4E00;&#x7CFB;&#x5217;&#x4EE3;&#x7801;&#x8FD0;&#x884C;&#x540E;&#xFF0C;Module[&apos;asm&apos;]&#x4E2D;&#x4FDD;&#x5B58;&#x4E86;WebAssembly&#x5B9E;&#x4F8B;&#x7684;&#x5BFC;&#x51FA;&#x5BF9;&#x8C61;&#x2014;&#x2014;&#x800C;&#x5BFC;&#x51FA;&#x51FD;&#x6570;&#x6070;&#x662F;WebAssembly&#x5B9E;&#x4F8B;&#x4F9B;&#x5916;&#x90E8;&#x8C03;&#x7528;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x5165;&#x53E3;&#x3002;</p>
+<h2 id="132-&#x5BFC;&#x51FA;&#x51FD;&#x6570;&#x5C01;&#x88C5;">1.3.2 &#x5BFC;&#x51FA;&#x51FD;&#x6570;&#x5C01;&#x88C5;</h2>
+<p>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x8C03;&#x7528;&#xFF0C;Emscripten&#x4E3A;C/C++&#x4E2D;&#x5BFC;&#x51FA;&#x7684;&#x51FD;&#x6570;&#x63D0;&#x4F9B;&#x4E86;&#x5C01;&#x88C5;&#xFF0C;&#x5728;<code>hello.js</code>&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5927;&#x91CF;&#x8FD9;&#x6837;&#x7684;&#x5C01;&#x88C5;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-js">... ...
+var _main = Module[<span class="hljs-string">&quot;_main&quot;</span>] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  assert(runtimeInitialized, <span class="hljs-string">&apos;you need to wait for the runtime to be ready (e.g. wait for main() to be called)&apos;</span>);
+  assert(!runtimeExited, <span class="hljs-string">&apos;the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)&apos;</span>);
+  <span class="hljs-keyword">return</span> Module[<span class="hljs-string">&quot;asm&quot;</span>][<span class="hljs-string">&quot;_main&quot;</span>].apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">arguments</span>) };
+<span class="hljs-keyword">var</span> _malloc = Module[<span class="hljs-string">&quot;_malloc&quot;</span>] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  assert(runtimeInitialized, <span class="hljs-string">&apos;you need to wait for the runtime to be ready (e.g. wait for main() to be called)&apos;</span>);
+  assert(!runtimeExited, <span class="hljs-string">&apos;the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)&apos;</span>);
+  <span class="hljs-keyword">return</span> Module[<span class="hljs-string">&quot;asm&quot;</span>][<span class="hljs-string">&quot;_malloc&quot;</span>].apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">arguments</span>) };
+... ...
+</code></pre>
+<p>&#x5728;Emscripten&#x4E2D;&#xFF0C;C&#x51FD;&#x6570;&#x5BFC;&#x51FA;&#x65F6;&#xFF0C;&#x51FD;&#x6570;&#x540D;&#x524D;&#x4F1A;&#x6DFB;&#x52A0;&#x4E0B;&#x5212;&#x7EBF;&#x201C;_&#x201D;&#xFF0C;&#x7531;&#x6B64;&#x53EF;&#x77E5;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x5206;&#x522B;&#x63D0;&#x4F9B;&#x4E86;<code>main()</code>&#x4EE5;&#x53CA;<code>malloc()</code>&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#xFF1B;&#x800C;<code>var _main</code>&#x4EE5;&#x53CA;<code>Module._main</code>&#x5BF9;&#x5E94;&#x7684;&#xFF0C;&#x90FD;&#x662F;<code>hello.cc</code>&#x4E2D;&#x7684;<code>main()</code>&#x51FD;&#x6570;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x624B;&#x52A8;&#x6267;&#x884C;<code>_main()</code>&#x4EE5;&#x53CA;<code>Module._main()</code>&#x5BF9;&#x6B64;&#x8FDB;&#x884C;&#x68C0;&#x9A8C;&#xFF1A;</p>
+<p><img src="images/func_wrap_log.png" alt=""></p>
+<p>&#x4E0D;&#x51FA;&#x6240;&#x6599;&#xFF0C;&#x4E8C;&#x8005;&#x90FD;&#x6267;&#x884C;&#x4E86;C&#x4EE3;&#x7801;&#x4E2D;&#x7684;<code>main()</code>&#x51FD;&#x6570;&#xFF0C;&#x8F93;&#x51FA;&#x4E86;&#x201C;&#x4F60;&#x597D;&#xFF0C;&#x4E16;&#x754C;&#xFF01;&#x201D;&#x3002;</p>
+<h2 id="133-&#x5F02;&#x6B65;&#x52A0;&#x8F7D;">1.3.3 &#x5F02;&#x6B65;&#x52A0;&#x8F7D;</h2>
+<p>WebAssembly&#x5B9E;&#x4F8B;&#x662F;&#x901A;&#x8FC7;<code>WebAssembly.instantiateStreaming()</code>/<code>WebAssembly.instantiate()</code>&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x800C;&#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x5747;&#x4E3A;&#x5F02;&#x6B65;&#x8C03;&#x7528;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;.js&#x6587;&#x4EF6;&#x52A0;&#x8F7D;&#x5B8C;&#x6210;&#x65F6;Emscripten&#x7684;Runtime&#x5E76;&#x672A;&#x51C6;&#x5907;&#x5C31;&#x7EEA;&#x3002;&#x5018;&#x82E5;&#x6211;&#x4EEC;&#x4FEE;&#x6539;<code>test.html</code>&#xFF0C;&#x8F7D;&#x5165;.js&#x540E;&#x7ACB;&#x5373;&#x6267;&#x884C;<code>Module._main()</code>&#xFF1A;</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;hello.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="undefined">
+      Module._main();
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre>
+<p>&#x63A7;&#x5236;&#x53F0;&#x5C06;&#x8F93;&#x51FA;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>Assertion failed: you need to wait for the runtime to be ready (e.g. wait for main() to be called)
+</code></pre><p>&#x89E3;&#x51B3;&#x8FD9;&#x4E00;&#x95EE;&#x9898;&#x9700;&#x8981;&#x5EFA;&#x7ACB;&#x4E00;&#x79CD;Runtime&#x51C6;&#x5907;&#x5C31;&#x7EEA;&#x65F6;&#x7684;&#x901A;&#x77E5;&#x673A;&#x5236;&#xFF0C;&#x4E3A;&#x6B64;Emscripten&#x63D0;&#x4F9B;&#x4E86;&#x591A;&#x79CD;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x5728;<code>main()</code>&#x51FD;&#x6570;&#x4E2D;&#x53D1;&#x51FA;&#x901A;&#x77E5;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x591A;&#x6570;&#x7EAF;&#x529F;&#x80FD;&#x6027;&#x7684;&#x6A21;&#x5757;&#x6765;&#x8BF4;&#xFF0C;<code>main()</code>&#x51FD;&#x6570;&#x5E76;&#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x7B14;&#x8005;&#x8F83;&#x5E38;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x7684;&#x662F;&#x4E0D;&#x4F9D;&#x8D56;&#x4E8E;<code>main()</code>&#x51FD;&#x6570;&#x7684;<code>onRuntimeInitialized</code>&#x56DE;&#x8C03;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x7684;&#x4F8B;&#x5B50;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+      Module = {};
+      Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//do sth.</span>
+        Module._main();
+      }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;hello.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre>
+<p>&#x5176;&#x57FA;&#x672C;&#x601D;&#x8DEF;&#x662F;&#x5728;<code>Module</code>&#x521D;&#x59CB;&#x5316;&#x524D;&#xFF0C;&#x5411;<code>Module</code>&#x4E2D;&#x6CE8;&#x5165;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;<code>onRuntimeInitialized</code>&#x7684;&#x65B9;&#x6CD5;&#xFF0C;Emscripten&#x7684;Runtime&#x5C31;&#x7EEA;&#x540E;&#xFF0C;&#x5C06;&#x4F1A;&#x56DE;&#x8C03;&#x8BE5;&#x65B9;&#x6CD5;&#x3002;&#x5728;<code>hello.js</code>&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x5230;&#x8BE5;&#x56DE;&#x8C03;&#x7684;&#x8C03;&#x7528;&#x8FC7;&#x7A0B;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span>(<span class="hljs-params">args</span>) </span>{
+  ... ...
+    ensureInitRuntime();
+
+    preMain();
+
+    <span class="hljs-keyword">if</span> (Module[<span class="hljs-string">&apos;onRuntimeInitialized&apos;</span>]) Module[<span class="hljs-string">&apos;onRuntimeInitialized&apos;</span>]();
+
+    <span class="hljs-keyword">if</span> (Module[<span class="hljs-string">&apos;_main&apos;</span>] &amp;&amp; shouldRunNow) Module[<span class="hljs-string">&apos;callMain&apos;</span>](args);
+
+    postRun();
+  ... ...
+}
+</code></pre>
+<blockquote>
+<p><strong>tips</strong> &#x672C;&#x4E66;&#x4F8B;&#x5B50;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x5C06;&#x5927;&#x91CF;&#x4F7F;&#x7528;<code>onRuntimeInitialized</code>&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#x4F5C;&#x4E3A;&#x6D4B;&#x8BD5;&#x51FD;&#x6570;&#x5165;&#x53E3;&#x3002;</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch1-02-helloworld.html" class="navigation navigation-prev " aria-label="Previous page: 1.2 你好，世界！">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch1-04-compile.html" class="navigation navigation-next " aria-label="Next page: 1.4 编译目标及编译流程">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"1.3 胶水代码初探","level":"1.2.3","depth":2,"next":{"title":"1.4 编译目标及编译流程","level":"1.2.4","depth":2,"path":"ch1-quick-guide/ch1-04-compile.md","ref":"ch1-quick-guide/ch1-04-compile.md","articles":[]},"previous":{"title":"1.2 你好，世界！","level":"1.2.2","depth":2,"path":"ch1-quick-guide/ch1-02-helloworld.md","ref":"ch1-quick-guide/ch1-02-helloworld.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"C/C++面向WebAssembly编程","language":"zh-hans","gitbook":"3.x","description":"C/C++面向WebAssembly编程——Emscripten工程实践"},"file":{"path":"ch1-quick-guide/ch1-03-glue-code.md","mtime":"2018-12-29T07:58:51.881Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"zh"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

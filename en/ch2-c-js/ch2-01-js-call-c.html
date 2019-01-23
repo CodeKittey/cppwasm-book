@@ -1,0 +1,904 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.1 Calling compiled C functions from JavaScript · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch2-02-implement-c-api-in-js.html" />
+    
+    
+    <link rel="prev" href="readme.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.3.1" data-path="ch2-01-js-call-c.html">
+            
+                <a href="ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="ch2-02-implement-c-api-in-js.html">
+            
+                <a href="ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="ch2-03-mem-model.html">
+            
+                <a href="ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="ch2-04-data-exchange.html">
+            
+                <a href="ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="ch2-05-em-asm.html">
+            
+                <a href="ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="ch2-06-run-script.html">
+            
+                <a href="ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="ch2-07-ccall-cwrap.html">
+            
+                <a href="ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="ch2-08-ext.html">
+            
+                <a href="ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >2.1 Calling compiled C functions from JavaScript</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="21-calling-compiled-c-functions-from-javascript">2.1 Calling compiled C functions from JavaScript</h1>
+<p>A functional WebAssembly module must provide a function interface for callers. In 1.3, we show the way to call the C/C++ entry function <code>main()</code> via <code>Module._main()</code> - if the <code>main()</code> function exists. This section describes the general method to call compiled C functions from JavaScript.</p>
+<h2 id="211-define-function-export-macro">2.1.1 Define function export macro</h2>
+<p>In order to facilitate the function export, we need to define a function export macro, which needs to achieve the following goals:</p>
+<ol>
+<li>Use C-style symbol declarations. We know that due to the introduction of function overloading, templates and other features, the name decoration rule of C++ is very complicated, and different C++ compilers have different rules. Without additional processing, when we create a function in C++, it is difficult to predict its name in the final compilation - this is completely different from C. So when we try to export global functions other than <code>main()</code> to JavaScript, we must enforce C-style symbol declarations to keep the function names readable in JavaScript.</li>
+<li>Avoid functions being deleted by the optimizer at compile time due to lack of references. If a exported function is only called by JavaScript and is never used in C/C++, when some optimization options (such as <code>-O2</code>) are turned on, the function may be deleted by the compiler optimization, so the compile should be informed that these functions must be retained, cannot be deleted, and cannot be renamed.</li>
+<li>In order to maintain sufficient compatibility, macros need to automatically switch the appropriate behavior according to different environments - native code and Emscripten, pure C and C++.</li>
+</ol>
+<blockquote>
+<p><strong>info</strong> <code>main()</code> is the main entry point of C/C++ program, and its name decoration rule is special. Therefore, even if there is no special constraint in C++, the final symbol is still <code>_main()</code></p>
+<p><strong>tips</strong> As mentioned in the preface, we wish to write modules that insensitive to the compilation target. The third point above is the product of this concept.</p>
+</blockquote>
+<p>To fullfill the above, we define the <code>EM_PORT_API</code> macro as follows:</p>
+<pre><code class="lang-C"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> EM_PORT_API</span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">if</span> defined(__EMSCRIPTEN__)</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;emscripten.h&gt;</span></span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">if</span> defined(__cplusplus)</span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) extern <span class="hljs-string">&quot;C&quot;</span> rettype EMSCRIPTEN_KEEPALIVE</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) rettype EMSCRIPTEN_KEEPALIVE</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">if</span> defined(__cplusplus)</span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) extern <span class="hljs-string">&quot;C&quot;</span> rettype</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) rettype</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+</code></pre>
+<ul>
+<li><code>__EMSCRIPTEN__</code> macro is used to detect if it&apos;s a Emscripten environment.</li>
+<li><code>__cplusplus</code> is used to detect if it&apos;s a C++ environment.</li>
+<li><code>EMSCRIPTEN_KEEPALIVE</code> is a unique Emscripten macro tells the compiler that subsequent functions must be preserved during optimization and the function should be exported.</li>
+</ul>
+<p>In Emscripten, function declaration with <code>EM_PORT_API</code>:</p>
+<pre><code class="lang-c">EM_PORT_API(<span class="hljs-keyword">int</span>) Func(<span class="hljs-keyword">int</span> param);
+</code></pre>
+<p>will eventually be expanded as follows:</p>
+<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;emscripten.h&gt;</span></span>
+Extern <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">int</span> EMSCRIPTEN_KEEPALIVE <span class="hljs-title">Func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> param)</span></span>;
+</code></pre>
+<h2 id="212-calling-c-functions-from-javascript">2.1.2 Calling C functions from JavaScript</h2>
+<p>According to the analysis of the glue code in 1.3, we know that the <code>Module</code> object in JavaScript has encapsulated the function exported from the C. The name of the wrap method is the underscore <code>_</code> plus the function name in C. For example, we create a C source code file <code>export1.cc</code> as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//export1.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> EM_PORT_API</span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">if</span> defined(__EMSCRIPTEN__)</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;emscripten.h&gt;</span></span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">if</span> defined(__cplusplus)</span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) extern <span class="hljs-string">&quot;C&quot;</span> rettype EMSCRIPTEN_KEEPALIVE</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) rettype EMSCRIPTEN_KEEPALIVE</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">if</span> defined(__cplusplus)</span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) extern <span class="hljs-string">&quot;C&quot;</span> rettype</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#            <span class="hljs-meta-keyword">define</span> EM_PORT_API(rettype) rettype</span>
+<span class="hljs-meta">#        <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#    <span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+EM_PORT_API(<span class="hljs-keyword">int</span>) show_me_the_answer() {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>;
+}
+
+EM_PORT_API(<span class="hljs-keyword">float</span>) add(<span class="hljs-keyword">float</span> a, <span class="hljs-keyword">float</span> b) {
+    <span class="hljs-keyword">return</span> a + b;
+}
+</code></pre>
+<p>Compile it to WebAssembly binary code using the <code>emcc</code> command:</p>
+<pre><code>emcc export1.cc -o export1.js
+</code></pre><p>Create <code>export1.html</code> as follows:</p>
+<pre><code class="lang-html"><span class="hljs-meta">&lt;!doctype html&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Emscripten:Export1<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    Module = {};
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-built_in">console</span>.log(Module._show_me_the_answer());
+      <span class="hljs-built_in">console</span>.log(Module._add(<span class="hljs-number">12</span>, <span class="hljs-number">1.0</span>));
+    }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;export1.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<p><img src="images/01-export1.png" alt=""></p>
+<p>It should be noted that JavaScript is a weakly typed language. When calling a function, it does not require the caller to be consistent with the callee&apos;s signature. This is fundamentally different from C/C++. For example, the following calls are illegal for C:</p>
+<pre><code class="lang-c"><span class="hljs-keyword">int</span> k = show_me_the_answer(<span class="hljs-number">10</span>);
+<span class="hljs-keyword">float</span> f1 = add(<span class="hljs-number">12</span>, <span class="hljs-number">12</span>, <span class="hljs-number">12</span>);
+<span class="hljs-keyword">float</span> f2 = add(<span class="hljs-number">12</span>);
+</code></pre>
+<p>However in JavaScript, if the number of parameters given is more than the number of function parameters, the extra parameters are discarded - from left to right; if the number of parameters is less than the number of parameters, the insufficient parameters will be filled with <code>undefined</code> automatically. So the following JavaScript calls are legal:</p>
+<pre><code class="lang-js">      <span class="hljs-built_in">console</span>.log(Module._show_me_the_answer(<span class="hljs-number">10</span>));
+      <span class="hljs-built_in">console</span>.log(Module._add(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>));
+      <span class="hljs-built_in">console</span>.log(Module._add(<span class="hljs-number">12</span>));
+</code></pre>
+<p>The output of above code will be:</p>
+<p><img src="images/01-export2.png" alt=""></p>
+<p>Note that although the third call is syntactically legal, it returns a result of <code>NaN</code> because the missing argument is filled with <code>undefined</code> instead of 0.</p>
+<blockquote>
+<p><strong>tips</strong> We injected the test code into the page using the <code>onRuntimeInitialized</code> callback described in 1.3. In order to omit irrelevant information for easy reading, the complete code of the callback injection and the definition of the <code>EM_PORT_API</code> macro will not be repeated in subsequent chapters.</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="readme.html" class="navigation navigation-prev " aria-label="Previous page: Chapter 2 Connecting C and JavaScript">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch2-02-implement-c-api-in-js.html" class="navigation navigation-next " aria-label="Next page: 2.2 Implement C API in JavaScript">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.1 Calling compiled C functions from JavaScript","level":"1.3.1","depth":2,"next":{"title":"2.2 Implement C API in JavaScript","level":"1.3.2","depth":2,"path":"ch2-c-js/ch2-02-implement-c-api-in-js.md","ref":"ch2-c-js/ch2-02-implement-c-api-in-js.md","articles":[]},"previous":{"title":"Chapter 2 Connecting C and JavaScript","level":"1.3","depth":1,"path":"ch2-c-js/readme.md","ref":"ch2-c-js/readme.md","articles":[{"title":"2.1 Calling compiled C functions from JavaScript","level":"1.3.1","depth":2,"path":"ch2-c-js/ch2-01-js-call-c.md","ref":"ch2-c-js/ch2-01-js-call-c.md","articles":[]},{"title":"2.2 Implement C API in JavaScript","level":"1.3.2","depth":2,"path":"ch2-c-js/ch2-02-implement-c-api-in-js.md","ref":"ch2-c-js/ch2-02-implement-c-api-in-js.md","articles":[]},{"title":"2.3 Memory model","level":"1.3.3","depth":2,"path":"ch2-c-js/ch2-03-mem-model.md","ref":"ch2-c-js/ch2-03-mem-model.md","articles":[]},{"title":"2.4 Exchange data between C and JavaScript","level":"1.3.4","depth":2,"path":"ch2-c-js/ch2-04-data-exchange.md","ref":"ch2-c-js/ch2-04-data-exchange.md","articles":[]},{"title":"2.5 Using EM_ASM","level":"1.3.5","depth":2,"path":"ch2-c-js/ch2-05-em-asm.md","ref":"ch2-c-js/ch2-05-em-asm.md","articles":[]},{"title":"2.6 Using emscripten_run_script","level":"1.3.6","depth":2,"path":"ch2-c-js/ch2-06-run-script.md","ref":"ch2-c-js/ch2-06-run-script.md","articles":[]},{"title":"2.7 Using ccall/cwrap","level":"1.3.7","depth":2,"path":"ch2-c-js/ch2-07-ccall-cwrap.md","ref":"ch2-c-js/ch2-07-ccall-cwrap.md","articles":[]},{"title":"2.8 Supplement","level":"1.3.8","depth":2,"path":"ch2-c-js/ch2-08-ext.md","ref":"ch2-c-js/ch2-08-ext.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch2-c-js/ch2-01-js-call-c.md","mtime":"2019-01-16T03:17:28.073Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

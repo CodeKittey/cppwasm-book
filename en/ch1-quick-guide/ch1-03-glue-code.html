@@ -1,0 +1,919 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>1.3 Taking a look at the Emscripten glue code · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch1-04-compile.html" />
+    
+    
+    <link rel="prev" href="ch1-02-helloworld.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="ch1-01-install.html">
+            
+                <a href="ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="ch1-02-helloworld.html">
+            
+                <a href="ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.3" data-path="ch1-03-glue-code.html">
+            
+                <a href="ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="ch1-04-compile.html">
+            
+                <a href="ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >1.3 Taking a look at the Emscripten glue code</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="13-taking-a-look-at-the-emscripten-glue-code">1.3 Taking a look at the Emscripten glue code</h1>
+<p>Open the glue code <code>hello.js</code> generated by Emscripten in the previous section (1.2), we can see that most of the code are around the global object <code>Module</code>, which is the core of the Emscripten program runtime.</p>
+<blockquote>
+<p><strong>tips</strong> Skip 1.3.1 and 1.3.2 will not affect the reading of subsequent chapters. But if you are interested in the details of the Emscripten module loading, this section will help you understand the structure of the glue code. As the version of Emscripten is upgraded, the glue code may change. The code shown in this section is based on Emscripten 1.38.11.</p>
+</blockquote>
+<h2 id="131-loading-webassembly-module">1.3.1 Loading WebAssembly Module</h2>
+<p>The loading of the WebAssembly Module(<code>.wasm</code> file) is done in the <code>doNativeWasm()</code> function. The core parts are as follows:</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instantiateArrayBuffer</span>(<span class="hljs-params">receiver</span>) </span>{
+      getBinaryPromise().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">binary</span>) </span>{
+        <span class="hljs-keyword">return</span> WebAssembly.instantiate(binary, info);
+      }).then(receiver).catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">reason</span>) </span>{
+        err(<span class="hljs-string">&apos;failed to asynchronously prepare wasm: &apos;</span> + reason);
+        abort(reason);
+      });
+    }
+    <span class="hljs-comment">// Prefer streaming instantiation if available.</span>
+    <span class="hljs-keyword">if</span> (!Module[<span class="hljs-string">&apos;wasmBinary&apos;</span>] &amp;&amp;
+        <span class="hljs-keyword">typeof</span> WebAssembly.instantiateStreaming === <span class="hljs-string">&apos;function&apos;</span> &amp;&amp;
+        !isDataURI(wasmBinaryFile) &amp;&amp;
+        <span class="hljs-keyword">typeof</span> fetch === <span class="hljs-string">&apos;function&apos;</span>) {
+      WebAssembly.instantiateStreaming(fetch(wasmBinaryFile, { credentials: <span class="hljs-string">&apos;same-origin&apos;</span> }), info)
+        .then(receiveInstantiatedSource)
+        .catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">reason</span>) </span>{
+          <span class="hljs-comment">// We expect the most common failure cause to be a bad MIME type for the binary,</span>
+          <span class="hljs-comment">// in which case falling back to ArrayBuffer instantiation should work.</span>
+          err(<span class="hljs-string">&apos;wasm streaming compile failed: &apos;</span> + reason);
+          err(<span class="hljs-string">&apos;falling back to ArrayBuffer instantiation&apos;</span>);
+          instantiateArrayBuffer(receiveInstantiatedSource);
+        });
+    } <span class="hljs-keyword">else</span> {
+      instantiateArrayBuffer(receiveInstantiatedSource);
+    }
+</code></pre>
+<p>This dazzling array of code actually only does a few things:</p>
+<ol>
+<li>Try to create an <code>WebAssembly.Instance</code> using the <code>WebAssembly.instantiateStreaming()</code> function;</li>
+<li>If the streaming creation fails, use the <code>WebAssembly.instantiate()</code> function instead to create an <code>WebAssembly.Instance</code>;</li>
+<li>The returned <code>WebAssembly.Instance</code> after successful instantiation is handled by the <code>receiveInstantiatedSource()</code> function.</li>
+</ol>
+<p><code>receiveInstantiatedSource()</code> related codes are as follows:</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">receiveInstance</span>(<span class="hljs-params">instance, module</span>) </span>{
+      exports = instance.exports;
+      <span class="hljs-keyword">if</span> (exports.memory) mergeMemory(exports.memory);
+      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+      Module[<span class="hljs-string">&quot;usingWasm&quot;</span>] = <span class="hljs-literal">true</span>;
+      removeRunDependency(<span class="hljs-string">&apos;wasm-instantiate&apos;</span>);
+    }
+
+    ......
+
+    function receiveInstantiatedSource(output) {
+      <span class="hljs-comment">// &apos;output&apos; is a WebAssemblyInstantiatedSource object which has both the module and instance.</span>
+      <span class="hljs-comment">// receiveInstance() will swap in the exports (to Module.asm) so they can be called</span>
+      assert(Module === trueModule, <span class="hljs-string">&apos;the Module object should not be replaced during async compilation - perhaps the order of HTML elements is wrong?&apos;</span>);
+      trueModule = <span class="hljs-literal">null</span>;
+      receiveInstance(output[<span class="hljs-string">&apos;instance&apos;</span>], output[<span class="hljs-string">&apos;module&apos;</span>]);
+    }
+</code></pre>
+<p>The <code>receiveInstantiatedSource()</code> function calls the <code>receiveInstance()</code> function. The exported object of the instance is passed to the <code>Module[&apos;asm&apos;]</code> by the following instruction:</p>
+<pre><code class="lang-js">      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+</code></pre>
+<p>If we manually add the code of printing the exported object of the instance in the above function:</p>
+<pre><code class="lang-js">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">receiveInstance</span>(<span class="hljs-params">instance, module</span>) </span>{
+      ... ...
+      Module[<span class="hljs-string">&apos;asm&apos;</span>] = exports;
+      <span class="hljs-built_in">console</span>.log(Module[<span class="hljs-string">&apos;asm&apos;</span>]);  <span class="hljs-comment">//print instance.exports</span>
+      ... ...
+</code></pre>
+<p>The console will output&#xFF1A;</p>
+<p><img src="images/export_log.png" alt=""></p>
+<p>It can be seen that after the above series of code runs, <code>Module[&apos;asm&apos;]</code> saves the exported object of the WebAssembly instance - and the exported function is just the most important entry for the external call of the WebAssembly instance.</p>
+<h2 id="132-wrapping-exported-fucntions">1.3.2 Wrapping exported fucntions</h2>
+<p>In order to facilitate the call, Emscripten provides wrappers for the functions exported from C/C++. In <code>hello.js</code>, we can find a lot of wrap code like these:</p>
+<pre><code class="lang-js">... ...
+var _main = Module[<span class="hljs-string">&quot;_main&quot;</span>] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  assert(runtimeInitialized, <span class="hljs-string">&apos;you need to wait for the runtime to be ready (e.g. wait for main() to be called)&apos;</span>);
+  assert(!runtimeExited, <span class="hljs-string">&apos;the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)&apos;</span>);
+  <span class="hljs-keyword">return</span> Module[<span class="hljs-string">&quot;asm&quot;</span>][<span class="hljs-string">&quot;_main&quot;</span>].apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">arguments</span>) };
+<span class="hljs-keyword">var</span> _malloc = Module[<span class="hljs-string">&quot;_malloc&quot;</span>] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  assert(runtimeInitialized, <span class="hljs-string">&apos;you need to wait for the runtime to be ready (e.g. wait for main() to be called)&apos;</span>);
+  assert(!runtimeExited, <span class="hljs-string">&apos;the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)&apos;</span>);
+  <span class="hljs-keyword">return</span> Module[<span class="hljs-string">&quot;asm&quot;</span>][<span class="hljs-string">&quot;_malloc&quot;</span>].apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">arguments</span>) };
+... ...
+</code></pre>
+<p>In Emscripten, when the C function is exported, the underscore &quot;_&quot; is added before the function name. This shows that the above code provides the wrappers of <code>main()</code> and <code>malloc()</code> functions respectively. <code>var _main</code> and <code>Module._main</code> are the corresponding <code>main()</code> function in <code>hello.cc</code>. We can verify this by manually executing <code>_main()</code> and <code>Module._main()</code> in the browser&apos;s console:</p>
+<p><img src="images/func_wrap_log.png" alt=""></p>
+<p>Unsurprisingly, both executed the C function <code>main()</code> and output &quot;&#x4F60;&#x597D;&#xFF0C;&#x4E16;&#x754C;&#xFF01;&quot;.</p>
+<h2 id="133-asynchronous-loading">1.3.3 Asynchronous loading</h2>
+<p>The WebAssembly instance is created by the <code>WebAssembly.instantiateStreaming()</code>/<code>WebAssembly.instantiate()</code> method, and both methods are asynchronous, which means that the Emscripten runtime is not ready when the .js file is loaded. If we modify <code>test.html</code>, execute <code>Module._main()</code> immediately after loading .js like this:</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;hello.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="undefined">
+      Module._main();
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre>
+<p>The console will output the following error message:</p>
+<pre><code>Assertion failed: you need to wait for the runtime to be ready (e.g. wait for main() to be called)
+</code></pre><p>Solving this problem requires establishing a notification mechanism when the runtime is ready. For this, Emscripten provides a variety of solutions. The easiest way is to fire a notification in the <code>main()</code> function, but for many modules, the <code>main()</code> function is not required, so the method we often used is the <code>onRuntimeInitialized</code> callback which does not depend on the <code>main()</code>. An example of this method is shown as follow:</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+      Module = {};
+      Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//do sth.</span>
+        Module._main();
+      }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;hello.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre>
+<p>The basic idea is to inject a method called <code>onRuntimeInitialized</code> into <code>Module</code> before the <code>Module</code> is initialized. After the runtime of Emscripten is ready, the method will be called. In <code>hello.js</code>, we can observe the calling process of the callback:</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span>(<span class="hljs-params">args</span>) </span>{
+  ... ...
+    ensureInitRuntime();
+
+    preMain();
+
+    <span class="hljs-keyword">if</span> (Module[<span class="hljs-string">&apos;onRuntimeInitialized&apos;</span>]) Module[<span class="hljs-string">&apos;onRuntimeInitialized&apos;</span>]();
+
+    <span class="hljs-keyword">if</span> (Module[<span class="hljs-string">&apos;_main&apos;</span>] &amp;&amp; shouldRunNow) Module[<span class="hljs-string">&apos;callMain&apos;</span>](args);
+
+    postRun();
+  ... ...
+}
+</code></pre>
+<blockquote>
+<p><strong>tips</strong> In the sample code of this book, the <code>onRuntimeInitialized</code> callback method is used extensively as the test function entry.</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch1-02-helloworld.html" class="navigation navigation-prev " aria-label="Previous page: 1.2 Hello, world!">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch1-04-compile.html" class="navigation navigation-next " aria-label="Next page: 1.4 Selecting compilation target">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"1.3 Taking a look at the Emscripten glue code","level":"1.2.3","depth":2,"next":{"title":"1.4 Selecting compilation target","level":"1.2.4","depth":2,"path":"ch1-quick-guide/ch1-04-compile.md","ref":"ch1-quick-guide/ch1-04-compile.md","articles":[]},"previous":{"title":"1.2 Hello, world!","level":"1.2.2","depth":2,"path":"ch1-quick-guide/ch1-02-helloworld.md","ref":"ch1-quick-guide/ch1-02-helloworld.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch1-quick-guide/ch1-03-glue-code.md","mtime":"2019-01-16T03:17:28.071Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,877 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>7.1 Canvas · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch7-02-mouse.html" />
+    
+    
+    <link rel="prev" href="readme.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.8.1" data-path="ch7-01-canvas.html">
+            
+                <a href="ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="ch7-02-mouse.html">
+            
+                <a href="ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="ch7-03-keyboard.html">
+            
+                <a href="ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="ch7-04-life.html">
+            
+                <a href="ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >7.1 Canvas</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="71-canvas">7.1 Canvas</h1>
+<p>The <code>Canvas</code> object is similar to the <code>DC</code> object in the Windows system. It is a rectangular area on the screen that provides a series of operations such as as line drawing, polygon filling, character output, etc. Most importantly, it can read and write the RGBA value of pixels in the area directly, which allows us to draw arbitrary images on the <code>Canvas</code>.</p>
+<p>The example in this section create a page that contains a <code>Canvas</code>, and a red circle that is rounded up and down will be drawn on the <code>Canvas</code>. among them:</p>
+<ul>
+<li>C code manages image data and drawing of circles;</li>
+<li>JavaScript code updates Canvas data and animation.</li>
+</ul>
+<p>C code:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//canvas.html</span>
+<span class="hljs-keyword">uint8_t</span> *img_buf = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">int</span> img_width = <span class="hljs-number">0</span>, img_height = <span class="hljs-number">0</span>;
+
+EM_PORT_API(<span class="hljs-keyword">uint8_t</span>*) get_img_buf(<span class="hljs-keyword">int</span> w, <span class="hljs-keyword">int</span> h) {
+    <span class="hljs-keyword">if</span> (img_buf == <span class="hljs-literal">NULL</span> || w != img_width || h != img_height) {
+        <span class="hljs-keyword">if</span> (img_buf) {
+            <span class="hljs-built_in">free</span>(img_buf);
+        }
+        img_buf = (<span class="hljs-keyword">uint8_t</span>*)<span class="hljs-built_in">malloc</span>(w * h * <span class="hljs-number">4</span>);
+        img_width = w;
+        img_height = h;
+    }
+
+    <span class="hljs-keyword">return</span> img_buf;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) draw_circle(<span class="hljs-keyword">int</span> cx, <span class="hljs-keyword">int</span> cy, <span class="hljs-keyword">int</span> radii) {
+    <span class="hljs-keyword">int</span> sq = radii * radii;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> y = <span class="hljs-number">0</span>; y &lt; img_height; y++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>; x &lt; img_width; x++) {
+            <span class="hljs-keyword">int</span> d = (y - cy) * (y - cy) + (x - cx) * (x - cx);
+            <span class="hljs-keyword">if</span> (d &lt; sq) {
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span>] = <span class="hljs-number">255</span>;        <span class="hljs-comment">//r</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;    <span class="hljs-comment">//g</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">2</span>] = <span class="hljs-number">0</span>;    <span class="hljs-comment">//b</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">3</span>] = <span class="hljs-number">255</span>;    <span class="hljs-comment">//a</span>
+            }
+            <span class="hljs-keyword">else</span> {
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span>] = <span class="hljs-number">0</span>;        <span class="hljs-comment">//r</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">1</span>] = <span class="hljs-number">255</span>;    <span class="hljs-comment">//g</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">2</span>] = <span class="hljs-number">255</span>;    <span class="hljs-comment">//b</span>
+                img_buf[(y * img_width + x) * <span class="hljs-number">4</span> + <span class="hljs-number">3</span>] = <span class="hljs-number">255</span>;    <span class="hljs-comment">//a</span>
+            }
+        }
+    }
+}
+</code></pre>
+<p><code>img_buf</code> points to the buffer used to hold the bitmap. The <code>get_img_buf()</code> function will determine if the buffer needs to be recreated based on the parameters passed in. The <code>draw_circle()</code> function will fill the drawn circle with the specified radius at the specified position.</p>
+<p>html:</p>
+<pre><code class="lang-html">//canvas.html
+    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myCanvas&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    Module = {};
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;myCanvas&apos;</span>);
+      canvas.width = <span class="hljs-number">400</span>;
+      canvas.height = <span class="hljs-number">400</span>;
+      <span class="hljs-built_in">window</span>.requestAnimationFrame(update);
+    }
+
+    <span class="hljs-keyword">var</span> radii = <span class="hljs-number">0</span>, delta = <span class="hljs-number">1</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> buf_addr = Module._get_img_buf(<span class="hljs-number">400</span>, <span class="hljs-number">400</span>);
+      Module._draw_circle(<span class="hljs-number">200</span>, <span class="hljs-number">200</span>, radii);
+      radii += delta;
+      <span class="hljs-keyword">if</span> (radii &gt; <span class="hljs-number">200</span> || radii &lt; <span class="hljs-number">0</span>) delta = -delta;
+
+      <span class="hljs-keyword">var</span> u8o = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8ClampedArray</span>(Module.HEAPU8.subarray(buf_addr,
+        buf_addr + <span class="hljs-number">400</span> * <span class="hljs-number">400</span> * <span class="hljs-number">4</span>));
+      <span class="hljs-keyword">var</span> imgData = <span class="hljs-keyword">new</span> ImageData(u8o, <span class="hljs-number">400</span>, <span class="hljs-number">400</span>);
+
+      <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;myCanvas&apos;</span>);
+      <span class="hljs-keyword">var</span> ctx = canvas.getContext(<span class="hljs-string">&apos;2d&apos;</span>);
+      ctx.putImageData(imgData, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+
+      <span class="hljs-built_in">window</span>.requestAnimationFrame(update);
+    }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;canvas.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>The <code>Canvas</code> element with id <code>myCanvas</code> is declared in html. When each frame is updated, the image data is extracted from the Emscripten runtime <code>Module</code>, the <code>ImageData</code> object <code>imgData</code> is created, and the <code>CanvasRenderingContext2D</code> object <code>ctx</code> is updated by <code>imgData</code>. The overall data flow is shown below:</p>
+<p><img src="images/01-flow.png" alt=""></p>
+<p>Compile with the following command:</p>
+<pre><code>emcc canvas.cc -o canvas.js
+</code></pre><p>Browsing the page, a red circle that grows bigger and smaller will appear on the cyan background:</p>
+<p><img src="images/01-page.png" alt=""></p>
+<p>In fact, the <code>Canvas</code> object has built-in drawing methods for various geometries including circles, rectangles, and sectors. The code above uses the custom <code>draw_circle()</code> function to demonstrate how to manipulate bitmaps in C, and how to extract the image and update to <code>Canvas</code>. For details on related objects such as <code>Canvas</code>, <code>ImageData</code>, <code>CanvasRenderingContext2D</code>, refer to MDN.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="readme.html" class="navigation navigation-prev " aria-label="Previous page: Chapter 7 GUI">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch7-02-mouse.html" class="navigation navigation-next " aria-label="Next page: 7.2 Mouse events">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"7.1 Canvas","level":"1.8.1","depth":2,"next":{"title":"7.2 Mouse events","level":"1.8.2","depth":2,"path":"ch7-gui/ch7-02-mouse.md","ref":"ch7-gui/ch7-02-mouse.md","articles":[]},"previous":{"title":"Chapter 7 GUI","level":"1.8","depth":1,"path":"ch7-gui/readme.md","ref":"ch7-gui/readme.md","articles":[{"title":"7.1 Canvas","level":"1.8.1","depth":2,"path":"ch7-gui/ch7-01-canvas.md","ref":"ch7-gui/ch7-01-canvas.md","articles":[]},{"title":"7.2 Mouse events","level":"1.8.2","depth":2,"path":"ch7-gui/ch7-02-mouse.md","ref":"ch7-gui/ch7-02-mouse.md","articles":[]},{"title":"7.3 Keyboard events","level":"1.8.3","depth":2,"path":"ch7-gui/ch7-03-keyboard.md","ref":"ch7-gui/ch7-03-keyboard.md","articles":[]},{"title":"7.4 Conway's Game of Life","level":"1.8.4","depth":2,"path":"ch7-gui/ch7-04-life.md","ref":"ch7-gui/ch7-04-life.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch7-gui/ch7-01-canvas.md","mtime":"2019-01-22T14:51:31.380Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

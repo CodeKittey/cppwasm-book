@@ -1,0 +1,831 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.4 内存管理 · C/C++面向WebAssembly编程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch3-05-module.html" />
+    
+    
+    <link rel="prev" href="ch3-03-fs.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    第1章 Emscripten快速入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 安装Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 你好，世界！
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 胶水代码初探
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 编译目标及编译流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    第2章 C与JavaScript互操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 JavaScript调用C函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 JavaScript函数注入C
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 单向透明的内存模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 JavaScript与C交换数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 EM_ASM系列宏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 emscripten_run_script系列函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 补充说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    第3章 Emscripten运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="ch3-01-main.html">
+            
+                <a href="ch3-01-main.html">
+            
+                    
+                    3.1 main函数与生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="ch3-02-message-loop.html">
+            
+                <a href="ch3-02-message-loop.html">
+            
+                    
+                    3.2 消息循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="ch3-03-fs.html">
+            
+                <a href="ch3-03-fs.html">
+            
+                    
+                    3.3 文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.4" data-path="ch3-04-mem.html">
+            
+                <a href="ch3-04-mem.html">
+            
+                    
+                    3.4 内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="ch3-05-module.html">
+            
+                <a href="ch3-05-module.html">
+            
+                    
+                    3.5 Module定制及其他
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="ch3-06-summary.html">
+            
+                <a href="ch3-06-summary.html">
+            
+                    
+                    3.6 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    第4章 WebAssembly友好的一般性方法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 消息循环分离
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 内存对齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 使用C接口导出C++对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 C++对象生命周期控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 使用C接口注入JavaScript对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 小心int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 忘掉文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    第5章 网络IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    第6章 多线程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 JavaScript中的并发模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 在Worker中使用Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    第7章 GUI及交互
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 鼠标事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 键盘事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Life游戏
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >3.4 内存管理</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="34-&#x5185;&#x5B58;&#x7BA1;&#x7406;">3.4 &#x5185;&#x5B58;&#x7BA1;&#x7406;</h1>
+<p>&#x7B2C;2&#x7AE0;&#x6211;&#x4EEC;&#x4ECB;&#x7ECD;&#x4E86;Emscripten&#x4F7F;&#x7528;&#x7684;&#x7EBF;&#x6027;&#x5185;&#x5B58;&#x6A21;&#x578B;&#xFF0C;&#x4EE5;&#x53CA;C/C++&#x4EE3;&#x7801;&#x548C;JavaScript&#x4EE3;&#x7801;&#x901A;&#x8FC7;Emscripten&#x5806;&#x4EA4;&#x6362;&#x6570;&#x636E;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x672C;&#x8282;&#x5C06;&#x4ECB;&#x7ECD;Emscripten&#x5806;&#xFF08;&#x65E2;&#x5185;&#x5B58;&#xFF09;&#x7BA1;&#x7406;&#x7684;&#x76F8;&#x5173;&#x5185;&#x5BB9;&#x3002;</p>
+<h2 id="341-&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x6808;&#x5BB9;&#x91CF;">3.4.1 &#x5185;&#x5B58;&#x5BB9;&#x91CF;/&#x6808;&#x5BB9;&#x91CF;</h2>
+<p>Emscripten&#x5F53;&#x524D;&#x7248;&#x672C;&#xFF08;v 1.38.11&#xFF09;&#x9ED8;&#x8BA4;&#x7684;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x4E3A;16MB&#xFF0C;&#x6808;&#x5BB9;&#x91CF;&#x4E3A;5MB&#x3002;</p>
+<p>&#x5728;&#x4F7F;&#x7528;<code>emcc</code>&#x7F16;&#x8BD1;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>TOTAL_MEMORY</code>&#x53C2;&#x6570;&#x63A7;&#x5236;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>emcc mem.cc -s TOTAL_MEMORY=67108864 -o mem.js
+</code></pre><p>&#x4E0A;&#x8FF0;&#x547D;&#x4EE4;&#x901A;&#x8FC7;<code>-s TOTAL_MEMORY=67108864</code>&#x5C06;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x8BBE;&#x7F6E;&#x4E3A;64MB&#x3002;</p>
+<p>&#x76F8;&#x5E94;&#x7684;&#xFF0C;&#x6808;&#x5BB9;&#x91CF;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<code>TOTAL_STACK</code>&#x53C2;&#x6570;&#x63A7;&#x5236;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x5C06;&#x6808;&#x5BB9;&#x91CF;&#x8BBE;&#x4E3A;3MB&#xFF1A;</p>
+<pre><code>emcc mem.cc -s TOTAL_STACK=3145728 -o mem.js
+</code></pre><p>&#x6808;&#x7A7A;&#x95F4;&#x6D88;&#x8017;&#x5185;&#x5B58;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6808;&#x7A7A;&#x95F4;&#x4E0D;&#x53EF;&#x8C03;&#xFF0C;&#x5B9E;&#x9645;&#x7A0B;&#x5E8F;&#x53EF;&#x7528;&#x7684;&#x5806;&#x7A7A;&#x95F4;&#x5BB9;&#x91CF;&#x5C0F;&#x7B49;&#x4E8E;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x51CF;&#x53BB;&#x6808;&#x5BB9;&#x91CF;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x8BBE;&#x7F6E;&#x7F16;&#x8BD1;&#x53C2;&#x6570;&#x65F6;&#xFF0C;<code>TOTAL_MEMORY</code>&#x5FC5;&#x987B;&#x5927;&#x4E8E;<code>TOTAL_STACK</code>&#x3002;</p>
+<p>&#x7531;&#x4E8E;WebAssembly&#x5185;&#x5B58;&#x5355;&#x4F4D;&#x4E3A;&#x9875;&#xFF0C;1&#x9875;=64KB&#xFF0C;&#x56E0;&#x6B64;&#x5F53;&#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x4E3A;<code>wasm</code>&#x65F6;&#xFF0C;<code>TOTAL_MEMORY</code>&#x5FC5;&#x987B;&#x4E3A;64KB&#x7684;&#x6574;&#x6570;&#x500D;&#x3002;</p>
+<p>&#x9664;&#x4E86;&#x901A;&#x8FC7;<code>TOTAL_MEMORY</code>&#x53C2;&#x6570;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x8BBE;&#x5B9A;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x9884;&#x8BBE;<code>Module</code>&#x5BF9;&#x8C61;<code>TOTAL_MEMORY</code>&#x5C5E;&#x6027;&#x503C;&#x7684;&#x65B9;&#x6CD5;&#x8BBE;&#x5B9A;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x5217;JavaScript&#x811A;&#x672C;&#x5C06;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x8BBE;&#x5B9A;&#x4E3A;128MB&#xFF1A;</p>
+<pre><code class="lang-js">    &lt;script&gt;
+    var Module = {
+        TOTAL_MEMORY : 134217728
+    }
+    &lt;/script&gt;
+    &lt;script src=&quot;mem.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>&#x5728;&#x4E0A;&#x4F8B;&#x4E2D;&#xFF0C;Emscripten&#x6A21;&#x5757;&#x4F4D;&#x4E8E;<code>mem.js</code>&#x4E2D;&#x3002;&#x8BE5;&#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x4F1A;&#x8986;&#x76D6;&#x7F16;&#x8BD1;&#x65F6;&#x53C2;&#x6570;&#xFF0C;&#x4F46;&#x9700;&#x8981;&#x7279;&#x522B;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5FC5;&#x987B;&#x5728;Emscripten&#x6A21;&#x5757;&#x88C5;&#x8F7D;&#x524D;&#x9884;&#x8BBE;<code>Module.TOTAL_MEMORY</code>&#x7684;&#x503C;&#xFF0C;&#x82E5;&#x5728;<code>mem.js</code>&#x52A0;&#x8F7D;&#x540E;&#x4FEE;&#x6539;<code>Module.TOTAL_MEMORY</code>&#xFF0C;&#x4E0D;&#x4F1A;&#x66F4;&#x6539;&#x5185;&#x5B58;&#x7684;&#x5B9E;&#x9645;&#x5BB9;&#x91CF;&#x3002;</p>
+<h2 id="342-&#x53EF;&#x53D8;&#x5185;&#x5B58;">3.4.2 &#x53EF;&#x53D8;&#x5185;&#x5B58;</h2>
+<p>&#x5728;&#x9ED8;&#x8BA4;&#x8BBE;&#x7F6E;&#x4E0B;&#xFF0C;Emscripten&#x5806;&#x4E00;&#x7ECF;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5BB9;&#x91CF;&#x5C31;&#x56FA;&#x5B9A;&#x4E86;&#xFF0C;&#x65E0;&#x6CD5;&#x518D;&#x6269;&#x5BB9;&#x3002;&#x800C;&#x67D0;&#x4E9B;&#x7A0B;&#x5E8F;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x9700;&#x8981;&#x7684;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x5728;&#x4E0D;&#x540C;&#x5DE5;&#x51B5;&#x4E0B;&#x53EF;&#x80FD;&#x6709;&#x5F88;&#x5927;&#x7684;&#x6CE2;&#x52A8;&#x3002;&#x4E3A;&#x4E86;&#x6EE1;&#x8DB3;&#x67D0;&#x4E9B;&#x6781;&#x7AEF;&#x5DE5;&#x51B5;&#x7684;&#x9700;&#x6C42;&#x800C;&#x5C06;<code>TOTAL_MEMORY</code>&#x8BBE;&#x7F6E;&#x5F97;&#x975E;&#x5E38;&#x9AD8;&#x65E0;&#x7591;&#x662F;&#x975E;&#x5E38;&#x6D6A;&#x8D39;&#x7684;&#xFF0C;&#x4E3A;&#x6B64;&#xFF0C;Emscripten&#x63D0;&#x4F9B;&#x4E86;&#x53EF;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6269;&#x5927;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x7684;&#x6A21;&#x5F0F;&#xFF0C;&#x6B32;&#x5F00;&#x542F;&#x8BE5;&#x6A21;&#x5F0F;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x589E;&#x52A0;<code>-s ALLOW_MEMORY_GROWTH=1</code>&#x53C2;&#x6570;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>emcc mem.cc -s ALLOW_MEMORY_GROWTH=1 -o mem.js
+</code></pre><p>&#x5728;&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x4F7F;&#x7528;<code>malloc</code>&#x7B49;&#x51FD;&#x6570;&#x5206;&#x914D;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x82E5;&#x53EF;&#x7528;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#xFF0C;&#x5C06;&#x5F15;&#x53D1;Emscripten&#x5806;&#x6269;&#x5BB9;&#x3002;&#x6269;&#x5BB9;&#x65F6;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;&#x539F;&#x6709;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x88AB;&#x62F7;&#x5165;&#x6269;&#x5BB9;&#x540E;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x56E0;&#x6B64;&#x6269;&#x5BB9;&#x5E76;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x4E22;&#x5931;&#x6216;&#x5730;&#x5740;&#x53D8;&#x66F4;&#x3002;</p>
+<p>&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x867D;&#x7136;&#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x591A;&#x4FBF;&#x5229;&#xFF0C;&#x4F46;&#x5F53;&#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x4E3A;<code>asm.js</code>&#x65F6;&#xFF0C;&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x6A21;&#x5F0F;&#x4F1A;&#x5F71;&#x54CD;&#x6027;&#x80FD;&#x3002;&#x7136;&#x800C;&#x53EF;&#x6269;&#x5BB9;&#x7684;&#x5185;&#x5B58;&#x662F;WebAssembly&#x7684;&#x81EA;&#x6709;&#x7279;&#x6027;&#xFF0C;&#x5F53;&#x7F16;&#x8BD1;&#x76EE;&#x6807;&#x4E3A;<code>wasm</code>&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x6A21;&#x5F0F;&#x975E;&#x5E38;&#x9AD8;&#x6548;&#xFF0C;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x8FD0;&#x884C;&#x6027;&#x80FD;&#xFF0C;&#x56E0;&#x6B64;&#x5728;&#x7F16;&#x8BD1;&#x4E3A;WebAssembly&#x65F6;&#xFF0C;&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x662F;&#x63A8;&#x8350;&#x7528;&#x6CD5;&#x3002;</p>
+<blockquote>
+<p><strong>tips</strong> &#x5373;&#x4F7F;&#x91C7;&#x7528;&#x4E86;&#x53EF;&#x53D8;&#x5185;&#x5B58;&#x6A21;&#x5F0F;&#xFF0C;&#x5185;&#x5B58;&#x5BB9;&#x91CF;&#x4ECD;&#x7136;&#x53D7;32&#x4F4D;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x7684;&#x9650;&#x5236;&#x3002;</p>
+</blockquote>
+<h2 id="343-&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;">3.4.3 &#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;</h2>
+<p>Emscripten&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x79CD;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#xFF1A;</p>
+<ul>
+<li><code>dlmalloc</code> &#x9ED8;&#x8BA4;&#x503C;&#x3002;&#x7531;Doug Lea&#x521B;&#x5EFA;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#xFF0C;&#x5176;&#x53D8;&#x79CD;&#x5E7F;&#x6CDB;&#x4F7F;&#x7528;&#x4E8E;Linux&#x7B49;&#x3002;</li>
+<li><code>emmalloc</code> &#x4E13;&#x4E3A;Emscripten&#x8BBE;&#x8BA1;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#x3002;</li>
+</ul>
+<p><code>emmalloc</code>&#x7684;&#x4EE3;&#x7801;&#x4F53;&#x79EF;&#x5C0F;&#x4E8E;<code>dlmalloc</code>&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x7A0B;&#x5E8F;&#x4E2D;&#x9891;&#x7E41;&#x7533;&#x8BF7;&#x5927;&#x91CF;&#x7684;&#x5C0F;&#x7247;&#x5185;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;<code>dlmalloc</code>&#x6027;&#x80FD;&#x8F83;&#x597D;&#x3002;</p>
+<p>&#x7F16;&#x8BD1;&#x65F6;&#x8BBE;&#x7F6E;<code>MALLOC</code>&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x6307;&#x5B9A;&#x4F7F;&#x7528;<code>emmalloc</code>&#xFF1A;</p>
+<pre><code>emcc mem.cc -s MALLOC=&quot;emmalloc&quot; -o mem.js
+</code></pre><blockquote>
+<p><strong>tips</strong> &#x9664;&#x975E;&#x5BF9;&#x4E8E;&#x4EE3;&#x7801;&#x4F53;&#x79EF;&#x6781;&#x5EA6;&#x654F;&#x611F;&#x7684;&#x573A;&#x5408;&#xFF0C;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;<code>dlmalloc</code>&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#x65E0;&#x7591;&#x662F;&#x66F4;&#x4F18;&#x7684;&#x9009;&#x62E9;&#x3002;</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch3-03-fs.html" class="navigation navigation-prev " aria-label="Previous page: 3.3 文件系统">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch3-05-module.html" class="navigation navigation-next " aria-label="Next page: 3.5 Module定制及其他">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.4 内存管理","level":"1.4.4","depth":2,"next":{"title":"3.5 Module定制及其他","level":"1.4.5","depth":2,"path":"ch3-runtime/ch3-05-module.md","ref":"ch3-runtime/ch3-05-module.md","articles":[]},"previous":{"title":"3.3 文件系统","level":"1.4.3","depth":2,"path":"ch3-runtime/ch3-03-fs.md","ref":"ch3-runtime/ch3-03-fs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"C/C++面向WebAssembly编程","language":"zh-hans","gitbook":"3.x","description":"C/C++面向WebAssembly编程——Emscripten工程实践"},"file":{"path":"ch3-runtime/ch3-04-mem.md","mtime":"2018-12-29T07:58:51.905Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"zh"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

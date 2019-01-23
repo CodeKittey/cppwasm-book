@@ -1,0 +1,1012 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>5.2 WebSocket · C/C++面向WebAssembly编程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../ch6-threads/readme.html" />
+    
+    
+    <link rel="prev" href="ch5-01-http.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    第1章 Emscripten快速入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 安装Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 你好，世界！
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 胶水代码初探
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 编译目标及编译流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    第2章 C与JavaScript互操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 JavaScript调用C函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 JavaScript函数注入C
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 单向透明的内存模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 JavaScript与C交换数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 EM_ASM系列宏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 emscripten_run_script系列函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 补充说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    第3章 Emscripten运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 main函数与生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 消息循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Module定制及其他
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    第4章 WebAssembly友好的一般性方法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 消息循环分离
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 内存对齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 使用C接口导出C++对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 C++对象生命周期控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 使用C接口注入JavaScript对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 小心int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 忘掉文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    第5章 网络IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="ch5-01-http.html">
+            
+                <a href="ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6.2" data-path="ch5-02-websocket.html">
+            
+                <a href="ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    第6章 多线程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 JavaScript中的并发模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 在Worker中使用Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    第7章 GUI及交互
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 鼠标事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 键盘事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Life游戏
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >5.2 WebSocket</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="52-websocket">5.2 WebSocket</h1>
+<p>&#x672C;&#x8282;&#x5C06;&#x4ECB;&#x7ECD;&#x5728;Emscripten&#x4E2D;&#x4F7F;&#x7528;WebSocket&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<h2 id="521-websocket&#x7B80;&#x4ECB;">5.2.1 WebSocket&#x7B80;&#x4ECB;</h2>
+<p>WebSocket&#x534F;&#x8BAE;&#x5728;2011&#x5E74;&#x5DF2;&#x6210;&#x4E3A;&#x56FD;&#x9645;&#x6807;&#x51C6;&#xFF0C;&#x76EE;&#x524D;&#x4E3B;&#x6D41;&#x6D4F;&#x89C8;&#x5668;&#x5747;&#x5DF2;&#x652F;&#x6301;&#x3002;&#x4E0E;HTTP&#x534F;&#x8BAE;&#x76F8;&#x6BD4;&#xFF0C;WebSocket&#x6709;&#x5982;&#x4E0B;&#x7279;&#x70B9;&#xFF1A;</p>
+<ol>
+<li>WebSocket&#x662F;&#x957F;&#x8FDE;&#x63A5;&#x534F;&#x8BAE;&#xFF0C;&#x4E00;&#x6B21;&#x63E1;&#x624B;&#x8FDE;&#x63A5;&#x6210;&#x529F;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x53D1;&#x9001;&#x6570;&#x636E;&#xFF1B;</li>
+<li>&#x4E0D;&#x540C;&#x4E8E;HTTP&#x53EA;&#x80FD;&#x7531;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x8D77;&#x5355;&#x5411;&#x8BF7;&#x6C42;&#xFF0C;WebSocket&#x662F;&#x53CC;&#x5411;&#x534F;&#x8BAE;&#xFF0C;&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x540E;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x5668;&#x90FD;&#x53EF;&#x4EE5;&#x4E3B;&#x52A8;&#x5411;&#x5BF9;&#x65B9;&#x53D1;&#x9001;&#x6570;&#x636E;&#xFF1B;</li>
+<li>WebSocket&#x65E2;&#x53EF;&#x4EE5;&#x53D1;&#x9001;&#x6587;&#x672C;&#x6570;&#x636E;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x53D1;&#x9001;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#xFF1B;</li>
+<li>WebSocket&#x6CA1;&#x6709;&#x540C;&#x6E90;&#x9650;&#x5236;&#xFF1B;</li>
+<li>&#x975E;&#x52A0;&#x5BC6;&#x7684;WebSocket&#x4EE5;<code>ws</code>&#x4E3A;&#x534F;&#x8BAE;&#x6807;&#x8BC6;&#x7B26;&#xFF0C;&#x4F7F;&#x7528;TCP&#x534F;&#x8BAE;&#x5C01;&#x88C5;&#xFF1B;&#x52A0;&#x5BC6;&#x7684;WebSocket&#x4EE5;<code>wss</code>&#x4E3A;&#x534F;&#x8BAE;&#x6807;&#x8BC6;&#x7B26;&#xFF0C;&#x4F7F;&#x7528;TLS&#x534F;&#x8BAE;&#x5C01;&#x88C5;&#x3002;</li>
+</ol>
+<p>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x6D4B;&#x8BD5;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;WebSocket echo&#x670D;&#x52A1;&#x3002;&#x7B14;&#x8005;&#x5728;&#x6B64;&#x9009;&#x62E9;Go&#x8BED;&#x8A00;&#x6765;&#x521B;&#x5EFA;&#x8BE5;&#x670D;&#x52A1;&#xFF0C;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-go"><span class="hljs-comment">//ws_echo.go</span>
+<span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">&quot;fmt&quot;</span>
+    <span class="hljs-string">&quot;log&quot;</span>
+    <span class="hljs-string">&quot;net/http&quot;</span>
+    <span class="hljs-string">&quot;syscall&quot;</span>
+
+    <span class="hljs-string">&quot;golang.org/x/net/websocket&quot;</span>
+
+    <span class="hljs-string">&quot;os&quot;</span>
+    <span class="hljs-string">&quot;os/signal&quot;</span>
+)
+
+<span class="hljs-keyword">func</span> main() {
+    log.Println(<span class="hljs-string">&quot;ws_echo start...&quot;</span>)
+
+    wsPort := <span class="hljs-number">40001</span>
+    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
+        log.Println(fmt.Sprint(<span class="hljs-string">&quot;WebSocket:&quot;</span>, wsPort, <span class="hljs-string">&quot; Listening ...&quot;</span>))
+        http.Handle(<span class="hljs-string">&quot;/ws_echo&quot;</span>, websocket.Handler(webSocketHandler))
+        err := http.ListenAndServe(fmt.Sprint(<span class="hljs-string">&quot;:&quot;</span>, wsPort), <span class="hljs-literal">nil</span>)
+        <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+            <span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;ListenAndServe: &quot;</span> + err.Error())
+        }
+    }()
+
+    httpPort := <span class="hljs-number">80</span>
+    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
+        log.Println(fmt.Sprint(<span class="hljs-string">&quot;http:&quot;</span>, httpPort, <span class="hljs-string">&quot; Listening ...&quot;</span>))
+        err := http.ListenAndServe(fmt.Sprint(<span class="hljs-string">&quot;:&quot;</span>, httpPort),
+            http.FileServer(http.Dir(<span class="hljs-string">&quot;./&quot;</span>)))
+        <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+            <span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;ListenAndServe: &quot;</span> + err.Error())
+        }
+    }()
+
+    ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> os.Signal, <span class="hljs-number">1</span>)
+    signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+    log.Printf(<span class="hljs-string">&quot;ws_echo quit (%v)\n&quot;</span>, &lt;-ch)
+}
+
+<span class="hljs-keyword">func</span> webSocketHandler(ws *websocket.Conn) {
+    ws.PayloadType = websocket.TextFrame
+    <span class="hljs-keyword">defer</span> ws.Close()
+
+    rtemp := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-number">32768</span>)
+    <span class="hljs-keyword">for</span> {
+        n, err := ws.Read(rtemp)
+        <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+            log.Println(<span class="hljs-string">&quot;Error:Read:&quot;</span>, err)
+            <span class="hljs-keyword">return</span>
+        }
+
+        n, err = ws.Write(rtemp[:n])
+    }
+}
+</code></pre>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x5728;80&#x7AEF;&#x53E3;&#x542F;&#x52A8;&#x4E86;&#x5F53;&#x524D;&#x6587;&#x4EF6;&#x5939;&#x7684;&#x9759;&#x6001;&#x9875;&#x9762;&#x670D;&#x52A1;&#x7528;&#x4E8E;&#x53D1;&#x5E03;&#x6D4B;&#x8BD5;&#x7528;&#x7684;html&#x6587;&#x4EF6;&#xFF1B;&#x5E76;&#x5728;40001&#x7AEF;&#x53E3;&#x7684;<code>/ws_echo</code>&#x8DEF;&#x5F84;&#x542F;&#x52A8;&#x4E86;WebSocket echo&#x670D;&#x52A1;&#xFF0C;&#x8BE5;&#x670D;&#x52A1;&#x5EFA;&#x7ACB;WebSocket&#x8FDE;&#x63A5;&#x540E;&#xFF0C;&#x4F1A;&#x5C06;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x6765;&#x7684;&#x6570;&#x636E;&#x539F;&#x6837;&#x53D1;&#x56DE;&#x53BB;&#x3002;&#x5B89;&#x88C5;Go&#x8BED;&#x8A00;&#x73AF;&#x5883;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#xFF1A;</p>
+<pre><code>go run ws_echo.go
+</code></pre><h2 id="522-&#x5728;javascript&#x4E2D;&#x4F7F;&#x7528;websocket">5.2.2 &#x5728;JavaScript&#x4E2D;&#x4F7F;&#x7528;WebSocket</h2>
+<p>&#x5728;JavaScript&#x4E2D;&#x4F7F;&#x7528;<code>WebSocket()</code>&#x6784;&#x9020;&#x51FD;&#x6570;&#x521B;&#x5EFA;WebSocket&#x5BF9;&#x8C61;&#xFF0C;<code>WebSocket.send()</code>&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x53D1;&#x9001;&#x6570;&#x636E;&#xFF0C;<code>WebSocket.onmessage()</code>&#x5C5E;&#x6027;&#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x5904;&#x7406;&#x63A5;&#x6536;&#x5230;&#x7684;&#x6570;&#x636E;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-comment">//websocket_js.html</span>
+    <span class="hljs-keyword">var</span> ws = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:40001/ws_echo&quot;</span>);
+    ws.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;ws.onopen&quot;</span>);
+      ws.send(<span class="hljs-string">&quot;Hello world!&quot;</span>);
+    }
+
+    ws.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;ws.onmessage: &quot;</span> + e.data);
+      ws.close();
+    }
+
+    ws.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;ws.onclose&quot;</span>);
+    }
+
+    ws.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;ws.onerror&quot;</span>);
+    }
+</code></pre>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x521B;&#x5EFA;&#x4E86;&#x4E0E;<code>ws://localhost:40001/ws_echo</code>&#x7684;WebSocket&#x8FDE;&#x63A5;&#xFF0C;&#x8FDE;&#x63A5;&#x6210;&#x529F;&#x540E;&#x53D1;&#x9001;&#x4E86;&quot;Hello world!&quot;&#xFF0C;WebSocket echo&#x670D;&#x52A1;&#x5C06;&#x6536;&#x5230;&#x7684;&#x6570;&#x636E;&#x53D1;&#x56DE;&#x540E;&#xFF0C;<code>ws.onmessage()</code>&#x5C06;&#x6536;&#x5230;&#x7684;&#x6570;&#x636E;&#x901A;&#x8FC7;&#x65E5;&#x5FD7;&#x6253;&#x5370;&#xFF1A;</p>
+<p><img src="images/02-ws-js.png" alt=""></p>
+<h2 id="523-websocket&#x5BF9;&#x8C61;&#x7684;c&#x63A5;&#x53E3;&#x5C01;&#x88C5;">5.2.3 WebSocket&#x5BF9;&#x8C61;&#x7684;C&#x63A5;&#x53E3;&#x5C01;&#x88C5;</h2>
+<p>&#x4E0E;5.1&#x8282;&#x4ECB;&#x7ECD;&#x7684;XMLHttpRequest&#x5C01;&#x88C5;&#x65B9;&#x6CD5;&#x7C7B;&#x4F3C;&#xFF0C;WebSocket&#x5BF9;&#x8C61;&#x7684;C&#x63A5;&#x53E3;&#x5C01;&#x88C5;&#x5206;&#x4E3A;&#x4E24;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;</p>
+<ol>
+<li>&#x7531;JavaScript&#x5B9E;&#x73B0;&#xFF0C;&#x4F9B;C&#x8C03;&#x7528;&#x3002;&#x5305;&#x62EC;&#x521B;&#x5EFA;WebSocket&#x5BF9;&#x8C61;&#x3001;&#x53D1;&#x9001;&#x6570;&#x636E;&#x7B49;&#x4E3B;&#x52A8;&#x884C;&#x4E3A;&#xFF1B;</li>
+<li>&#x7531;C&#x5B9E;&#x73B0;&#xFF0C;&#x4F9B;JavaScript&#x8C03;&#x7528;&#x3002;&#x5305;&#x62EC;&#x5404;&#x79CD;&#x4E8B;&#x4EF6;&#x7684;&#x56DE;&#x8C03;&#x3002;</li>
+</ol>
+<p>&#x6765;&#x770B;C&#x90E8;&#x5206;&#x7684;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//ws_wrap.cpp</span>
+
+<span class="hljs-keyword">struct</span> WS_WRAPPER;
+<span class="hljs-keyword">struct</span> WS_CB;
+
+<span class="hljs-comment">//imp by JavaScript, call by C:</span>
+EM_PORT_API(<span class="hljs-keyword">struct</span> WS_WRAPPER*) WSNew(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *url, <span class="hljs-keyword">struct</span> WS_CB *cb);
+EM_PORT_API(<span class="hljs-keyword">int</span>) WSSend(<span class="hljs-keyword">struct</span> WS_WRAPPER *ws, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *data);
+EM_PORT_API(<span class="hljs-keyword">void</span>) WSDelete(<span class="hljs-keyword">struct</span> WS_WRAPPER *ws);
+
+<span class="hljs-comment">//WebSocket callback:</span>
+<span class="hljs-keyword">class</span> CWSCallback{
+<span class="hljs-keyword">public</span>:
+    CWSCallback(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *url){
+        m_ws = WSNew(url, (<span class="hljs-keyword">struct</span> WS_CB*)<span class="hljs-keyword">this</span>);
+    }
+    <span class="hljs-keyword">virtual</span> ~CWSCallback(){}
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnOpen</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;OnOpen\n&quot;</span>);
+        WSSend(m_ws, <span class="hljs-string">&quot;I love wasm!&quot;</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnClose</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;OnClose\n&quot;</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnMessage</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* data)</span></span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;OnMessage: %s\n&quot;</span>, data);
+        WSDelete(m_ws);
+        m_ws = <span class="hljs-literal">NULL</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnError</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;OnError\n&quot;</span>);
+    }
+
+    <span class="hljs-keyword">struct</span> WS_WRAPPER *m_ws;
+};
+
+<span class="hljs-comment">//imp by C, call by JavaScript:</span>
+EM_PORT_API(<span class="hljs-keyword">void</span>) WSOnOpen(<span class="hljs-keyword">struct</span> WS_CB *cb){
+    <span class="hljs-keyword">if</span> (cb == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+    CWSCallback *pc = (CWSCallback*)cb;
+    pc-&gt;OnOpen();
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) WSOnClose(<span class="hljs-keyword">struct</span> WS_CB *cb){
+    <span class="hljs-keyword">if</span> (cb == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+    CWSCallback *pc = (CWSCallback*)cb;
+    pc-&gt;OnClose();
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) WSOnMessage(<span class="hljs-keyword">struct</span> WS_CB *cb, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* data){
+    <span class="hljs-keyword">if</span> (cb == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+    CWSCallback *pc = (CWSCallback*)cb;
+    pc-&gt;OnMessage(data);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) WSOnError(<span class="hljs-keyword">struct</span> WS_CB *cb){
+    <span class="hljs-keyword">if</span> (cb == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+    CWSCallback *pc = (CWSCallback*)cb;
+    pc-&gt;OnError();
+}
+
+<span class="hljs-function">CWSCallback <span class="hljs-title">wscb</span><span class="hljs-params">(<span class="hljs-string">&quot;ws://localhost:40001/ws_echo&quot;</span>)</span></span>;
+</code></pre>
+<p>&#x4E0E;5.1&#x8282;&#x4ECB;&#x7ECD;&#x7684;XMLHttpRequest&#x5C01;&#x88C5;&#x65B9;&#x6CD5;&#x7C7B;&#x4F3C;&#xFF0C;&#x521B;&#x5EFA;WebSocket&#x8FDE;&#x63A5;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x4E3A;&#x5B83;&#x7ED1;&#x5B9A;&#x4E86;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;&#x5BF9;&#x8C61;<code>cb</code>&#xFF0C;&#x7528;&#x4E8E;&#x5904;&#x7406;&#x8BE5;&#x8FDE;&#x63A5;&#x7684;&#x5404;&#x79CD;&#x56DE;&#x8C03;&#x4E8B;&#x4EF6;&#x3002;&#x8FD9;&#x6837;&#x5F53;&#x7A0B;&#x5E8F;&#x540C;&#x65F6;&#x542F;&#x52A8;&#x4E86;&#x591A;&#x4E2A;WebSocket&#x8FDE;&#x63A5;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;&#x6BCF;&#x4E2A;WebSocket&#x8FDE;&#x63A5;&#x5206;&#x914D;&#x4E0D;&#x540C;&#x7684;&#x7684;&#x56DE;&#x8C03;&#x5904;&#x7406;&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x5BFC;&#x5165;&#x5E93;&#x90E8;&#x5206;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-comment">//pkg.js</span>
+mergeInto(LibraryManager.library, {
+    WSNew: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">url, cb</span>) </span>{
+        <span class="hljs-keyword">return</span> JS_WSNew(Pointer_stringify(url), cb);
+    },
+
+    WSSend: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ws, data</span>) </span>{
+        <span class="hljs-keyword">return</span> JS_WSSend(ws, Pointer_stringify(data));
+    },
+
+    WSDelete: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ws</span>) </span>{
+        <span class="hljs-keyword">return</span> JS_WSDelete(ws);
+    }
+})
+</code></pre>
+<p>&#x5BFC;&#x5165;&#x5E93;&#x8C03;&#x7528;&#x7684;JavaScript&#x65B9;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-comment">//ws_wrap.html</span>
+    <span class="hljs-keyword">var</span> g_NextWSID = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> g_WSTable = [];
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">JS_WSNew</span>(<span class="hljs-params">url, cb</span>) </span>{
+        <span class="hljs-keyword">var</span> ws = <span class="hljs-keyword">new</span> WebSocket(url);
+        ws.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{ Module._WSOnOpen(cb); };
+        ws.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{ Module._WSOnClose(cb); };
+        ws.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
+            Module.ccall(<span class="hljs-string">&apos;WSOnMessage&apos;</span>, <span class="hljs-string">&apos;null&apos;</span>, [<span class="hljs-string">&apos;number&apos;</span>, <span class="hljs-string">&apos;string&apos;</span>], [cb, e.data]);
+        };
+        ws.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{ Module._WSOnError(cb); };
+
+        <span class="hljs-keyword">var</span> wsid = g_NextWSID++;
+        g_WSTable[wsid] = ws;
+        <span class="hljs-keyword">return</span> wsid;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">JS_WSSend</span>(<span class="hljs-params">ws, data</span>) </span>{
+        <span class="hljs-keyword">var</span> ws = g_WSTable[ws];
+        ws.send(data);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">JS_WSDelete</span>(<span class="hljs-params">ws</span>) </span>{
+        <span class="hljs-keyword">var</span> ws = g_WSTable[ws];
+        ws.close();
+    }
+</code></pre>
+<p>&#x6574;&#x5957;&#x7A0B;&#x5E8F;&#x7EFC;&#x5408;&#x5E94;&#x7528;&#x4E86;&#x5BFC;&#x51FA;C++&#x5BF9;&#x8C61;&#xFF08;4.3&#x8282;&#xFF09;&#x3001;JavaScript&#x5BF9;&#x8C61;&#x6CE8;&#x5165;C&#xFF08;4.5&#x8282;&#xFF09;&#x3001;ccall&#xFF08;2.7&#x8282;&#xFF09;&#x7B49;&#x6280;&#x672F;&#x3002;&#x4F7F;&#x7528;&#x4E0B;&#x5217;&#x547D;&#x4EE4;&#x7F16;&#x8BD1;&#xFF1A;</p>
+<pre><code>emcc  ws_wrap.cpp --js-library pkg.js -s &quot;EXTRA_EXPORTED_RUNTIME_METHODS=[&apos;ccall&apos;]&quot; -o ws_wrap.js
+</code></pre><p>&#x542F;&#x52A8;WebSocket echo&#x670D;&#x52A1;&#xFF0C;&#x6D4F;&#x89C8;&#x9875;&#x9762;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="images/02-ws-wrap.png" alt=""></p>
+<p>&#x51FA;&#x4E8E;&#x7B80;&#x5316;&#x4EE3;&#x7801;&#x8003;&#x8651;&#xFF0C;&#x672C;&#x8282;&#x7ED9;&#x51FA;&#x7684;&#x4F8B;&#x5B50;&#x672A;&#x5904;&#x7406;&#x53CD;&#x590D;&#x8C03;&#x7528;<code>WSNew()</code>&#x5BFC;&#x81F4;<code>g_NextWSID</code>&#x6EA2;&#x51FA;&#x7B49;&#x60C5;&#x51B5;&#x3002;&#x7531;&#x4E8E;IO&#x64CD;&#x4F5C;&#x5F80;&#x5F80;&#x4E0E;&#x7A0B;&#x5E8F;&#x903B;&#x8F91;&#x5F3A;&#x76F8;&#x5173;&#xFF0C;&#x5B9E;&#x9645;&#x9879;&#x76EE;&#x4E2D;&#x9700;&#x8981;&#x8003;&#x8651;&#x7684;&#x95EE;&#x9898;&#x591A;&#x79CD;&#x591A;&#x6837;&#xFF0C;&#x5728;&#x6B64;&#x65E0;&#x6CD5;&#x5C3D;&#x8FF0;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch5-01-http.html" class="navigation navigation-prev " aria-label="Previous page: 5.1 XMLHttpRequest">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../ch6-threads/readme.html" class="navigation navigation-next " aria-label="Next page: 第6章 多线程">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"5.2 WebSocket","level":"1.6.2","depth":2,"next":{"title":"第6章 多线程","level":"1.7","depth":1,"path":"ch6-threads/readme.md","ref":"ch6-threads/readme.md","articles":[{"title":"6.1 JavaScript中的并发模型","level":"1.7.1","depth":2,"path":"ch6-threads/ch6-01-worker.md","ref":"ch6-threads/ch6-01-worker.md","articles":[]},{"title":"6.2 在Worker中使用Emscripten","level":"1.7.2","depth":2,"path":"ch6-threads/ch6-02-sample.md","ref":"ch6-threads/ch6-02-sample.md","articles":[]}]},"previous":{"title":"5.1 XMLHttpRequest","level":"1.6.1","depth":2,"path":"ch5-net/ch5-01-http.md","ref":"ch5-net/ch5-01-http.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"C/C++面向WebAssembly编程","language":"zh-hans","gitbook":"3.x","description":"C/C++面向WebAssembly编程——Emscripten工程实践"},"file":{"path":"ch5-net/ch5-02-websocket.md","mtime":"2019-01-19T04:28:00.130Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"zh"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

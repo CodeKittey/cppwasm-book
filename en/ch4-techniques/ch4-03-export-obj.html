@@ -1,0 +1,914 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>4.3 Exporting C++ objects using the C interface · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch4-04-obj-life-cycle.html" />
+    
+    
+    <link rel="prev" href="ch4-02-align.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="ch4-01-msg-loop-detach.html">
+            
+                <a href="ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="ch4-02-align.html">
+            
+                <a href="ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.3" data-path="ch4-03-export-obj.html">
+            
+                <a href="ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="ch4-04-obj-life-cycle.html">
+            
+                <a href="ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="ch4-05-import-js-obj.html">
+            
+                <a href="ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="ch4-06-int64-issue.html">
+            
+                <a href="ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="ch4-07-forget-about-fs.html">
+            
+                <a href="ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >4.3 Exporting C++ objects using the C interface</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="43-exporting-c-objects-using-the-c-interface">4.3 Exporting C++ objects using the C interface</h1>
+<p>Using <code>Embind</code> and <code>WebIDL Binder</code> in Emscripten can export C++ objects to JavaScript, but we don&apos;t use these two methods in actual work, because these methods are intrusive, more importantly, we have reservations about that &quot;C++ classes should be used as library interfaces&quot; - the possibility of designing a bad C++ interface is much higher than designing a bad C interface - of course this does not mean against the use of C++, in fact, C++ is our primary language, but from the perspective of interface design, we believes that the complexity of C++ classes should not overflow library boundaries, so using C interface to export C++ objects becomes a natural choice.</p>
+<p>First we define a simple class <code>CSum</code>, which has a public function <code>Inc()</code> for accumulation operation, and a private member <code>m_nSum</code> for storing the accumulated value:</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//exp_class.cpp</span>
+<span class="hljs-keyword">class</span> CSum {
+<span class="hljs-keyword">public</span>:
+    CSum() {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;CSum::CSum()\n&quot;</span>);
+        m_nSum = <span class="hljs-number">13</span>;
+    }
+    <span class="hljs-keyword">virtual</span> ~CSum() {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;CSum::~CSum()\n&quot;</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Inc</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>{
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;CSum::Inc()\n&quot;</span>);
+        m_nSum += i;
+        <span class="hljs-keyword">return</span> m_nSum;
+    }
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> m_nSum;    
+};
+</code></pre>
+<p>Next we define two export functions for the <code>new</code> and <code>delete</code> operations of the <code>CSum</code> class:</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//exp_class.cpp</span>
+<span class="hljs-keyword">struct</span> Sum;
+
+EM_PORT_API(<span class="hljs-keyword">struct</span> Sum*) Sum_New() {
+    CSum *obj = <span class="hljs-keyword">new</span> CSum();
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">struct</span> Sum*)obj;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) Sum_Delete(<span class="hljs-keyword">struct</span> Sum* sum) {
+    CSum *obj = (CSum*)sum;
+    <span class="hljs-keyword">delete</span> obj;
+}
+</code></pre>
+<p>The return value of <code>Sum_New()</code> and the argument of <code>Sum_Delete()</code> are the addresses of the <code>CSum</code> object in the heap. The empty structure <code>Sum</code> is additionally defined here, and <code>Sum*</code> is used as the pointer type of the <code>CSum</code> object, which avoids the type ambiguity caused by using <code>void*</code> and can provide mandatory type check during the compilation.</p>
+<p>Next we define the export function <code>Sum_Inc()</code> whose first argument is a pointer to the <code>Sum*</code> type - the address of the <code>CSum</code> object:</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//exp_class.cpp</span>
+EM_PORT_API(<span class="hljs-keyword">int</span>) Sum_Inc(<span class="hljs-keyword">struct</span> Sum* sum, <span class="hljs-keyword">int</span> i) {
+    CSum *obj = (CSum*)sum;
+    <span class="hljs-keyword">return</span> obj-&gt;Inc(i);
+}
+</code></pre>
+<p>This completes the export of the <code>CSum</code> class. Calling <code>Sum_New()</code> in JavaScript to create the <code>CSum</code> object and calling its public member function:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//exp_class.html</span>
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> s = Module._Sum_New();
+        <span class="hljs-built_in">console</span>.log(Module._Sum_Inc(s, <span class="hljs-number">29</span>));
+        Module._Sum_Delete(s);
+    }
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<p><img src="images/03-exp-class.png" alt=""></p>
+<blockquote>
+<p><strong>tips</strong> Due to differences in memory models, the <code>object</code> in C++ and the <code>object</code> in JavaScript are completely different. <code>Module._Sum_New()</code> returns the address of the newly created <code>CSum</code> object in the Module heap, <strong>it&apos;s not a JavaScript object</strong>. This approach essentially uses the address of a C++ object as a bridge between JavaScript and C++.</p>
+</blockquote>
+<p>Obviously subclass objects with inheritance can also be exported in the same way, for example:</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//exp_child_class.cpp</span>
+<span class="hljs-keyword">class</span> CShape {
+<span class="hljs-keyword">public</span>:
+    CShape() {};
+    <span class="hljs-keyword">virtual</span> ~CShape() {};
+
+    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WhatAreYou</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-keyword">class</span> CTriangle : <span class="hljs-keyword">public</span> CShape {
+<span class="hljs-keyword">public</span>:
+    CTriangle() {}
+    <span class="hljs-keyword">virtual</span> ~CTriangle() {}
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">WhatAreYou</span><span class="hljs-params">()</span></span>{ <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;I&apos;m a triangle.\n&quot;</span>) ;}
+};
+
+<span class="hljs-keyword">class</span> CCircle : <span class="hljs-keyword">public</span> CShape {
+<span class="hljs-keyword">public</span>:
+    CCircle() {}
+    <span class="hljs-keyword">virtual</span> ~CCircle() {}
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">WhatAreYou</span><span class="hljs-params">()</span></span>{ <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;I&apos;m a circle.\n&quot;</span>) ;}
+};
+
+<span class="hljs-comment">//-----------------------------------</span>
+
+<span class="hljs-keyword">struct</span> Shape;
+
+EM_PORT_API(<span class="hljs-keyword">struct</span> Shape*) Shape_New_Triangle() {
+    CTriangle *obj = <span class="hljs-keyword">new</span> CTriangle();
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">struct</span> Shape*)obj;
+}
+
+EM_PORT_API(<span class="hljs-keyword">struct</span> Shape*) Shape_New_Circle() {
+    CCircle *obj = <span class="hljs-keyword">new</span> CCircle();
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">struct</span> Shape*)obj;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) Shape_Delete(<span class="hljs-keyword">struct</span> Shape* shape) {
+    CShape *obj = (CShape*)shape;
+    <span class="hljs-keyword">delete</span> obj;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) Shape_WhatAreYou(<span class="hljs-keyword">struct</span> Shape* shape) {
+    CShape *obj = (CShape*)shape;
+    obj-&gt;WhatAreYou();
+}
+</code></pre>
+<p>Create two subclass objects in JavaScript:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//exp_child_class.html</span>
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> t = Module._Shape_New_Triangle();
+        Module._Shape_WhatAreYou(t);
+
+        <span class="hljs-keyword">var</span> c = Module._Shape_New_Circle();
+        Module._Shape_WhatAreYou(c);
+
+        Module._Shape_Delete(t);
+        Module._Shape_Delete(c);
+    }
+</code></pre>
+<p>After browsing the page, the console will output:</p>
+<p><img src="images/03-exp-child-class.png" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch4-02-align.html" class="navigation navigation-prev " aria-label="Previous page: 4.2 Memory alignment">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch4-04-obj-life-cycle.html" class="navigation navigation-next " aria-label="Next page: 4.4 Lifecycle control for C++ object">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.3 Exporting C++ objects using the C interface","level":"1.5.3","depth":2,"next":{"title":"4.4 Lifecycle control for C++ object","level":"1.5.4","depth":2,"path":"ch4-techniques/ch4-04-obj-life-cycle.md","ref":"ch4-techniques/ch4-04-obj-life-cycle.md","articles":[]},"previous":{"title":"4.2 Memory alignment","level":"1.5.2","depth":2,"path":"ch4-techniques/ch4-02-align.md","ref":"ch4-techniques/ch4-02-align.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch4-techniques/ch4-03-export-obj.md","mtime":"2019-01-19T03:55:07.265Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

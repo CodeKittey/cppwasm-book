@@ -1,0 +1,1019 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>7.4 Conway's Game of Life · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="ch7-03-keyboard.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="ch7-01-canvas.html">
+            
+                <a href="ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="ch7-02-mouse.html">
+            
+                <a href="ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="ch7-03-keyboard.html">
+            
+                <a href="ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.8.4" data-path="ch7-04-life.html">
+            
+                <a href="ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >7.4 Conway's Game of Life</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="74-74-conways-game-of-life">7.4 7.4 Conway&apos;s Game of Life</h1>
+<p>This section will use the techniques in sections 7.1 through 7.3 to write a complete interactive mini-game &quot;Life&quot;.</p>
+<h2 id="741-introduction-to-conways-game-of-life">7.4.1 Introduction to <em>Conway&apos;s Game of Life</em></h2>
+<p><em>Conway&apos;s Game of Life</em> is a cellular automaton that simulates a virtual two-dimensional grid life, each grid in the grids is called a cell, and each cell is in one of two possible states, <em>alive</em> or <em>dead</em>, and the cell state changes according to the following rules:</p>
+<ul>
+<li>Any live cell with fewer than two live neighbors dies.</li>
+<li>Any live cell with two or three live neighbors lives on to the next generation.</li>
+<li>Any live cell with more than three live neighbors dies.</li>
+<li>Any dead cell with exactly three live neighbors becomes a live cell.</li>
+</ul>
+<blockquote>
+<p><strong>info</strong> For more information about <em>Life</em>, refer to <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life</a>&#x3002;</p>
+</blockquote>
+<h2 id="742-design-requirements">7.4.2 Design requirements</h2>
+<p>We will implement the <em>Life</em> game on the webpage, hopefully it has the following features:</p>
+<ol>
+<li>The status of all cells can be set randomly through keyboard shortcuts;</li>
+<li>Pause/resume game running at any time via keyboard shortcuts;</li>
+<li>When the game is paused, you can click on a cell to reverse its state.</li>
+</ol>
+<h2 id="743-c-code-analysis">7.4.3 C code analysis</h2>
+<pre><code class="lang-c"><span class="hljs-comment">//life.cc</span>
+<span class="hljs-keyword">bool</span> *cells0 = <span class="hljs-literal">NULL</span>, *cells1 = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">uint32_t</span> *img_buf = <span class="hljs-literal">NULL</span>;
+<span class="hljs-keyword">int</span> width = <span class="hljs-number">0</span>, height = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">bool</span> pausing = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">int</span> scale = <span class="hljs-number">2</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create_seeds</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (cells0 == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+
+    srand(clock());
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; width * height; i++){
+        cells0[i] = (rand() % <span class="hljs-number">2</span>) != <span class="hljs-number">1</span>;
+    }
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) init_env(<span class="hljs-keyword">int</span> w, <span class="hljs-keyword">int</span> h, <span class="hljs-keyword">int</span> s) {
+    <span class="hljs-keyword">if</span> (cells0) <span class="hljs-built_in">free</span>(cells0);
+    <span class="hljs-keyword">if</span> (cells1) <span class="hljs-built_in">free</span>(cells1);
+    <span class="hljs-keyword">if</span> (img_buf) <span class="hljs-built_in">free</span>(img_buf);
+
+    width = w;
+    height = h;
+    scale = s;
+
+    cells0 = (<span class="hljs-keyword">bool</span>*)<span class="hljs-built_in">malloc</span>(w * h);
+    cells1 = (<span class="hljs-keyword">bool</span>*)<span class="hljs-built_in">malloc</span>(w * h);
+    img_buf = (<span class="hljs-keyword">uint32_t</span>*)<span class="hljs-built_in">malloc</span>(w * h * scale * scale * <span class="hljs-number">4</span>);
+
+    create_seeds();
+}
+</code></pre>
+<ul>
+<li>In <em>Life</em>, since the generations are isolated from each other, we allocated two buffers <code>cells0</code> and <code>cells1</code>;</li>
+<li><code>img_buf</code> is the image buffer that is finally output to <code>Canvas</code>. Since 1 pixel is very small on the screen, we set the stretch factor <code>scale</code>, and 1 cell will occupy <code>scale * scale</code> pixels in the image.</li>
+<li>The export function <code>init_env()</code> is used to initialize each buffer used internally and save parameters such as grid length and width;</li>
+<li>The <code>create_seeds()</code> function is used for random initialization of all cell states.</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">//life.cc</span>
+<span class="hljs-keyword">struct</span> DIR{
+    <span class="hljs-keyword">int</span> x, y;
+};
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">evolve</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">static</span> DIR dirs[] = {{<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>}, {<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>}, {<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>}, {<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>}, {<span class="hljs-number">1</span>, <span class="hljs-number">0</span>}, {<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>}, {<span class="hljs-number">0</span>, <span class="hljs-number">1</span>}, {<span class="hljs-number">1</span>, <span class="hljs-number">1</span>}};
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> y = <span class="hljs-number">0</span>; y &lt; height; y++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>; x &lt; width; x++) {
+            <span class="hljs-keyword">int</span> live_count = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) {
+                <span class="hljs-keyword">int</span> nx = (x + dirs[i].x + width) % width;
+                <span class="hljs-keyword">int</span> ny = (y + dirs[i].y + height) % height;
+                <span class="hljs-keyword">if</span> (cells0[ny * width + nx]) {
+                    live_count++;
+                }
+            }
+
+            <span class="hljs-keyword">if</span> (cells0[y * width + x]) {
+                <span class="hljs-keyword">switch</span> (live_count) {
+                    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+                    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+                        cells1[y * width + x] = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>;
+
+                    <span class="hljs-keyword">default</span>:
+                        cells1[y * width + x] = <span class="hljs-literal">false</span>;
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+            <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">switch</span> (live_count) {
+                    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+                        cells1[y * width + x] = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>;
+
+                    <span class="hljs-keyword">default</span>:
+                        cells1[y * width + x] = <span class="hljs-literal">false</span>;
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+        }
+    }
+
+    <span class="hljs-keyword">bool</span> *temp = cells0;
+    cells0 = cells1;
+    cells1 = temp;
+}
+</code></pre>
+<ul>
+<li>The <code>evolve()</code> function evolves according to the rules of <em>Life</em>. Each time it evolves, the state of <code>cells1</code> is calculated according to the state of <code>cells0</code>, and then the two are swapped. Note that we have set up a circular two-dimensional space here. Logically, the leftmost and rightmost sides of the mesh are connected together, and the uppermost and lowermost sides are connected together.</li>
+</ul>
+<pre><code class="lang-c"><span class="hljs-comment">//life.cc</span>
+EM_PORT_API(<span class="hljs-keyword">uint8_t</span>*) step() {
+    <span class="hljs-keyword">if</span> (img_buf == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+
+    <span class="hljs-keyword">if</span> (!pausing) {
+        evolve();
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>; x &lt; width; x++){
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> y = <span class="hljs-number">0</span>; y &lt; height; y++){
+            <span class="hljs-keyword">uint32_t</span> color = cells0[y * width + x] ? <span class="hljs-number">0xFF0000FF</span> : <span class="hljs-number">0xFFFFFFFF</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; scale; i++){
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; scale; j++){
+                    <span class="hljs-keyword">int</span> d = ((y * scale + j) * width * scale + x * scale + i);
+                    img_buf[d] = color;
+                }
+            }
+        }
+    }        
+
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">uint8_t</span>*)img_buf;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) on_mouse_click(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y){
+    <span class="hljs-keyword">if</span> (!pausing) <span class="hljs-keyword">return</span>;
+
+    x /= scale;
+    y /= scale;
+
+    <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">0</span> || x &gt;= width || y &lt; <span class="hljs-number">0</span> || y &gt;= height) <span class="hljs-keyword">return</span>;
+
+    cells0[y * width + x] = !cells0[y * width + x];
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) on_key_up(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* key) {
+    <span class="hljs-keyword">if</span> (!key) <span class="hljs-keyword">return</span>;
+
+    <span class="hljs-keyword">switch</span>(*key) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;p&apos;</span>:
+        pausing = !pausing;
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;r&apos;</span>:
+        create_seeds();
+        <span class="hljs-keyword">break</span>;
+    }
+}
+</code></pre>
+<ul>
+<li>The export function <code>step()</code> determines whether evolving is required according to the pause flag <code>pausing</code>, and then converts the current generation state (<code>cells0</code>) into image data and returns;</li>
+<li>The export function <code>on_mouse_click()</code> is used to handle the mouse click event of the <code>Canvas</code>;</li>
+<li>The export function <code>on_key_up()</code> is used to handle keyboard events.</li>
+</ul>
+<h2 id="744-web-page-code-analysis">7.4.4 Web page code analysis</h2>
+<pre><code class="lang-html">//life.html
+    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myCanvas&quot;</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span> = &apos;<span class="hljs-attr">tip</span>&apos;&gt;</span>Loading WebAssembly...<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    Module = {};
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;myCanvas&apos;</span>);
+      <span class="hljs-keyword">var</span> ctx = canvas.getContext(<span class="hljs-string">&quot;2d&quot;</span>);
+      canvas.width = <span class="hljs-number">512</span>;
+      canvas.height = <span class="hljs-number">512</span>;
+      Module._init_env(<span class="hljs-number">256</span>, <span class="hljs-number">256</span>, <span class="hljs-number">2</span>);
+
+      canvas.addEventListener(<span class="hljs-string">&quot;click&quot;</span>, onMouseClick, <span class="hljs-literal">true</span>);
+      canvas.addEventListener(<span class="hljs-string">&quot;keyup&quot;</span>, onKeyUp, <span class="hljs-literal">true</span>);
+      canvas.focus();
+
+      <span class="hljs-built_in">window</span>.requestAnimationFrame(update);
+      <span class="hljs-keyword">var</span> tip = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;tip&apos;</span>);
+      tip.innerHTML = <span class="hljs-string">&quot;Press &apos;p&apos; to pause/resume, &apos;r&apos; to reset. Click cell to invert it&apos;s state while pausing.&quot;</span>;
+    }
+</span></code></pre>
+<ul>
+<li>When <code>Module.onRuntimeInitialized</code> callback, the size of the <em>Life</em> is initialized to 256 <em> 256 (the stretch factor is 2, so the <code>Canvas</code> size is 512 </em> 512), and the event handler of the keyboard and mouse is set.</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-comment">//life.html</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> buf_addr = Module._step();
+      <span class="hljs-keyword">var</span> u8o = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8ClampedArray</span>(Module.HEAPU8.subarray(buf_addr,
+        buf_addr + <span class="hljs-number">512</span> * <span class="hljs-number">512</span> * <span class="hljs-number">4</span>));
+      <span class="hljs-keyword">var</span> imgData = <span class="hljs-keyword">new</span> ImageData(u8o, <span class="hljs-number">512</span>, <span class="hljs-number">512</span>);
+
+      <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;myCanvas&apos;</span>);
+      <span class="hljs-keyword">var</span> ctx = canvas.getContext(<span class="hljs-string">&apos;2d&apos;</span>);
+      ctx.putImageData(imgData, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+
+      <span class="hljs-built_in">window</span>.requestAnimationFrame(update);
+    }
+</code></pre>
+<ul>
+<li>The <code>update()</code> function calls the C function <code>step()</code> to evolve and update the resulting image to <code>Canvas</code>.</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-comment">//life.html</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getPointOnCanvas</span>(<span class="hljs-params">canvas, x, y</span>) </span>{
+      <span class="hljs-keyword">var</span> bbox = canvas.getBoundingClientRect();
+      <span class="hljs-keyword">return</span> {
+        x: x - bbox.left * (canvas.width / bbox.width),
+        y: y - bbox.top * (canvas.height / bbox.height)
+      };    
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onMouseClick</span>(<span class="hljs-params">event</span>) </span>{
+      <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;myCanvas&apos;</span>);
+      <span class="hljs-keyword">var</span> loc = getPointOnCanvas(canvas, event.clientX, event.clientY);
+      Module._on_mouse_click(loc.x, loc.y);
+    }
+
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyUp</span>(<span class="hljs-params">event</span>) </span>{
+      Module.ccall(<span class="hljs-string">&apos;on_key_up&apos;</span>, <span class="hljs-string">&apos;null&apos;</span>, [<span class="hljs-string">&apos;string&apos;</span>], [event.key]);
+    }
+</code></pre>
+<ul>
+<li>The <code>onMouseClick()</code> function handles mouse click events;</li>
+<li>The <code>onKeyUp()</code> function handles keyboard events.</li>
+</ul>
+<h2 id="745-running-life">7.4.5 Running <em>Life</em></h2>
+<p>Compile with the following command:</p>
+<pre><code>emcc life.cc -s &quot;EXTRA_EXPORTED_RUNTIME_METHODS=[&apos;ccall&apos;]&quot; -o life.js
+</code></pre><p>After browsing the page, the evolving of the cells will be displayed. Below is a screenshot:</p>
+<p><img src="images/04-life.png" alt=""></p>
+<p>The keyboard button &apos;p&apos; is used to switch the <em>pause</em>/<em>run</em> state, and &apos;r&apos; is used for reset. In the <em>pause</em> state, clicking on a cell with the mouse can toggle its state.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch7-03-keyboard.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 7.3 Keyboard events">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"7.4 Conway's Game of Life","level":"1.8.4","depth":2,"previous":{"title":"7.3 Keyboard events","level":"1.8.3","depth":2,"path":"ch7-gui/ch7-03-keyboard.md","ref":"ch7-gui/ch7-03-keyboard.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch7-gui/ch7-04-life.md","mtime":"2019-01-22T14:51:31.384Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

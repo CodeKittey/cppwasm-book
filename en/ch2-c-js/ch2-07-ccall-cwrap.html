@@ -1,0 +1,986 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.7 Using ccall/cwrap · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch2-08-ext.html" />
+    
+    
+    <link rel="prev" href="ch2-06-run-script.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="ch2-01-js-call-c.html">
+            
+                <a href="ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="ch2-02-implement-c-api-in-js.html">
+            
+                <a href="ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="ch2-03-mem-model.html">
+            
+                <a href="ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="ch2-04-data-exchange.html">
+            
+                <a href="ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="ch2-05-em-asm.html">
+            
+                <a href="ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="ch2-06-run-script.html">
+            
+                <a href="ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.7" data-path="ch2-07-ccall-cwrap.html">
+            
+                <a href="ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="ch2-08-ext.html">
+            
+                <a href="ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../ch3-runtime/readme.html">
+            
+                <a href="../ch3-runtime/readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../ch3-runtime/ch3-01-main.html">
+            
+                <a href="../ch3-runtime/ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../ch3-runtime/ch3-02-message-loop.html">
+            
+                <a href="../ch3-runtime/ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ch3-runtime/ch3-03-fs.html">
+            
+                <a href="../ch3-runtime/ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../ch3-runtime/ch3-04-mem.html">
+            
+                <a href="../ch3-runtime/ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../ch3-runtime/ch3-05-module.html">
+            
+                <a href="../ch3-runtime/ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../ch3-runtime/ch3-06-summary.html">
+            
+                <a href="../ch3-runtime/ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >2.7 Using ccall/cwrap</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="27-using-ccallcwrap">2.7 Using <code>ccall</code>/<code>cwrap</code></h1>
+<p>In Section 2.4, we mentioned that JavaScript can only use <code>Number</code> as parameters when calling C/C++ functions. Therefore, if the parameter is a non-<code>Number</code> type such as a string or an array, it needs to be split into the following steps:</p>
+<ol>
+<li>Use <code>Module._malloc()</code> to allocate memory in the Module heap to get the address <code>ptr</code>;</li>
+<li>Copy data such as strings/arrays into <code>ptr</code>;</li>
+<li>Using <code>ptr</code> as a parameter, call C/C++ function for processing;</li>
+<li>Free <code>ptr</code> using <code>Module._free()</code>.</li>
+</ol>
+<p>This shows that the calling process is quite cumbersome. Especially when there&apos;re a lot of non-<code>Number</code> parameters, the code in JavaScript side will expand dramatically. To simplify the calling process, Emscripten provides the <code>ccall</code>/<code>cwrap</code> wrapper function.</p>
+<h2 id="271-ccall">2.7.1 <code>ccall</code></h2>
+<p>Syntax:</p>
+<p><code>var result = Module.ccall(ident, returnType, argTypes, args);</code></p>
+<p>Parameters:</p>
+<ul>
+<li>ident : The name of the C function to be called - without the <code>_</code> prefix.</li>
+<li>returnType : The return type of the function. Can be <code>&apos;boolean&apos;</code>, <code>&apos;number&apos;</code>, <code>&apos;string&apos;</code>, <code>&apos;null&apos;</code>, indicating that the function returns a boolean value, a numeric value, a string, and no return value.</li>
+<li>argTypes : An array of the types of arguments for the function. The parameter types can be <code>&apos;number&apos;</code>, <code>&apos;string&apos;</code>, <code>&apos;array&apos;</code>, representing values, strings, and arrays, respectively. If there are no arguments, this can be omitted.</li>
+<li>args : An array of the arguments to the function.</li>
+</ul>
+<p>For example, a C function is as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//ccall_wrap.cc</span>
+EM_PORT_API(<span class="hljs-keyword">double</span>) add(<span class="hljs-keyword">double</span> a, <span class="hljs-keyword">int</span> b) {
+    <span class="hljs-keyword">return</span> a + (<span class="hljs-keyword">double</span>)b;
+}
+</code></pre>
+<p>Compile with the following command:</p>
+<pre><code>emcc ccall_wrap.cc -s &quot;EXTRA_EXPORTED_RUNTIME_METHODS=[&apos;ccall&apos;, &apos;cwrap&apos;]&quot; -o ccall_wrap.js
+</code></pre><blockquote>
+<p><strong>tips</strong> Starting from v1.38, Emscripten does not export the <code>ccall</code>/<code>cwrap</code> helper function by default. It needs to be explicitly exported by compiling with the <code>-s &quot;EXTRA_EXPORTED_RUNTIME_METHODS=[&apos;ccall&apos;, &apos;cwrap&apos;]&quot;</code> option.</p>
+</blockquote>
+<p>Called in JavaScript side:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-keyword">var</span> result = Module.ccall(<span class="hljs-string">&apos;add&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>, [<span class="hljs-string">&apos;number&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>], [<span class="hljs-number">13.0</span>, <span class="hljs-number">42</span>]);
+</code></pre>
+<p>This is equivalent to calling <code>Module._add()</code> directly as follows:</p>
+<pre><code class="lang-js">    <span class="hljs-keyword">var</span> result = Module._add(<span class="hljs-number">13</span>, <span class="hljs-number">42</span>);
+</code></pre>
+<p>The advantage of <code>ccall</code> is that you can use the string /<code>Uint8Array</code>/<code>Int8Array</code> as parameters. For example, a C function as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//ccall_wrap.cc</span>
+EM_PORT_API(<span class="hljs-keyword">void</span>) print_string(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* str) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;C:print_string(): %s\n&quot;</span>, str);
+}
+</code></pre>
+<p>The input parameter of <code>print_string()</code> is a string, which can be called in JavaScript using the following method:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-keyword">var</span> str = <span class="hljs-string">&apos;The answer is:42&apos;</span>;
+    Module.ccall(<span class="hljs-string">&apos;print_string&apos;</span>, <span class="hljs-string">&apos;null&apos;</span>, [<span class="hljs-string">&apos;string&apos;</span>], [str]);
+</code></pre>
+<p>An example of using <code>Uint8Array</code> as a parameter is as follows:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//ccall_wrap.cc</span>
+EM_PORT_API(<span class="hljs-keyword">int</span>) sum(<span class="hljs-keyword">uint8_t</span>* ptr, <span class="hljs-keyword">int</span> count) {
+    <span class="hljs-keyword">int</span> total = <span class="hljs-number">0</span>, temp;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++){
+        <span class="hljs-built_in">memcpy</span>(&amp;temp, ptr + i * <span class="hljs-number">4</span>, <span class="hljs-number">4</span>);
+        total += temp;
+    }
+    <span class="hljs-keyword">return</span> total;
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">50</span>;
+    <span class="hljs-keyword">var</span> buf = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ArrayBuffer</span>(count * <span class="hljs-number">4</span>);
+    <span class="hljs-keyword">var</span> i8 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(buf);
+    <span class="hljs-keyword">var</span> i32 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Int32Array</span>(buf);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; count; i++){
+        i32[i] = i + <span class="hljs-number">1</span>;
+    }
+    result = Module.ccall(<span class="hljs-string">&apos;sum&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>, [<span class="hljs-string">&apos;array&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>], [i8, count]);
+</code></pre>
+<p>If the C function returns a string that does not need to be freed (a static string, or a string stored in an address managed by the C code itself), using the <code>ccall</code> call in JavaScript, you can also get the returned string directly. For example:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//ccall_wrap.cc</span>
+EM_PORT_API(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*) get_string() {
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> str[] = <span class="hljs-string">&quot;This is a test.&quot;</span>;
+    <span class="hljs-keyword">return</span> str;
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-built_in">console</span>.log(Module.ccall(<span class="hljs-string">&apos;get_string&apos;</span>, <span class="hljs-string">&apos;string&apos;</span>));
+</code></pre>
+<h2 id="272-cwrap">2.7.2 <code>cwrap</code></h2>
+<p>Although <code>ccall</code> encapsulates data types such as strings, it still needs to fill in parameter type arrays, parameter lists, etc. when calling a C function. <code>cwrap</code> provides a further encapsulation, it returns a native JavaScript wrapper for a C function:</p>
+<p><code>var func = Module.cwrap(ident, returnType, argTypes);</code></p>
+<p>Parameters:</p>
+<ul>
+<li>ident : The name of the C function to be called - without the <code>_</code> prefix.</li>
+<li>returnType : The return type of the function. Can be <code>&apos;boolean&apos;</code>, <code>&apos;number&apos;</code>, <code>&apos;string&apos;</code>, <code>&apos;null&apos;</code>, indicating that the function returns a boolean value, a numeric value, a string, and no return value.</li>
+<li>argTypes : An array of the types of arguments for the function. The parameter types can be <code>&apos;number&apos;</code>, <code>&apos;string&apos;</code>, <code>&apos;array&apos;</code>, representing values, strings, and arrays, respectively.</li>
+</ul>
+<p>Returns&#xFF1A;</p>
+<ul>
+<li>A JavaScript function that can be used for calling the C function.</li>
+</ul>
+<p>For example, the C export function in 2.7.1 can be wrapped as follows:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-keyword">var</span> c_add = Module.cwrap(<span class="hljs-string">&apos;add&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>, [<span class="hljs-string">&apos;number&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>]);
+    <span class="hljs-keyword">var</span> c_print_string = Module.cwrap(<span class="hljs-string">&apos;print_string&apos;</span>, <span class="hljs-string">&apos;null&apos;</span>, [<span class="hljs-string">&apos;string&apos;</span>]);
+    <span class="hljs-keyword">var</span> c_sum = Module.cwrap(<span class="hljs-string">&apos;sum&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>, [<span class="hljs-string">&apos;array&apos;</span>, <span class="hljs-string">&apos;number&apos;</span>]);
+    <span class="hljs-keyword">var</span> c_get_string = Module.cwrap(<span class="hljs-string">&apos;get_string&apos;</span>, <span class="hljs-string">&apos;string&apos;</span>);
+</code></pre>
+<p>The C function <code>add()</code>/<code>print_string()</code>/<code>sum()</code>/<code>get_string()</code> is wrapped as <code>c_add()</code>/<code>c_print_string()</code>/<code>c_sum()</code>/<code>c_get_string()</code> respectively. These functions can be used directly like native JavaScript functions:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//ccall_wrap.html</span>
+    <span class="hljs-built_in">console</span>.log(c_add(<span class="hljs-number">25.0</span>, <span class="hljs-number">41</span>));
+    c_print_string(str);
+    <span class="hljs-built_in">console</span>.log(c_get_string());
+    <span class="hljs-built_in">console</span>.log(c_sum(i8, count));
+</code></pre>
+<h2 id="273-potential-risk-of-ccallcwrap">2.7.3 Potential risk of <code>ccall</code>/<code>cwrap</code></h2>
+<p>Although <code>ccall</code>/<code>cwrap</code> can simplify the exchange of non-<code>Number</code> parameters, this convenience comes at a price: when the input parameter type is <code>&apos;string&apos;</code>/<code>&apos;array&apos;</code>, <code>ccall</code>/<code>cwrap</code> allocate the corresponding space on the stack of the C environment, and the data is copied into it, and then the function is called.</p>
+<p>Stack is a scarce resource relative to the heap, so using <code>ccall</code>/<code>cwrap</code> requires special attention to the size of the incoming string/array to avoid stack overflow.</p>
+<p>Listed below is the glue code generated by Emscripten for <code>ccall</code>/<code>cwrap</code>. Interested readers can try to analyze it. The general flow is:</p>
+<ol>
+<li><code>getCFunc()</code>, get the C function according to <code>ident</code>;</li>
+<li><code>stackSave()</code>, save the stack pointer;</li>
+<li><code>arrayToC()</code>/<code>stringToC()</code>, copy the array/string parameters to the stack;</li>
+<li><code>func.apply()</code>, call C function</li>
+<li><code>convertReturnValue()</code>, convert the return value  to the corresponding type;</li>
+<li><code>stackRestore()</code>, restore the stack pointer.</li>
+</ol>
+<pre><code class="lang-js"><span class="hljs-comment">// Returns the C function with a specified identifier (for C++, you need to do manual name mangling)</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCFunc</span>(<span class="hljs-params">ident</span>) </span>{
+  <span class="hljs-keyword">var</span> func = Module[<span class="hljs-string">&apos;_&apos;</span> + ident]; <span class="hljs-comment">// closure exported function</span>
+  assert(func, <span class="hljs-string">&apos;Cannot call unknown function &apos;</span> + ident + <span class="hljs-string">&apos;, make sure it is exported&apos;</span>);
+  <span class="hljs-keyword">return</span> func;
+}
+
+<span class="hljs-keyword">var</span> JSfuncs = {
+  <span class="hljs-comment">// Helpers for cwrap -- it can&apos;t refer to Runtime directly because it might</span>
+  <span class="hljs-comment">// be renamed by closure, instead it calls JSfuncs[&apos;stackSave&apos;].body to find</span>
+  <span class="hljs-comment">// out what the minified function name is.</span>
+  <span class="hljs-string">&apos;stackSave&apos;</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    stackSave()
+  },
+  <span class="hljs-string">&apos;stackRestore&apos;</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    stackRestore()
+  },
+  <span class="hljs-comment">// type conversion from js to c</span>
+  <span class="hljs-string">&apos;arrayToC&apos;</span> : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr</span>) </span>{
+    <span class="hljs-keyword">var</span> ret = stackAlloc(arr.length);
+    writeArrayToMemory(arr, ret);
+    <span class="hljs-keyword">return</span> ret;
+  },
+  <span class="hljs-string">&apos;stringToC&apos;</span> : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">str</span>) </span>{
+    <span class="hljs-keyword">var</span> ret = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (str !== <span class="hljs-literal">null</span> &amp;&amp; str !== <span class="hljs-literal">undefined</span> &amp;&amp; str !== <span class="hljs-number">0</span>) { <span class="hljs-comment">// null string</span>
+      <span class="hljs-comment">// at most 4 bytes per UTF-8 code point, +1 for the trailing &apos;\0&apos;</span>
+      <span class="hljs-keyword">var</span> len = (str.length &lt;&lt; <span class="hljs-number">2</span>) + <span class="hljs-number">1</span>;
+      ret = stackAlloc(len);
+      stringToUTF8(str, ret, len);
+    }
+    <span class="hljs-keyword">return</span> ret;
+  }
+};
+
+<span class="hljs-comment">// For fast lookup of conversion functions</span>
+<span class="hljs-keyword">var</span> toC = {
+  <span class="hljs-string">&apos;string&apos;</span>: JSfuncs[<span class="hljs-string">&apos;stringToC&apos;</span>], <span class="hljs-string">&apos;array&apos;</span>: JSfuncs[<span class="hljs-string">&apos;arrayToC&apos;</span>]
+};
+
+<span class="hljs-comment">// C calling interface.</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ccall</span>(<span class="hljs-params">ident, returnType, argTypes, args, opts</span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">convertReturnValue</span>(<span class="hljs-params">ret</span>) </span>{
+    <span class="hljs-keyword">if</span> (returnType === <span class="hljs-string">&apos;string&apos;</span>) <span class="hljs-keyword">return</span> Pointer_stringify(ret);
+    <span class="hljs-keyword">if</span> (returnType === <span class="hljs-string">&apos;boolean&apos;</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">Boolean</span>(ret);
+    <span class="hljs-keyword">return</span> ret;
+  }
+
+  <span class="hljs-keyword">var</span> func = getCFunc(ident);
+  <span class="hljs-keyword">var</span> cArgs = [];
+  <span class="hljs-keyword">var</span> stack = <span class="hljs-number">0</span>;
+  assert(returnType !== <span class="hljs-string">&apos;array&apos;</span>, <span class="hljs-string">&apos;Return type should not be &quot;array&quot;.&apos;</span>);
+  <span class="hljs-keyword">if</span> (args) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) {
+      <span class="hljs-keyword">var</span> converter = toC[argTypes[i]];
+      <span class="hljs-keyword">if</span> (converter) {
+        <span class="hljs-keyword">if</span> (stack === <span class="hljs-number">0</span>) stack = stackSave();
+        cArgs[i] = converter(args[i]);
+      } <span class="hljs-keyword">else</span> {
+        cArgs[i] = args[i];
+      }
+    }
+  }
+  <span class="hljs-keyword">var</span> ret = func.apply(<span class="hljs-literal">null</span>, cArgs);
+  ret = convertReturnValue(ret);
+  <span class="hljs-keyword">if</span> (stack !== <span class="hljs-number">0</span>) stackRestore(stack);
+  <span class="hljs-keyword">return</span> ret;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cwrap</span>(<span class="hljs-params">ident, returnType, argTypes, opts</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> ccall(ident, returnType, argTypes, <span class="hljs-built_in">arguments</span>, opts);
+  }
+}
+</code></pre>
+<p>The output of the examples in this section is as follows:</p>
+<p><img src="images/07-ccall-cwrap.png" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch2-06-run-script.html" class="navigation navigation-prev " aria-label="Previous page: 2.6 Using emscripten_run_script">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch2-08-ext.html" class="navigation navigation-next " aria-label="Next page: 2.8 Supplement">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.7 Using ccall/cwrap","level":"1.3.7","depth":2,"next":{"title":"2.8 Supplement","level":"1.3.8","depth":2,"path":"ch2-c-js/ch2-08-ext.md","ref":"ch2-c-js/ch2-08-ext.md","articles":[]},"previous":{"title":"2.6 Using emscripten_run_script","level":"1.3.6","depth":2,"path":"ch2-c-js/ch2-06-run-script.md","ref":"ch2-c-js/ch2-06-run-script.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch2-c-js/ch2-07-ccall-cwrap.md","mtime":"2019-01-16T03:17:28.078Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,917 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.2 消息循环 · C/C++面向WebAssembly编程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch3-03-fs.html" />
+    
+    
+    <link rel="prev" href="ch3-01-main.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    第1章 Emscripten快速入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 安装Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 你好，世界！
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 胶水代码初探
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 编译目标及编译流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    第2章 C与JavaScript互操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 JavaScript调用C函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 JavaScript函数注入C
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 单向透明的内存模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 JavaScript与C交换数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 EM_ASM系列宏
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 emscripten_run_script系列函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 补充说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    第3章 Emscripten运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="ch3-01-main.html">
+            
+                <a href="ch3-01-main.html">
+            
+                    
+                    3.1 main函数与生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2" data-path="ch3-02-message-loop.html">
+            
+                <a href="ch3-02-message-loop.html">
+            
+                    
+                    3.2 消息循环
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="ch3-03-fs.html">
+            
+                <a href="ch3-03-fs.html">
+            
+                    
+                    3.3 文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="ch3-04-mem.html">
+            
+                <a href="ch3-04-mem.html">
+            
+                    
+                    3.4 内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="ch3-05-module.html">
+            
+                <a href="ch3-05-module.html">
+            
+                    
+                    3.5 Module定制及其他
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="ch3-06-summary.html">
+            
+                <a href="ch3-06-summary.html">
+            
+                    
+                    3.6 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    第4章 WebAssembly友好的一般性方法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 消息循环分离
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 内存对齐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 使用C接口导出C++对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 C++对象生命周期控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 使用C接口注入JavaScript对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 小心int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 忘掉文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    第5章 网络IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    第6章 多线程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 JavaScript中的并发模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 在Worker中使用Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    第7章 GUI及交互
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 鼠标事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 键盘事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Life游戏
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >3.2 消息循环</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="32-&#x6D88;&#x606F;&#x5FAA;&#x73AF;">3.2 &#x6D88;&#x606F;&#x5FAA;&#x73AF;</h1>
+<p>&#x9664;&#x4E86;&#x4E00;&#x6B21;&#x6027;&#x6267;&#x884C;&#x7ACB;&#x5373;&#x9000;&#x51FA;&#x7684;&#x7A0B;&#x5E8F;&#x5916;&#xFF0C;&#x5927;&#x591A;&#x6570;C/C++&#x7A0B;&#x5E8F;&#x90FD;&#x5B58;&#x5728;&#x7C7B;&#x4F3C;&#x4E0B;&#x5217;&#x4F2A;&#x4EE3;&#x7801;&#x7684;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) {
+        msg_loop();
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x4F46;&#x7F51;&#x9875;&#x4E2D;&#x7684;JavaScript&#x811A;&#x672C;&#x662F;&#x5355;&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;&#x7684;&#xFF0C;&#x4E00;&#x4E2A;&#x5E26;&#x6709;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x7684;C/C++&#x7A0B;&#x5E8F;&#x5982;&#x679C;&#x4E0D;&#x52A0;&#x5904;&#x7406;&#xFF0C;&#x76F4;&#x63A5;&#x4F7F;&#x7528;Emscripten&#x7F16;&#x8BD1;&#x540E;&#x5BFC;&#x5165;&#x7F51;&#x9875;&#x4E2D;&#x8FD0;&#x884C;&#xFF0C;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x4E0D;&#x9000;&#x51FA;&#xFF0C;&#x4F1A;&#x963B;&#x585E;&#x9875;&#x9762;&#x7A0B;&#x5E8F;&#x7684;&#x8FD0;&#x884C;&#xFF0C;&#x5BFC;&#x81F4;DOM&#x65E0;&#x6CD5;&#x66F4;&#x65B0;&#xFF0C;&#x6574;&#x4E2A;&#x9875;&#x9762;&#x5931;&#x53BB;&#x54CD;&#x5E94;&#x3002;&#x4E3A;&#x6B64;Emscripten&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7EC4;&#x51FD;&#x6570;&#x7528;&#x4E8E;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x7684;&#x6A21;&#x62DF;&#x53CA;&#x8C03;&#x5EA6;&#x6267;&#x884C;&#x3002;</p>
+<h2 id="321-emscriptensetmainloop">3.2.1 <code>emscripten_set_main_loop()</code></h2>
+<p>&#x51FD;&#x6570;&#x58F0;&#x660E;&#xFF1A;</p>
+<p><code>void emscripten_set_main_loop(em_callback_func func, int fps, int simulate_infinite_loop)</code></p>
+<p>&#x53C2;&#x6570;&#xFF1A;</p>
+<ul>
+<li><code>func</code>&#xFF1A;&#x6D88;&#x606F;&#x5904;&#x7406;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x3002;</li>
+<li><code>fps</code>&#xFF1A;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x7684;&#x6267;&#x884C;&#x5E27;&#x7387;&#x3002;&#x5982;&#x679C;&#x8BE5;&#x53C2;&#x6570;&#x5C0F;&#x7B49;&#x4E8E;0&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x9875;&#x9762;&#x7684;<code>requestAnimationFrame</code>&#x673A;&#x5236;&#x8C03;&#x7528;&#x6D88;&#x606F;&#x5904;&#x7406;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x673A;&#x5236;&#x53EF;&#x4EE5;&#x786E;&#x4FDD;&#x9875;&#x9762;&#x5237;&#x65B0;&#x7387;&#x4E0E;&#x663E;&#x793A;&#x5668;&#x5237;&#x65B0;&#x7387;&#x5BF9;&#x9F50;&#xFF0C;&#x5BF9;&#x4E8E;&#x9700;&#x8981;&#x6267;&#x884C;&#x56FE;&#x5F62;&#x6E32;&#x67D3;&#x4EFB;&#x52A1;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x4F7F;&#x7528;&#x8BE5;&#x673A;&#x5236;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x5E73;&#x6ED1;&#x7684;&#x6E32;&#x67D3;&#x901F;&#x5EA6;&#x3002;</li>
+<li><code>simulate_infinite_loop</code>&#xFF1A;&#x662F;&#x5426;&#x6A21;&#x62DF;&#x201C;&#x65E0;&#x9650;&#x5FAA;&#x73AF;&#x201D;&#xFF0C;&#x7528;&#x6CD5;&#x540E;&#x7EED;&#x4ECB;&#x7ECD;&#x3002;</li>
+</ul>
+<p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A;</p>
+<ul>
+<li>&#x65E0;</li>
+</ul>
+<p>&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">//msg_loop.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;emscripten.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">msg_loop</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (count % <span class="hljs-number">60</span> == <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count:%d\n&quot;</span>, count);
+    }
+    count++;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main() start\n&quot;</span>);
+    emscripten_set_main_loop(msg_loop, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main() end\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x7F16;&#x8BD1;&#x540E;&#x5BFC;&#x5165;&#x9875;&#x9762;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="images/02-output-1.png" alt=""></p>
+<p>&#x6CE8;&#x610F;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x4E86;&#x201C;main() start&#x201D;&#xFF0C;&#x4F46;&#x662F;&#x6CA1;&#x6709;&#x8F93;&#x51FA;&#x201C;main() end&#x201D;&#xFF01;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#x8C03;&#x7528;<code>emscripten_set_main_loop</code>&#x65F6;&#xFF0C;<code>simulate_infinite_loop</code>&#x53C2;&#x6570;&#x8BBE;&#x4E3A;&#x4E86;1&#x3002;</p>
+<p>&#x82E5;&#x8C03;&#x7528;<code>emscripten_set_main_loop</code>&#x65F6;&#xFF0C;<code>simulate_infinite_loop</code>&#x53C2;&#x6570;&#x8BBE;&#x4E3A;&#x4E86;0&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x5C06;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="images/02-output-2.png" alt=""></p>
+<p>&#x65E0;&#x8BBA;<code>simulate_infinite_loop</code>&#x53C2;&#x6570;&#x662F;&#x5426;&#x4E3A;1&#xFF0C;&#x6D88;&#x606F;&#x5904;&#x7406;&#x51FD;&#x6570;&#x90FD;&#x4F1A;&#x6309;&#x7167;&#x8BBE;&#x5B9A;&#x7684;&#x5E27;&#x7387;&#x65E0;&#x9650;&#x6267;&#x884C;&#xFF0C;&#x533A;&#x522B;&#x4EC5;&#x5728;&#x4E8E;&#xFF0C;&#x5F53;&#x5176;&#x4E3A;1&#x65F6;&#xFF1A;</p>
+<ul>
+<li><code>emscripten_set_main_loop</code>&#x540E;&#x7EED;&#x4EE3;&#x7801;&#x4E0D;&#x6267;&#x884C;&#x3002;</li>
+<li><code>main()</code>&#x51FD;&#x6570;&#x6808;&#x672A;&#x9500;&#x6BC1;&#x3002;</li>
+</ul>
+<p>&#x4ECE;&#x76F4;&#x89C2;&#x4E0A;&#x6765;&#x8BF4;&#xFF0C;&#x6B64;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x7684;&#x884C;&#x4E3A;&#x6700;&#x63A5;&#x8FD1;&#x672C;&#x8282;&#x5F00;&#x5934;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x3002;</p>
+<blockquote>
+<p><strong>info</strong> <code>simulate_infinite_loop</code>&#x53C2;&#x6570;&#x4E3A;1&#x65F6;&#xFF0C;<code>emscripten_set_main_loop()</code>&#x51FD;&#x6570;&#x4F1A;&#x629B;&#x51FA;<code>SimulateInfiniteLoop</code>&#x5F02;&#x5E38;&#xFF0C;JavaScript&#x4E2D;&#x7684;&#x80F6;&#x6C34;&#x4EE3;&#x7801;&#x622A;&#x83B7;&#x8BE5;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;&#x540E;&#x7EED;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x3002;</p>
+</blockquote>
+<h2 id="322-&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x7684;&#x6682;&#x505C;&#x3001;&#x7EE7;&#x7EED;&#x53CA;&#x7EC8;&#x6B62;">3.2.2 &#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x7684;&#x6682;&#x505C;&#x3001;&#x7EE7;&#x7EED;&#x53CA;&#x7EC8;&#x6B62;</h2>
+<p>&#x51FD;&#x6570;&#x58F0;&#x660E;&#xFF1A;</p>
+<p><code>void emscripten_pause_main_loop(void)</code></p>
+<p><code>void emscripten_resume_main_loop(void)</code></p>
+<p><code>void emscripten_cancel_main_loop(void)</code></p>
+<p>&#x8FD9;&#x4E09;&#x4E2A;&#x51FD;&#x6570;&#x5206;&#x522B;&#x7528;&#x4E8E;&#x6682;&#x505C;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x3001;&#x7EE7;&#x7EED;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x3001;&#x7EC8;&#x6B62;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-comment">//pause_resume_cancel.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;emscripten.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">msg_loop</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (count % <span class="hljs-number">60</span> == <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count:%d\n&quot;</span>, count);
+    }
+    count++;
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) pause_main_loop() {
+    emscripten_pause_main_loop();
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;pause_main_loop()\n&quot;</span>);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) resume_main_loop() {
+    emscripten_resume_main_loop();
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;resume_main_loop()\n&quot;</span>);
+}
+
+EM_PORT_API(<span class="hljs-keyword">void</span>) cancel_main_loop() {
+    emscripten_cancel_main_loop();
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;cancel_main_loop()\n&quot;</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main() start\n&quot;</span>);
+    emscripten_set_main_loop(msg_loop, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main() end\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x9875;&#x9762;&#x90E8;&#x5206;&#xFF1A;</p>
+<pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span> = <span class="hljs-attr">pause</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">Pause()</span> <span class="hljs-attr">disabled</span> = <span class="hljs-attr">true</span>&gt;</span>Pause<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span> = <span class="hljs-attr">resume</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">Resume()</span> <span class="hljs-attr">disabled</span> = <span class="hljs-attr">true</span>&gt;</span>Resume<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span> = <span class="hljs-attr">cancel</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">Cancel()</span> <span class="hljs-attr">disabled</span> = <span class="hljs-attr">true</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Pause</span>(<span class="hljs-params"></span>) </span>{
+        Module._pause_main_loop();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Resume</span>(<span class="hljs-params"></span>) </span>{
+        Module._resume_main_loop();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Cancel</span>(<span class="hljs-params"></span>) </span>{
+        Module._cancel_main_loop();
+    }
+
+    Module = {};
+    Module.onRuntimeInitialized = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;pause&quot;</span>).disabled = <span class="hljs-literal">false</span>;
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;resume&quot;</span>).disabled = <span class="hljs-literal">false</span>;
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;cancel&quot;</span>).disabled = <span class="hljs-literal">false</span>;
+    }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;pause_resume_cancel.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#x9875;&#x9762;&#x6253;&#x5F00;&#x540E;&#xFF0C;&#x4F9D;&#x6B21;&#x6309;&#x4E0B;&#x201C;Pause&#x201D;&#x3001;&#x201C;Resume&#x201D;&#x3001;&#x201C;Cancel&#x201D;&#x6309;&#x94AE;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="images/02-output-3.png" alt=""></p>
+<blockquote>
+<p><strong>tips</strong> &#x4E8B;&#x5B9E;&#x4E0A;&#x4F7F;&#x7528;Emscripten&#x63D0;&#x4F9B;&#x7684;&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#x51FD;&#x6570;&#x5BF9;C/C++&#x4EE3;&#x7801;&#x6765;&#x8BF4;&#x662F;&#x4FB5;&#x5165;&#x5F0F;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x7B14;&#x8005;&#x5EFA;&#x8BAE;&#x5728;&#x5DE5;&#x7A0B;&#x5E94;&#x7528;&#x4E2D;&#x5C3D;&#x53EF;&#x80FD;&#x907F;&#x514D;&#x4F7F;&#x7528;Emscripten&#x6D88;&#x606F;&#x5FAA;&#x73AF;&#xFF0C;4.1&#x8282;&#x5C06;&#x5BF9;&#x6B64;&#x8FDB;&#x884C;&#x66F4;&#x591A;&#x8BA8;&#x8BBA;&#x3002;</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch3-01-main.html" class="navigation navigation-prev " aria-label="Previous page: 3.1 main函数与生命周期">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch3-03-fs.html" class="navigation navigation-next " aria-label="Next page: 3.3 文件系统">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.2 消息循环","level":"1.4.2","depth":2,"next":{"title":"3.3 文件系统","level":"1.4.3","depth":2,"path":"ch3-runtime/ch3-03-fs.md","ref":"ch3-runtime/ch3-03-fs.md","articles":[]},"previous":{"title":"3.1 main函数与生命周期","level":"1.4.1","depth":2,"path":"ch3-runtime/ch3-01-main.md","ref":"ch3-runtime/ch3-01-main.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"C/C++面向WebAssembly编程","language":"zh-hans","gitbook":"3.x","description":"C/C++面向WebAssembly编程——Emscripten工程实践"},"file":{"path":"ch3-runtime/ch3-02-message-loop.md","mtime":"2018-12-29T07:58:51.903Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"zh"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

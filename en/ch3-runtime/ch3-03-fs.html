@@ -1,0 +1,981 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.3 File system · WebAssembly friendly programming with C/C++</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ch3-04-mem.html" />
+    
+    
+    <link rel="prev" href="ch3-02-message-loop.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../ch1-quick-guide/readme.html">
+            
+                <a href="../ch1-quick-guide/readme.html">
+            
+                    
+                    Chapter 1 Getting started with Emscripten
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../ch1-quick-guide/ch1-01-install.html">
+            
+                <a href="../ch1-quick-guide/ch1-01-install.html">
+            
+                    
+                    1.1 Installing Emscripten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                <a href="../ch1-quick-guide/ch1-02-helloworld.html">
+            
+                    
+                    1.2 Hello, world!
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                <a href="../ch1-quick-guide/ch1-03-glue-code.html">
+            
+                    
+                    1.3 Taking a look at the Emscripten glue code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../ch1-quick-guide/ch1-04-compile.html">
+            
+                <a href="../ch1-quick-guide/ch1-04-compile.html">
+            
+                    
+                    1.4 Selecting compilation target
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ch2-c-js/readme.html">
+            
+                <a href="../ch2-c-js/readme.html">
+            
+                    
+                    Chapter 2 Connecting C and JavaScript
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                <a href="../ch2-c-js/ch2-01-js-call-c.html">
+            
+                    
+                    2.1 Calling compiled C functions from JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                <a href="../ch2-c-js/ch2-02-implement-c-api-in-js.html">
+            
+                    
+                    2.2 Implement C API in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../ch2-c-js/ch2-03-mem-model.html">
+            
+                <a href="../ch2-c-js/ch2-03-mem-model.html">
+            
+                    
+                    2.3 Memory model
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                <a href="../ch2-c-js/ch2-04-data-exchange.html">
+            
+                    
+                    2.4 Exchange data between C and JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../ch2-c-js/ch2-05-em-asm.html">
+            
+                <a href="../ch2-c-js/ch2-05-em-asm.html">
+            
+                    
+                    2.5 Using EM_ASM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../ch2-c-js/ch2-06-run-script.html">
+            
+                <a href="../ch2-c-js/ch2-06-run-script.html">
+            
+                    
+                    2.6 Using emscripten_run_script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                <a href="../ch2-c-js/ch2-07-ccall-cwrap.html">
+            
+                    
+                    2.7 Using ccall/cwrap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../ch2-c-js/ch2-08-ext.html">
+            
+                <a href="../ch2-c-js/ch2-08-ext.html">
+            
+                    
+                    2.8 Supplement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="readme.html">
+            
+                <a href="readme.html">
+            
+                    
+                    Chapter 3 Emscripten runtime
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="ch3-01-main.html">
+            
+                <a href="ch3-01-main.html">
+            
+                    
+                    3.1 Runtime lifecycle
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="ch3-02-message-loop.html">
+            
+                <a href="ch3-02-message-loop.html">
+            
+                    
+                    3.2 Message loop
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.3" data-path="ch3-03-fs.html">
+            
+                <a href="ch3-03-fs.html">
+            
+                    
+                    3.3 File system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="ch3-04-mem.html">
+            
+                <a href="ch3-04-mem.html">
+            
+                    
+                    3.4 Memory management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="ch3-05-module.html">
+            
+                <a href="ch3-05-module.html">
+            
+                    
+                    3.5 Customize Module object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="ch3-06-summary.html">
+            
+                <a href="ch3-06-summary.html">
+            
+                    
+                    3.6 Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../ch4-techniques/readme.html">
+            
+                <a href="../ch4-techniques/readme.html">
+            
+                    
+                    Chapter 4 General techniques that WebAssembly friendly
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                <a href="../ch4-techniques/ch4-01-msg-loop-detach.html">
+            
+                    
+                    4.1 Message loop detaching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../ch4-techniques/ch4-02-align.html">
+            
+                <a href="../ch4-techniques/ch4-02-align.html">
+            
+                    
+                    4.2 Memory alignment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../ch4-techniques/ch4-03-export-obj.html">
+            
+                <a href="../ch4-techniques/ch4-03-export-obj.html">
+            
+                    
+                    4.3 Exporting C++ objects using the C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                <a href="../ch4-techniques/ch4-04-obj-life-cycle.html">
+            
+                    
+                    4.4 Lifecycle control for C++ object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                <a href="../ch4-techniques/ch4-05-import-js-obj.html">
+            
+                    
+                    4.5 Importing JavaScript object using C interface
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                <a href="../ch4-techniques/ch4-06-int64-issue.html">
+            
+                    
+                    4.6 Be careful with int64
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                <a href="../ch4-techniques/ch4-07-forget-about-fs.html">
+            
+                    
+                    4.7 Forget about filesystem
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../ch5-net/readme.html">
+            
+                <a href="../ch5-net/readme.html">
+            
+                    
+                    Chapter 5 Network IO
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../ch5-net/ch5-01-http.html">
+            
+                <a href="../ch5-net/ch5-01-http.html">
+            
+                    
+                    5.1 XMLHttpRequest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../ch5-net/ch5-02-websocket.html">
+            
+                <a href="../ch5-net/ch5-02-websocket.html">
+            
+                    
+                    5.2 WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../ch6-threads/readme.html">
+            
+                <a href="../ch6-threads/readme.html">
+            
+                    
+                    Chapter 6 Multithreading
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../ch6-threads/ch6-01-worker.html">
+            
+                <a href="../ch6-threads/ch6-01-worker.html">
+            
+                    
+                    6.1 Multithreading in JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../ch6-threads/ch6-02-sample.html">
+            
+                <a href="../ch6-threads/ch6-02-sample.html">
+            
+                    
+                    6.2 Using Emscripten in Web Worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../ch7-gui/readme.html">
+            
+                <a href="../ch7-gui/readme.html">
+            
+                    
+                    Chapter 7 GUI
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../ch7-gui/ch7-01-canvas.html">
+            
+                <a href="../ch7-gui/ch7-01-canvas.html">
+            
+                    
+                    7.1 Canvas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../ch7-gui/ch7-02-mouse.html">
+            
+                <a href="../ch7-gui/ch7-02-mouse.html">
+            
+                    
+                    7.2 Mouse events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../ch7-gui/ch7-03-keyboard.html">
+            
+                <a href="../ch7-gui/ch7-03-keyboard.html">
+            
+                    
+                    7.3 Keyboard events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../ch7-gui/ch7-04-life.html">
+            
+                <a href="../ch7-gui/ch7-04-life.html">
+            
+                    
+                    7.4 Conway's Game of Life
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >3.3 File system</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="33-file-systems">3.3 File systems</h1>
+<p>Portable C/C++ programs often use libc/libcxx synchronous file access functions such as<code>fopen()</code>/<code>fread()</code>/<code>fwrite()</code> etc. In terms of file system access, JavaScript is tremendously different from native C/C++ programs in that:</p>
+<ol>
+<li>JavaScript programs running in the browser can&apos;t access local file systems;</li>
+<li>In JavaScript, both AJAX and <code>fetch()</code> are asynchronous.</li>
+</ol>
+<p>Emscripten provides a suite of virtual systems to supports the synchronous file access functions in libc/libcxx.</p>
+<h2 id="331-the-architecture-of-emscripten-virtual-file-systems">3.3.1 The architecture of Emscripten virtual file systems</h2>
+<p>This picture depicts the architecture of Emscripten virtual file systems:</p>
+<p><img src="images/03-fs-arch.png" alt=""></p>
+<blockquote>
+<p><strong>tips</strong> The asynchronous file system API is a suite of functions declared in emscripten.h and is only available in Emscripten environment. It doesn&apos;t align with the &quot;compilation target-insensitive&quot; goal of this book so we won&apos;t introduce it here.</p>
+</blockquote>
+<p>At the bottom layer, Emscripten provides 3 file systems:</p>
+<ol>
+<li><code>MEMFS</code>: the memory file system. Data in this file system is stored in memory. Data written by programs is lost when the page is refreshed.</li>
+<li><code>NODEFS</code>: the Node.js file system. This file system can access local file system and can persist data, but is available only in Node.js environment.</li>
+<li><code>IDBFS</code>: the IndexedDB file system. This file system is built on the IndexedDB object of the browser and can persist data. It is available only in the browser.</li>
+</ol>
+<p>Emscripten&apos;s synchronous file system API abstract those three file systems into the <code>FS</code> object. Furthermore it provides libc/libcxx file access functions such as <code>fopen()</code>/<code>fread()</code>/<code>fwrite()</code>.</p>
+<p>Grammatically, from the caller point of view, the C/C++ code is no different from that targeting native platforms, but attention should be paid to the characteristics of the underlying file system and the semantic differences they bring. Emscripten virtual file system is a vast topic which whole books can be dedicated to. Constraint by the size of the book, this section will focus mainly on the packaging file system based on <code>MEMFS</code>, only giving examples of <code>NODEFS</code> and <code>IDBFS</code> without elaborating.</p>
+<h2 id="332-memfspackaging-file-system">3.3.2 <code>MEMFS</code>/Packaging file system</h2>
+<p>Before files are imported into <code>MEMFS</code>, they must be packaged. File packaging can be done with <code>emcc</code> command or the standalone <code>file_packager.py</code> tool.</p>
+<p>There are 2 packaging modes: <code>embed</code> and <code>preload</code>. In <code>embed</code> mode, data files are converted to JavaScript code; In <code>preload</code> mode, besides .js files, .data files containing binary encoded code are generated, which are fetched and loaded by the glue code in the .js file.</p>
+<blockquote>
+<p><strong>tips</strong> Because <code>embed</code> mode has to encode data files into text, the generated package is larger than <code>preload</code> mode, so unless the total size of packaged files is tiny, <code>preload</code> mode should be used.</p>
+</blockquote>
+<p>When running <code>emcc</code>, use <code>--preload-file</code> option to package files or folders in <code>preload</code> mode and <code>--embed-file</code> for <code>embed</code> mode.</p>
+<p>For example, there is a text file <code>hello.txt</code> in the same directory as the C source code file <code>package.cc</code>, in this directory run the command:</p>
+<pre><code>emcc packfile.cc -o packfile.js --preload-file hello.txt
+</code></pre><p>A <code>package.js</code> and <code>package.data</code> are generated. <code>package.data</code> contains contents of <code>hello.txt</code>. The C code can read <code>hello.txt</code> and print it out:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//packfile.cc</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    FILE* fp = fopen(<span class="hljs-string">&quot;hello.txt&quot;</span>, <span class="hljs-string">&quot;rt&quot;</span>);
+    <span class="hljs-keyword">if</span> (fp) {
+        <span class="hljs-keyword">while</span> (!feof(fp)) {
+            <span class="hljs-keyword">char</span> c = fgetc(fp);
+            <span class="hljs-keyword">if</span> (c != EOF) {
+                <span class="hljs-built_in">putchar</span>(c);
+            }
+        }
+        fclose(fp);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>The console outputs:</p>
+<p><img src="images/03-pack-file.png" alt=""></p>
+<p><code>--preload-file</code> can not only package individual files, but also directories. For example, in the directory containing C source code file <code>packdir.cc</code> there is a directory <code>dat_dir</code>, shown below:</p>
+<pre><code>|--packdir.cc
+|--dat_dir
+   |--t1.txt
+   |--t2.txt
+   |--sub_dir
+      |--t3.txt
+</code></pre><p>Under the directory where <code>packdir.cc</code> resides run this command:</p>
+<pre><code>emcc packdir.cc -o packdir.js --preload-file dat_dir
+</code></pre><p>A <code>packdir.data</code> package file is generated, which contains all contents of <code>dat_dir</code>. The C source code is:</p>
+<pre><code class="lang-c"><span class="hljs-comment">//packdir.cc</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read_fs</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fname)</span> </span>{
+    FILE* fp = fopen(fname, <span class="hljs-string">&quot;rt&quot;</span>);
+    <span class="hljs-keyword">if</span> (fp) {
+        <span class="hljs-keyword">while</span> (!feof(fp)) {
+            <span class="hljs-keyword">char</span> c = fgetc(fp);
+            <span class="hljs-keyword">if</span> (c != EOF) {
+                <span class="hljs-built_in">putchar</span>(c);
+            }
+        }
+        fclose(fp);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write_fs</span><span class="hljs-params">()</span> </span>{
+
+    FILE* fp = fopen(<span class="hljs-string">&quot;t3.txt&quot;</span>, <span class="hljs-string">&quot;wt&quot;</span>);
+    <span class="hljs-keyword">if</span> (fp) {
+        <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;This is t3.txt.\n&quot;</span>);
+        fclose(fp);
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    read_fs(<span class="hljs-string">&quot;dat_dir/t1.txt&quot;</span>);
+    read_fs(<span class="hljs-string">&quot;dat_dir/t2.txt&quot;</span>);
+    read_fs(<span class="hljs-string">&quot;dat_dir/sub_dir/t3.txt&quot;</span>);
+
+    write_fs();
+    read_fs(<span class="hljs-string">&quot;t3.txt&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>The console outputs:</p>
+<p><img src="images/03-pack-dir.png" alt=""></p>
+<p>Emscripten uses UNIX styled path separator &quot;/&quot;. From the point of view the C/C++ code, packaging files are located in the current directory. When packaging files are loaded, files and directories can be created and written into. However the data are actually written into memory managed by JavaScript, and is lost when the page is refreshed.</p>
+<p>The Python script <code>file_packager.py</code> located in <code>&lt;emsdk&gt;/&lt;sdk_ver&gt;/tools/</code> can package file separately. For example the below command packages <code>dat_dir</code> directory into <code>fp.data</code> and <code>fp.js</code> in <code>preload</code> mode:</p>
+<pre><code>python emsdk/1.38.11/tools/file_packager.py fp.data --preload dat_dir --js-output=fp.js
+</code></pre><p>To use the separately packaged files, the main program must be compiled with <code>-s FORCE_FILESYSTEM=1</code> to include the file system support, for example:</p>
+<pre><code>emcc packdir.cc -o packdir_sep.js -s FORCE_FILESYSTEM=1
+</code></pre><p>In the page, the separately packaged js must be loaded before main js:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//packdir_sep.html</span>
+    &lt;script src=<span class="hljs-string">&quot;fp.js&quot;</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+    &lt;script src=<span class="hljs-string">&quot;packdir_sep.js&quot;</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+</code></pre>
+<p>The console output of the above example remains the same:</p>
+<p><img src="images/03-pack-dir-sep.png" alt=""></p>
+<blockquote>
+<p><strong>info</strong> Although package downloading is asynchronous, Emscripten ensures that when the runtime is ready, the file system has been initialized, thus it is safe to the file system in <code>Module.onRuntimeInitialized</code> callback.</p>
+</blockquote>
+<h2 id="333-nodefs">3.3.3 <code>NODEFS</code></h2>
+<p>Below is an example using <code>NODEFS</code>:</p>
+<pre><code class="lang-c">//nodefs.cc
+void setup_nodefs() {
+    EM_ASM(
+        FS.mkdir(&apos;/data&apos;);
+        FS.mount(NODEFS, {root:&apos;.&apos;}, &apos;/data&apos;);
+    );
+}
+
+int main() {
+    setup_nodefs();
+
+    FILE* fp = fopen(&quot;/data/nodefs_data.txt&quot;, &quot;r+t&quot;);
+    if (fp == NULL) fp = fopen(&quot;/data/nodefs_data.txt&quot;, &quot;w+t&quot;);
+    int count = 0;
+    if (fp) {
+        fscanf(fp, &quot;%d&quot;, &amp;count);
+        count++;
+        fseek(fp, 0, SEEK_SET);
+        fprintf(fp, &quot;%d&quot;, count);
+        fclose(fp);
+        printf(&quot;count:%d\n&quot;, count);
+    }
+    else {
+        printf(&quot;fopen failed.\n&quot;);
+    }
+
+    return 0;
+}
+</code></pre>
+<p>Notice that <code>setup_nodefs()</code> uses the <code>EM_ASM</code> macro to execute JavaScript to mount <code>NODEFS</code>: <code>FS.mkdir(&apos;/data&apos;)</code> makes a &quot;/data&quot; directory in the virtual file system, <code>FS.mount(NODEFS, {root:&apos;.&apos;}, &apos;/data&apos;)</code> mounts the local current directory to it. When <code>main()</code> runs, it opens <code>/data/nodefs_data.txt</code>, which maps to <code>nodefs_data.txt</code> in local current directory, reads an integer from it, adds 1 and writes back. Compile the above code with <code>emcc</code>:</p>
+<pre><code>emcc nodefs.cc -o nodefs.js
+</code></pre><p>Run <code>nodefs.js</code> multiple time with Node, the output is:</p>
+<pre><code>&gt; node nodefs.js
+count:2
+&gt; node nodefs.js
+count:3
+&gt; node nodefs.js
+count:4
+</code></pre><h2 id="334-idbfs">3.3.4 <code>IDBFS</code></h2>
+<p>Below is an example using <code>IDBFS</code>:</p>
+<pre><code class="lang-c">void sync_idbfs() {
+    EM_ASM(
+        FS.syncfs(function (err) {});
+    );
+}
+
+EM_PORT_API(void) test() {
+    FILE* fp = fopen(&quot;/data/nodefs_data.txt&quot;, &quot;r+t&quot;);
+    if (fp == NULL) fp = fopen(&quot;/data/nodefs_data.txt&quot;, &quot;w+t&quot;);
+    int count = 0;
+    if (fp) {
+        fscanf(fp, &quot;%d&quot;, &amp;count);
+        count++;
+        fseek(fp, 0, SEEK_SET);
+        fprintf(fp, &quot;%d&quot;, count);
+        fclose(fp);
+        printf(&quot;count:%d\n&quot;, count);
+
+        sync_idbfs();
+    }
+    else {
+        printf(&quot;fopen failed.\n&quot;);
+    }
+}
+
+int main() {
+    EM_ASM(
+        FS.mkdir(&apos;/data&apos;);
+        FS.mount(IDBFS, {}, &apos;/data&apos;);
+        FS.syncfs(true, function (err) {
+            assert(!err);
+            ccall(&apos;test&apos;, &apos;v&apos;);
+        });
+    );
+
+    return 0;
+}
+</code></pre>
+<p>Similar to <code>NODEFS</code>, <code>IDBFS</code> is mounted with <code>FS.mount()</code> method. <code>IDBFS</code> also uses memory to storage the virtual file system, but it supports two-way synchronization between memory and IndexedDB with the <code>FS.syncfs()</code> method, achieving data persistence. <code>FS.syncfs()</code> is an asynchronous operation, thus in the above example, the file accessing <code>test()</code> function must be invoked in the callback of <code>FS.syncfs()</code>. Every time the page is refreshed, the count output to console increments by 1:</p>
+<p><img src="images/03-idbfs.png" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ch3-02-message-loop.html" class="navigation navigation-prev " aria-label="Previous page: 3.2 Message loop">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ch3-04-mem.html" class="navigation navigation-next " aria-label="Next page: 3.4 Memory management">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.3 File system","level":"1.4.3","depth":2,"next":{"title":"3.4 Memory management","level":"1.4.4","depth":2,"path":"ch3-runtime/ch3-04-mem.md","ref":"ch3-runtime/ch3-04-mem.md","articles":[]},"previous":{"title":"3.2 Message loop","level":"1.4.2","depth":2,"path":"ch3-runtime/ch3-02-message-loop.md","ref":"ch3-runtime/ch3-02-message-loop.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"preface.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"WebAssembly friendly programming with C/C++","language":"en","gitbook":"3.x","description":"WebAssembly friendly programming with C/C++ -- Emscripten practice"},"file":{"path":"ch3-runtime/ch3-03-fs.md","mtime":"2019-01-20T05:46:57.001Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T00:04:21.009Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
