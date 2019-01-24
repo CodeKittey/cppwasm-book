@@ -47,3 +47,5 @@ book_*.pdf
 # go
 go.mod
 go.sum
+
+.idea/

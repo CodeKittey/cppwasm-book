@@ -15,6 +15,19 @@
 
 ----
 
+# WebAssembly programmieren mit C/C++++
+
+![](de/cover.png)
+
+- [Deutsch: WebAssembly programmieren mit C/C++](de/README.md)
+- Author: Ending，Github [@3dgen](https://github.com/3dgen)
+- Author: ChaiShushan，Github [@chai2010](https://github.com/chai2010)，Twitter [@chaishushan](https://twitter.com/chaishushan)
+- Translator: Ending，Github [@3dgen](https://github.com/3dgen)
+- Translator: yushih, Github [@yushih](https://github.com/yushih)
+- Repo: https://github.com/3dgen/cppwasm-book
+
+----
+
 # C/C++面向WebAssembly编程
 
 ![](zh/cover.png)

@@ -1,0 +1,20 @@
+{
+	"gitbook": "3.x",
+	"title": "WebAssembly programmieren mit C/C++",
+	"description": "WebAssembly programmieren mit C/C++ -- Emscripten in der Praxis",
+	"language": "de",
+
+	"structure": {
+		"readme": "preface.md"
+	},
+
+	"pluginsConfig": {
+		"theme-default": {
+			"showLevel": false
+		}
+	},
+
+	"plugins": [
+		"-search"
+	]
+}
