@@ -21,9 +21,13 @@ erläutert, welches Sie unter folgenden URLs finden können:
 
 > *Ending's law: "Any application that can be compiled to WebAssembly, will be compiled to WebAssembly eventually."*
 
-WebAssembly is the newest virtual machine standard for the web. C/C++ source code can be compiled into the WebAssembly binary format(.wasm) through the Emscripten toolchain, and then imported into web pages for JavaScript calls - this means that programs written in C/C++ can run in the web page.
+Mit WebAssembly erscheint ein neuer Standart für virtuelle Maschinen im Web. Mit Hilfe der Emscipten Toolchain ist es möglich 
+C/C++ code in ein sogenanntes WebAssembly binary format (.wasm) zu kompilieren, um es daraufhin via JavaScript in den
+WebBrowser zu laden und auszuführen. Das bedeutet, dass eine vorhandene C/C++ Applikation tatsächlich in einem WebBrowser laufen kann.
 
-This book introduces how to develope WebAssembly modules by C/C++ from the basic use of Emscripten; some general design principles and technical frameworks are proposed based on the first-hand experience gained by the author in the actual project.
+Diese Buch gibt einen Einblick in die Entwicklung von WebAssembly Modulen mit C/C++. Nach einer Einführung 
+in die Toolchain Emscripten - beleuchtet der Autor, anhand eigener Erfahrung mit der Entwicklung von WebAssembly 
+Projekten, die gängigen Design Patterns und Frameworks zur Nutzung von WebAssembly.
 
 We believe that an ideal Web-oriented C/C++ project should be insensitive to the compilation target - can be compiled to native code, or can be compiled to WebAssembly and run in the web page, the switch between each other only need to change the target configuration. So, we can make full use of the powerful development, debugging, analysis, testing and other functions of the existing IDE environment to improve project quality and reduce development costs.
 
