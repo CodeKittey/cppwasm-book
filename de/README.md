@@ -21,11 +21,11 @@ erläutert, welches Sie unter folgenden URLs finden können:
 
 > *Ending's law: "Any application that can be compiled to WebAssembly, will be compiled to WebAssembly eventually."*
 
-Mit WebAssembly erscheint ein neuer Standart für virtuelle Maschinen im Web. Mit Hilfe der Emscipten Toolchain ist es möglich 
-C/C++ code in ein sogenanntes WebAssembly binary format (.wasm) zu kompilieren, um es daraufhin via JavaScript in den
+Mit WebAssembly erscheint ein neuer Standard für virtuelle Maschinen im Web. Mit Hilfe der Emscipten Toolchain ist es möglich 
+C/C++ code in ein sogenanntes WebAssembly Binärformat (.wasm) zu kompilieren, um es daraufhin via JavaScript in den
 WebBrowser zu laden und auszuführen. Das bedeutet, dass eine vorhandene C/C++ Applikation tatsächlich in einem WebBrowser laufen kann.
 
-Diese Buch gibt einen Einblick in die Entwicklung von WebAssembly Modulen mit C/C++. Nach einer Einführung 
+Dieses Buch gibt einen Einblick in die Entwicklung von WebAssembly Modulen mit C/C++. Nach einer Einführung 
 in die Toolchain Emscripten - beleuchtet der Autor, anhand eigener Erfahrung mit der Entwicklung von WebAssembly 
 Projekten, die gängigen Design Patterns und Frameworks zur Nutzung von WebAssembly.
 
